@@ -1,0 +1,21 @@
+//
+//  smartcar.pch
+//  SmartCar
+//
+//  Created by liuyiming on 16/6/28.
+//  Copyright © 2016年 liuyiming. All rights reserved.
+//
+
+#ifndef smartcar_pch
+#define smartcar_pch
+
+// 第三方
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <Masonry/Masonry.h>
+
+// 类目
+#import "UIView+Frame.h"
+
+
+
+#endif /* smartcar_pch */
