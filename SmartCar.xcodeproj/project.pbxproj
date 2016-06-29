@@ -19,6 +19,8 @@
 		A20896BD1D1ED45000A626FC /* SYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896BC1D1ED45000A626FC /* SYNavigationController.m */; };
 		A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C41D1ED8C000A626FC /* SYMineController.m */; };
 		A20896C81D1ED8EA00A626FC /* SYStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C71D1ED8EA00A626FC /* SYStatController.m */; };
+		A27909551D2404D200880755 /* SYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27909541D2404D200880755 /* SYAlertView.m */; };
+		A27909581D2406AB00880755 /* SYCarSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27909571D2406AB00880755 /* SYCarSwitchView.m */; };
 		A2884CE81D22B3AD00C3E8B3 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = A2884CE71D22B3AD00C3E8B3 /* UIView+Frame.m */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +60,10 @@
 		A20896C41D1ED8C000A626FC /* SYMineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineController.m; sourceTree = "<group>"; };
 		A20896C61D1ED8EA00A626FC /* SYStatController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYStatController.h; sourceTree = "<group>"; };
 		A20896C71D1ED8EA00A626FC /* SYStatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYStatController.m; sourceTree = "<group>"; };
+		A27909531D2404D200880755 /* SYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlertView.h; sourceTree = "<group>"; };
+		A27909541D2404D200880755 /* SYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlertView.m; sourceTree = "<group>"; };
+		A27909561D2406AB00880755 /* SYCarSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCarSwitchView.h; sourceTree = "<group>"; };
+		A27909571D2406AB00880755 /* SYCarSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCarSwitchView.m; sourceTree = "<group>"; };
 		A2884CE61D22B3AD00C3E8B3 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		A2884CE71D22B3AD00C3E8B3 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		A2884CE91D22B72100C3E8B3 /* SmartCar-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SmartCar-prefix.pch"; sourceTree = "<group>"; };
@@ -181,6 +187,10 @@
 		A20896B21D1ED27F00A626FC /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A27909531D2404D200880755 /* SYAlertView.h */,
+				A27909541D2404D200880755 /* SYAlertView.m */,
+				A27909561D2406AB00880755 /* SYCarSwitchView.h */,
+				A27909571D2406AB00880755 /* SYCarSwitchView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -376,7 +386,9 @@
 				A20896C81D1ED8EA00A626FC /* SYStatController.m in Sources */,
 				A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */,
 				A2884CE81D22B3AD00C3E8B3 /* UIView+Frame.m in Sources */,
+				A27909581D2406AB00880755 /* SYCarSwitchView.m in Sources */,
 				A20896B31D1ED27F00A626FC /* SYBaseController.m in Sources */,
+				A27909551D2404D200880755 /* SYAlertView.m in Sources */,
 				A20896BD1D1ED45000A626FC /* SYNavigationController.m in Sources */,
 				A20896BA1D1ED3AB00A626FC /* SYHomeController.m in Sources */,
 				A20896721D1ECE2D00A626FC /* AppDelegate.m in Sources */,
