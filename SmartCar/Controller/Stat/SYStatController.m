@@ -10,6 +10,10 @@
 
 @interface SYStatController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *alarmButton;
+@property (weak, nonatomic) IBOutlet UIButton *gasButton;
+@property (weak, nonatomic) IBOutlet UIButton *oilExceButton;
+@property (weak, nonatomic) IBOutlet UIButton *carTravelButton;
 
 @end
 
@@ -20,10 +24,12 @@
     self.view.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
     
 }
+- (IBAction)statButtonAction:(id)sender {
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    }
+}
 
 
 @end
