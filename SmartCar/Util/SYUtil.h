@@ -11,5 +11,6 @@
 @interface SYUtil : NSObject
 
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
++ (NSString *)intToBinary:(int)intValue;
 
 @end

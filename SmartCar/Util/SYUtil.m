@@ -10,6 +10,22 @@
 
 @implementation SYUtil
 
++ (NSString *)intToBinary:(int)intValue{
+    int byteBlock = 8;
+    int totalBits = (sizeof(int)) * byteBlock; // Total bits
+    int binaryDigit = totalBits;
+    char ndigit[totalBits + 1];
+    while (binaryDigit-- > 0) {
+        // Set digit in array based on rightmost bit
+        ndigit[binaryDigit] = (intValue & 1) ? '1' : '0';
+        // Shift incoming value one to right
+        intValue >>= 1;
+    }   // Append null
+    ndigit[totalBits] = 0;
+    return [NSString stringWithUTF8String:ndigit];
+
+}
+
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime {
     NSDateFormatter *date=[[NSDateFormatter alloc] init];
     [date setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
