@@ -20,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupChildController];
 }
 
@@ -30,9 +29,11 @@
 }
 
 - (void)setupChildController {
-    [self addChildController:[[SYHomeController alloc] init] title:@"首页" image:@"home_normal" selectedImage:@"home_selected"];
-    [self addChildController:[[SYStatController alloc] init] title:@"统计" image:@"stat_normal" selectedImage:@"stat_selected"];
-    [self addChildController:[[SYMineController alloc] init] title:@"我" image:@"mine_normal" selectedImage:@"mine_selected"];
+    [self addChildController:[[SYHomeController alloc] init] title:@"首页" image:@"home_normal" selectedImage:@"home_normal"];
+    
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"SYStatController" bundle:nil];
+    [self addChildController:[storyBoard instantiateViewControllerWithIdentifier:@"SYStatController"] title:@"统计" image:@"static_normal" selectedImage:@"static_normal"];
+    [self addChildController:[[SYMineController alloc] init] title:@"我" image:@"mine_normal" selectedImage:@"mine_normal"];
 }
 
 
@@ -42,15 +43,29 @@
              selectedImage:(NSString *)selectedImage {
     
     controller.title = title;
-    controller.tabBarItem.image = [UIImage imageNamed:image];
-    controller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor redColor]} forState:UIControlStateNormal];
-    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blueColor]} forState:UIControlStateSelected];
+    controller.tabBarItem.image = [[UIImage imageNamed:selectedImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+//    controller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    CGSize indicatorImageSize = CGSizeMake(self.tabBar.bounds.size.width / 3, self.tabBar.bounds.size.height);
+    
+    self.tabBar.backgroundImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:62 green:58 blue:57];
+    self.tabBar.selectionIndicatorImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:78 green:183 blue:205];
+    
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
     
     SYNavigationController *navController = [[SYNavigationController alloc] initWithRootViewController:controller];
     [self addChildViewController:navController];
 }
 
+- (UIImage *)drawTabBarItemBackgroundImageWithSize:(CGSize)size red:(CGFloat) red green:(CGFloat) green blue:(CGFloat)blue{
+    UIGraphicsBeginImageContext(size);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSetRGBFillColor(ctx, red / 255, green / 255, blue / 255, 1);
+    CGContextFillRect(ctx, CGRectMake(0, 0, size.width, size.height));
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
 
 
 @end

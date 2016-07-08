@@ -13,13 +13,49 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <Masonry/Masonry.h>
 
+//#import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
+#import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
+//#import <BaiduMapAPI_Search/BMKSearchComponent.h>//引入检索功能所有的头文件
+//#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>//引入云检索功能所有的头文件
+//#import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
+//#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>//引入计算工具所有的头文件
+//#import <BaiduMapAPI_Radar/BMKRadarComponent.h>//引入周边雷达功能所有的头文件
+//#import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
+#import "JSONKit.h"
+
 // 类目
 #import "UIView+Frame.h"
+#import "UIColor+HEX.h"
+#import "UIImage+Color.h"
 
+
+//
+#import "SYApiServer.h"
+#import "SYAppManager.h"
+#import "SYButton.h"
+#import "SYUtil.h"
 
 //
 #define SCREEN_W [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_H [[UIScreen mainScreen] bounds].size.height
+
+
+#define HOME_BG_COLOR @"5A6478"
+#define WeakSelf __weak typeof(self) weakSelf = self
+
+// 接口方法
+#define BASE_URL @"http://www.smartvehicleconnect.com:8090/ReSTiCarUtilService/ReSTiCarUtilService.svc"
+#define TEST @"Test"
+#define METHOD_LOGIN @"UserLogin"
+#define METHOD_CHANGE_PWD @"ChangePassword"
+
+#define METHOD_GET_LAST_POSITION @"GetLastPosition"
+#define METHOD_GET_CAR_TRIP @"GetCarTrip"
+#define METHOD_GET_CAR_TRIP_POSITION @"GetCarTripPosition"
+
+#define METHOD_GET_ALARM_INFO @"GetAlarmInfo"
+
+
 
 
 #endif /* smartcar_pch */

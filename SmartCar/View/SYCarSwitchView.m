@@ -93,7 +93,7 @@
     _show = YES;
     [superView addSubview:self];
     [UIView animateWithDuration:0.3 animations:^{
-        _BGView.alpha = 0.4;
+        _BGView.alpha = 0.5;
         _contentView.frame = CGRectMake(0,  0, self.width,  CONTENT_H);
     } completion:^(BOOL finished) {
         

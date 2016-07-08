@@ -14,9 +14,9 @@
 
 @implementation SYNavigationController
 
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+//    self.navigationBar.barTintColor = [UIColor colorWithHexString:@"1C1C1C"];
 }
 
 - (void)didReceiveMemoryWarning {
