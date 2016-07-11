@@ -29,6 +29,9 @@
     _headerView = [[SYMineHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 180)];
     _headerView.backgroundColor = [UIColor clearColor];
     
+    _headerView.name = [SYAppManager sharedManager].user.userName;
+    _headerView.time = [SYAppManager sharedManager].user.loginTime;
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
     _tableView.showsVerticalScrollIndicator = NO;

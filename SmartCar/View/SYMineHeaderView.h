@@ -10,4 +10,7 @@
 
 @interface SYMineHeaderView : UIView
 
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSString *time;
+
 @end

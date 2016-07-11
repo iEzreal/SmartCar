@@ -383,8 +383,6 @@
 		A20896B21D1ED27F00A626FC /* View */ = {
 			isa = PBXGroup;
 			children = (
-				779D52481D33E67A008628AC /* SYMineHeaderView.h */,
-				779D52491D33E67A008628AC /* SYMineHeaderView.m */,
 				7792934A1D2A7F3B006A7E5E /* Cell */,
 				A27909531D2404D200880755 /* SYAlertView.h */,
 				A27909541D2404D200880755 /* SYAlertView.m */,
@@ -408,6 +406,8 @@
 				77A67E141D2A38C800B071ED /* SYHomeVoltageGaugeView.m */,
 				7792934E1D2A84E4006A7E5E /* SYLatestTravelHeaderView.h */,
 				7792934F1D2A84E4006A7E5E /* SYLatestTravelHeaderView.m */,
+				779D52481D33E67A008628AC /* SYMineHeaderView.h */,
+				779D52491D33E67A008628AC /* SYMineHeaderView.m */,
 				7799AF391D2CCEA4006E332C /* SYProgressView.h */,
 				7799AF3A1D2CCEA4006E332C /* SYProgressView.m */,
 			);

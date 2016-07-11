@@ -20,41 +20,28 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
                                 <rect key="frame" x="83" y="110" width="117" height="70"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="报警" image="alarm_normal">
-                                    <color key="titleColor" red="1" green="0.1982979257361086" blue="0.25743818829310516" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <state key="normal" title="报警" image="alarm_normal"/>
+                                <state key="highlighted" image="alarm_highlight"/>
                                 <connections>
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="jdn-ZE-ddZ"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
-                                <rect key="frame" x="83" y="423" width="189" height="69"/>
+                                <rect key="frame" x="83" y="414" width="189" height="69"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="车辆行驶信息" image="vinfo_normal">
-                                    <color key="titleColor" red="1" green="0.19829792569999999" blue="0.25743818829999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <state key="normal" title="车辆行驶信息" image="vinfo_normal"/>
+                                <state key="highlighted" image="vinfo_highlight"/>
                                 <connections>
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="D1H-rF-qxj"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
-                                <rect key="frame" x="139" y="310" width="154" height="69"/>
+                                <rect key="frame" x="146" y="326" width="154" height="69"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="油量异常" image="sgasadd_normal">
-                                    <color key="titleColor" red="1" green="0.19829792569999999" blue="0.25743818829999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <state key="normal" title="油量异常" image="sgasadd_normal"/>
+                                <state key="highlighted" image="sgasadd_highlight"/>
                                 <connections>
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="i5F-i1-oFJ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
-                                <rect key="frame" x="139" y="203" width="126" height="86"/>
-                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="加油" image="gasdec_normal">
-                                    <color key="titleColor" red="1" green="0.19829792569999999" blue="0.25743818829999998" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="N9h-rj-7P4"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
@@ -64,6 +51,15 @@
                                     <constraint firstAttribute="height" constant="350" id="dCL-hd-wAZ"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
+                                <rect key="frame" x="146" y="202" width="126" height="86"/>
+                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="加油" image="gasdec_normal"/>
+                                <state key="highlighted" image="gasdec_highlight"/>
+                                <connections>
+                                    <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="N9h-rj-7P4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -80,10 +76,14 @@
         </scene>
     </scenes>
     <resources>
+        <image name="alarm_highlight" width="68" height="68"/>
         <image name="alarm_normal" width="70" height="70"/>
+        <image name="gasdec_highlight" width="69" height="69"/>
         <image name="gasdec_normal" width="69" height="70"/>
+        <image name="sgasadd_highlight" width="68" height="69"/>
         <image name="sgasadd_normal" width="68" height="69"/>
         <image name="stat_point_bg" width="115" height="256"/>
+        <image name="vinfo_highlight" width="68" height="69"/>
         <image name="vinfo_normal" width="68" height="69"/>
     </resources>
 </document>

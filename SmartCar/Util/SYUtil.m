@@ -26,6 +26,13 @@
 
 }
 
++ (NSString *)currentDate {
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    NSString *dateStr = [formatter stringFromDate:[NSDate date]];
+    return dateStr;
+}
+
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime {
     NSDateFormatter *date=[[NSDateFormatter alloc] init];
     [date setDateFormat:@"yyyy/MM/dd HH:mm:ss"];

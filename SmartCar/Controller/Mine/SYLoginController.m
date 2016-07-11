@@ -7,6 +7,7 @@
 //
 
 #import "SYLoginController.h"
+#import "SYChangePwdController.h"
 #import "SYRootController.h"
 #import "AppDelegate.h"
 
@@ -27,6 +28,9 @@
 @property(nonatomic, strong) UIImageView *userPwdIV;
 @property(nonatomic, strong) UITextField *userPwdTF;
 
+@property(nonatomic, strong) UIButton *rememberPwdBtn;
+@property(nonatomic, strong) UIButton *forgetPwdBtn;
+
 @property(nonatomic, strong) UIButton *loginBtn;
 
 @end
@@ -36,8 +40,140 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setupPageSubviews];
+    [self layoutPageSubviews];
+    [self readUserInfo];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillDisappear: animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
     
+}
+
+
+- (void)login {
+    if ([_userNameTF.text isEqualToString:@""]) {
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+        [SVProgressHUD setMinimumDismissTimeInterval:1];
+        [SVProgressHUD showInfoWithStatus:@"用户名不能为空"];
+        return;
+    }
+    
+    if ([_userPwdTF.text isEqualToString:@""]) {
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+        [SVProgressHUD setMinimumDismissTimeInterval:1];
+        [SVProgressHUD showInfoWithStatus:@"密码不能为空"];
+        return;
+    }
+    
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setObject:_userNameTF.text forKey:@"userName"];
+    [dic setObject:_userPwdTF.text forKey:@"userPwd"];
+//    [dic setObject:@"sy003" forKey:@"userName"];
+//    [dic setObject:@"000000" forKey:@"userPwd"];
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:@"正在登录..."];
+    [SYApiServer login:dic success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        
+        [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
+        [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
+        
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        delegate.window.rootViewController = [[SYRootController alloc] init];
+        [SVProgressHUD dismiss];
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD setMinimumDismissTimeInterval:2];
+        [SVProgressHUD showErrorWithStatus:@"登陆失败"];
+    }];
+}
+
+- (void)parseUserWithJsonString:(NSString *)jsonString {
+    NSDictionary *userDic = [jsonString objectFromJSONString];
+    NSArray *tableArray = [userDic objectForKey:@"TableInfo"];
+    NSDictionary *dic = tableArray[0];
+    SYUser *user = [[SYUser alloc] initWithDic:dic];
+//    user.password = @"000000";
+    // 设置登录时间
+    user.password = _userPwdTF.text;
+    user.loginTime = [SYUtil currentDate];
+    [SYAppManager sharedManager].user = user;
+    [self saveUserInfo];
+}
+
+- (void)parseVehicleWithJsonString:(NSString *)jsonString {
+    NSDictionary *vehicleDic = [jsonString objectFromJSONString];
+    NSArray *tableArray = [vehicleDic objectForKey:@"TableInfo"];
+    NSDictionary *dic = tableArray[0];
+    SYVehicle *vehicle = [[SYVehicle alloc] initWithDic:dic];
+    [SYAppManager sharedManager].vehicle = vehicle;
+}
+
+/**
+ *  读取用户信息
+ */
+- (void)readUserInfo {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults objectForKey:@"userName"]) {
+        _userNameTF.text = [userDefaults objectForKey:@"userName"];
+    }
+    
+    if ([userDefaults objectForKey:@"userPwd"]) {
+        _userPwdTF.text = [userDefaults objectForKey:@"userPwd"];
+        _rememberPwdBtn.selected = YES;
+    }
+
+}
+
+/**
+ *  保存用户信息
+ */
+- (void)saveUserInfo {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:_userNameTF.text forKey:@"userName"];
+    if (_rememberPwdBtn.isSelected) {
+        [userDefaults setObject:_userPwdTF.text forKey:@"userPwd"];
+    }
+    [userDefaults synchronize];
+}
+
+- (void)onClickAction:(UIButton *)sender {
+    if (sender.tag == 200) {
+        if (_rememberPwdBtn.isSelected) {
+            _rememberPwdBtn.selected = NO;
+            
+        } else {
+            _rememberPwdBtn.selected = YES;
+        }
+        
+    } else if (sender.tag == 201) {
+        SYChangePwdController *changePwdController = [[SYChangePwdController alloc] init];
+        [self.navigationController pushViewController:changePwdController animated:YES];
+        
+    } else {
+        [self login];
+    }
+}
+
+
+- (void)tapGestureAction:(UITapGestureRecognizer *)sender {
+    [self.view endEditing:YES];
+}
+
+- (void)setupPageSubviews {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
     _bgImgView = [[UIImageView alloc] init];
     _bgImgView.userInteractionEnabled = YES;
@@ -56,6 +192,7 @@
         make.centerX.equalTo(self.view);
     }];
     
+    // 用户名
     _userNameBgIV = [[UIImageView alloc] init];
     _userNameBgIV.layer.borderColor = [UIColor whiteColor].CGColor;
     _userNameBgIV.layer.borderWidth = 0.5;
@@ -73,6 +210,7 @@
     [self.view addSubview:_userNameTF];
     
     
+    // 密码
     _userPwdBgIV = [[UIImageView alloc] init];
     _userPwdBgIV.layer.borderColor = [UIColor whiteColor].CGColor;
     _userPwdBgIV.layer.borderWidth = 0.5;
@@ -85,10 +223,46 @@
     [self.view addSubview:_userPwdIV];
     
     _userPwdTF = [[UITextField alloc] init];
+    _userPwdTF.secureTextEntry = YES;
     _userPwdTF.textColor = [UIColor whiteColor];
     _userPwdTF.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_userPwdTF];
     
+    // 记住密码
+    _rememberPwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_rememberPwdBtn setImage:[UIImage imageNamed:@"remb_pwd_uncheck"] forState:UIControlStateNormal];
+    [_rememberPwdBtn setImage:[UIImage imageNamed:@"remb_pwd_check"] forState:UIControlStateSelected];
+    _rememberPwdBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [_rememberPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_rememberPwdBtn setTitle:@"记住摩玛" forState:UIControlStateNormal];
+    [_rememberPwdBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _rememberPwdBtn.tag = 200;
+    [self.view addSubview:_rememberPwdBtn];
+    
+    // 忘记密码
+    _forgetPwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _forgetPwdBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [_forgetPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_forgetPwdBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
+    [_forgetPwdBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _forgetPwdBtn.tag = 201;
+    [self.view addSubview:_forgetPwdBtn];
+    
+    // 登陆
+    _loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _loginBtn.layer.cornerRadius = 18;
+    _loginBtn.layer.masksToBounds = YES;
+    _loginBtn.backgroundColor = [UIColor colorWithHexString:@"4EB8CD"];
+    [_loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_loginBtn setTitle:@"LOGIN IN | 登陆" forState:UIControlStateNormal];
+    [_loginBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _loginBtn.tag = 202;
+    [self.view addSubview:_loginBtn];
+
+}
+
+- (void)layoutPageSubviews {
+    // 用户名
     [_userNameBgIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_logoIV.mas_bottom).offset(30);
         make.left.equalTo(self.view).offset(50);
@@ -110,6 +284,7 @@
         make.centerY.equalTo(_userNameBgIV);
     }];
     
+    // 用户密码
     [_userPwdBgIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_userNameBgIV.mas_bottom).offset(10);
         make.left.right.height.equalTo(_userNameBgIV);
@@ -126,79 +301,27 @@
         make.right.equalTo(_userPwdBgIV);
         make.centerY.equalTo(_userPwdBgIV);
     }];
-
-
-    _loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _loginBtn.layer.cornerRadius = 18;
-    _loginBtn.layer.masksToBounds = YES;
-    _loginBtn.backgroundColor = [UIColor colorWithHexString:@"4EB8CD"];
-    [_loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_loginBtn setTitle:@"LOGIN IN | 登陆" forState:UIControlStateNormal];
-    [_loginBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_loginBtn];
+    
+    // 记住密码
+    [_rememberPwdBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_userPwdBgIV.mas_bottom).offset(10);
+        make.left.equalTo(_userPwdBgIV.mas_left).offset(10);
+    }];
+    
+    // 忘记密码
+    [_forgetPwdBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(_userPwdBgIV).offset(-10);
+        make.centerY.equalTo(_rememberPwdBtn);
+    }];
+    
+    // 登陆
     [_loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_userPwdBgIV.mas_bottom).offset(40);
         make.centerX.equalTo(self.view);
         make.width.equalTo(_userPwdBgIV);
         make.height.equalTo(@36);
     }];
-}
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
-- (void)onClickAction:(UIButton *)sender {
-    [self login];
-}
-
-- (void)login {
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-    [dic setObject:@"sy003" forKey:@"userName"];
-    [dic setObject:@"000000" forKey:@"userPwd"];
-    
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-    [SVProgressHUD showWithStatus:@"正在登录..."];
-    [SYApiServer login:dic success:^(id responseObject) {
-        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSDictionary *responseDic = [responseStr objectFromJSONString];
-        
-        [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
-        [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
-        
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        delegate.window.rootViewController = [[SYRootController alloc] init];
-        [SVProgressHUD dismiss];
-        
-    } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"登陆失败"];
-    }];
-}
-
-- (void)parseUserWithJsonString:(NSString *)jsonString {
-    NSDictionary *userDic = [jsonString objectFromJSONString];
-    NSArray *tableArray = [userDic objectForKey:@"TableInfo"];
-    NSDictionary *dic = tableArray[0];
-    SYUser *user = [[SYUser alloc] initWithDic:dic];
-    user.password = @"000000";
-    [SYAppManager sharedManager].user = user;
-}
-
-- (void)parseVehicleWithJsonString:(NSString *)jsonString {
-    NSDictionary *vehicleDic = [jsonString objectFromJSONString];
-    NSArray *tableArray = [vehicleDic objectForKey:@"TableInfo"];
-    NSDictionary *dic = tableArray[0];
-    SYVehicle *vehicle = [[SYVehicle alloc] initWithDic:dic];
-    [SYAppManager sharedManager].vehicle = vehicle;
-    
-}
-
-
-
-- (void)tapGestureAction:(UITapGestureRecognizer *)sender {
-    [self.view endEditing:YES];
 }
 
 

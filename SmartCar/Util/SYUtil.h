@@ -10,6 +10,7 @@
 
 @interface SYUtil : NSObject
 
++ (NSString *)currentDate;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
 + (NSString *)intToBinary:(int)intValue;
 

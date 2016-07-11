@@ -38,13 +38,11 @@
     _userName = [[UILabel alloc] init];
     _userName.font = [UIFont systemFontOfSize:20];
     _userName.textColor = [UIColor whiteColor];
-    _userName.text = @"张晓";
     [self addSubview:_userName];
     
     _loginTime = [[UILabel alloc] init];
     _loginTime.font = [UIFont systemFontOfSize:15];
     _loginTime.textColor = [UIColor whiteColor];
-    _loginTime.text = @"2016.06.07 2:22";
     [self addSubview:_loginTime];
     
     _bottomLine = [[UIView alloc] init];
@@ -75,10 +73,20 @@
         make.left.equalTo(self).offset(15);
         make.right.equalTo(self).offset(-15);
         make.bottom.equalTo(self);
-        make.height.equalTo(@1);
+        make.height.equalTo(@0.5);
     }];
     
     return self;
+}
+
+- (void)setName:(NSString *)name {
+    _name = name;
+    _userName.text = name;
+}
+
+- (void)setTime:(NSString *)time {
+    _time = time;
+    _loginTime.text = time;
 }
 
 @end

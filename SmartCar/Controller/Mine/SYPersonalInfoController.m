@@ -70,7 +70,7 @@
 - (void)changePersonalInfoAction:(UIButton *)sender {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[SYAppManager sharedManager].user.loginName forKey:@"UserId"];
-    [parameters setObject:_userNameTF.text forKey:@"username "];
+    [parameters setObject:_userNameTF.text forKey:@"userName"];
     [parameters setObject:_phoneTF.text forKey:@"phone"];
     [parameters setObject:_emailTF.text forKey:@"email"];
     [parameters setObject:_compTF.text forKey:@"comp"];
