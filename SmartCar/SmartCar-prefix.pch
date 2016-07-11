@@ -55,6 +55,9 @@
 
 #define METHOD_GET_ALARM_INFO @"GetAlarmInfo"
 
+#define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
+#define METHOD_CHANGE_PASSWORD @"ChangePassword"
+
 
 
 
