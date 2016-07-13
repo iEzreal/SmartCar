@@ -173,22 +173,22 @@
 
 - (void)changePwdAction:(UIButton *)sender {
     if ([_oldPwdTF.text isEqualToString:@""]) {
-        [SVProgressHUD showWithStatus:@"请输入旧密码"];
+        [SYUtil showHintWithStatus:@"请输入旧密码" duration:1];
         return;
     }
     
     if ([_nwePwd1TF.text isEqualToString:@""]) {
-        [SVProgressHUD showWithStatus:@"请输入新密码"];
+        [SYUtil showHintWithStatus:@"请输入新密码" duration:1];
         return;
     }
     
     if ([_nwePwd2TF.text isEqualToString:@""]) {
-        [SVProgressHUD showWithStatus:@"请再次输入新密码"];
+        [SYUtil showHintWithStatus:@"请再次输入新密码" duration:1];
         return;
     }
     
     if (![_nwePwd2TF.text isEqualToString:_nwePwd2TF.text]) {
-        [SVProgressHUD showWithStatus:@"两次输入密码不一致"];
+        [SYUtil showHintWithStatus:@"两次输入密码不一致" duration:1];
         return;
     }
     

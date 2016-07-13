@@ -2,33 +2,25 @@
 //  SYURLSessionManager.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/3.
-//  Copyright © 2016年 Ezreal. All rights reserved.
+//  Created by Ezreal on 16/7/12.
+//  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
 #import "SYURLSessionManager.h"
 
-
 @interface SYURLSessionManager () <NSURLSessionDelegate ,NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
-
-@property(nonatomic, strong) NSString *authName;
-@property(nonatomic, strong) NSString *authPwd;
 
 @property(nonatomic, strong) NSURLSession *session;
 @property(nonatomic, strong) NSMutableData *mutableData;
-
 
 @end
 
 @implementation SYURLSessionManager
 
-- (instancetype)initWithAuthName:(NSString *)authName authPwd:(NSString *)authPwd {
+- (instancetype)init {
     if (!(self = [super init])) {
         return nil;
     }
-    
-    _authName = authName;
-    _authPwd = authPwd;
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:[[NSOperationQueue alloc] init]];
@@ -65,35 +57,12 @@
 }
 
 
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
-    
-}
-
-
-#pragma mark - NSURLSessionTaskDelegate
-/***************************************************************************/
-/*                              身份验证                                    */
-/***************************************************************************/
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
-    NSLog(@"-------- 身份验证 ----------");
-    // 创建 NSURLCredential 对象
-    NSURLCredential *urlCredential = [NSURLCredential credentialWithUser:_authName
-                                                          password:_authPwd
-                                                       persistence:NSURLCredentialPersistenceForSession];
-    completionHandler(NSURLSessionAuthChallengeUseCredential, urlCredential);
-}
-
-
 #pragma mark - NSURLSessionDataDelegate;
-/***************************************************************************/
-/*                              数据接受                                    */
-/***************************************************************************/
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     
-    NSLog(@"-------- 接受服务器响应 ----------");
     completionHandler(NSURLSessionResponseAllow);
 }
 
@@ -105,10 +74,9 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
     if (_resultBlock) {
         dispatch_async(dispatch_get_main_queue(), ^{
-             _resultBlock(_mutableData, error);
+            _resultBlock(_mutableData, error);
         });
     }
 }
-
 
 @end

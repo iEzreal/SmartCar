@@ -7,6 +7,7 @@
 //
 
 #import "SYApiServer.h"
+#import "SYAuthURLSessionManager.h"
 #import "SYURLSessionManager.h"
 
 @implementation SYApiServer
@@ -18,7 +19,7 @@
     NSString *URLString = [NSString stringWithFormat:@"%@/%@", BASE_URL, METHOD_LOGIN];
     NSDictionary *dic = [NSDictionary dictionaryWithObject:authName forKey:@"UserId"];
     
-    SYURLSessionManager *manager = [[SYURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
+    SYAuthURLSessionManager *manager = [[SYAuthURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
     [manager POST:URLString parameters:dic resultBlock:^(id responseData, NSError *error) {
         if (error) {
             failure(error);
@@ -32,7 +33,7 @@
     NSString *authName = [SYAppManager sharedManager].user.loginName;
     NSString *authPwd = [SYAppManager sharedManager].user.password;
     NSString *URLString = [NSString stringWithFormat:@"%@/%@", BASE_URL, method];
-    SYURLSessionManager *manager = [[SYURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
+    SYAuthURLSessionManager *manager = [[SYAuthURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
     [manager POST:URLString parameters:parameters resultBlock:^(id responseData, NSError *error) {
         if (error) {
             failure(error);
@@ -41,5 +42,19 @@
         }
     }];
 }
+
++ (void)OBD_POST:(NSString *)method parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure {
+    
+    NSString *URLString = [NSString stringWithFormat:@"%@/%@", BASE_OBD_URL, method];
+    SYURLSessionManager *manager = [[SYURLSessionManager alloc] init];
+    [manager POST:URLString parameters:parameters resultBlock:^(id responseData, NSError *error) {
+        if (error) {
+            failure(error);
+        } else {
+            success(responseData);
+        }
+    }];
+}
+
 
 @end

@@ -50,8 +50,10 @@
     self.tabBar.backgroundImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:62 green:58 blue:57];
     self.tabBar.selectionIndicatorImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:78 green:183 blue:205];
     
-    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateNormal];
-    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]} forState:UIControlStateSelected];
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                    NSFontAttributeName : [UIFont systemFontOfSize:13]} forState:UIControlStateNormal];
+    [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                    NSFontAttributeName : [UIFont systemFontOfSize:13]} forState:UIControlStateSelected];
     
     SYNavigationController *navController = [[SYNavigationController alloc] initWithRootViewController:controller];
     [self addChildViewController:navController];

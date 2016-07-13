@@ -10,4 +10,6 @@
 
 @interface SYBaseController : UIViewController
 
+- (void)backButtonAction;
+
 @end

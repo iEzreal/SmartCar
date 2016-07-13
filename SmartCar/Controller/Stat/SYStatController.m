@@ -7,6 +7,8 @@
 //
 
 #import "SYStatController.h"
+#import "SYAlarmController.h"
+#import "SYGasStatController.h"
 
 @interface SYStatController ()
 
@@ -21,10 +23,28 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
+   
+    
+    self.navigationItem.leftBarButtonItem = nil;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"各类统计";
+    self.navigationItem.titleView = titleLabel;
     
 }
 - (IBAction)statButtonAction:(id)sender {
+    NSInteger tag = ((UIButton *)sender).tag;
+    if (tag == 201) {
+        SYAlarmController *alarmController = [[SYAlarmController alloc] init];
+        [self.navigationController pushViewController:alarmController animated:YES];
+    } else if (tag == 202) {
+        SYGasStatController *gasStatController = [[SYGasStatController alloc] init];
+        gasStatController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:gasStatController animated:YES];
+    
+    } else if (tag == 203) {
+    
+    }
 }
 
 - (void)didReceiveMemoryWarning {

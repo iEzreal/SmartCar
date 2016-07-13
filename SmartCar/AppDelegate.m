@@ -21,7 +21,7 @@
 //    [UINavigationBar appearance].barTintColor = [UIColor colorWithHexString:@"3B4551"];
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"1C1C1C"]] forBarMetrics:UIBarMetricsDefault];
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
-    [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:18]};
 
 }
 
@@ -31,14 +31,14 @@
     
     _mapManager = [[BMKMapManager alloc]init];
     // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
-    [_mapManager start:@"EcZSP0ktxWeCcvNv5KZvLxh47pVe4EG0"  generalDelegate:nil];
+//    [_mapManager start:@"EcZSP0ktxWeCcvNv5KZvLxh47pVe4EG0"  generalDelegate:nil];
+     [_mapManager start:@"86AFoC7j4MvUfByeupViSVIUpPalmrLN"  generalDelegate:nil];
     
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[SYLoginController alloc] init]];
     [self.window makeKeyAndVisible];
-    return YES;
     return YES;
 }
 

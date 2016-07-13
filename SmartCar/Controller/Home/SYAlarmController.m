@@ -23,6 +23,7 @@
 
 @implementation SYAlarmController
 
+#pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"近期警报";
@@ -35,9 +36,12 @@
     [self requestAlarmInfo];
 }
 
-/**
- *  查询车辆行程信息
- */
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+
+#pragma mark - 请求车辆行程信息
 - (void)requestAlarmInfo {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -61,15 +65,11 @@
         [_tableView reloadData];
         [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        
+        [SVProgressHUD showErrorWithStatus:@"加载失败"];
     }];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
+#pragma mark - UITableViewDataSource && UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _alarmArray.count;
 }
@@ -91,7 +91,7 @@
     return alarmCell;
 }
 
-
+#pragma mark - 页面View
 - (void)setupPageSubviews {
     _typeLabel = [[UILabel alloc] init];
     _typeLabel.textAlignment = NSTextAlignmentCenter;

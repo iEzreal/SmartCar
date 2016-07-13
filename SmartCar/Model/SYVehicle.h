@@ -15,6 +15,7 @@
 @property(nonatomic, strong) NSString *termID;
 @property(nonatomic, strong) NSString *termSN;
 @property(nonatomic, strong) NSString *termType;
+@property(nonatomic, strong) NSString *tankCapacity;
 @property(nonatomic, strong) NSString *simcard;
 
 - (instancetype)initWithDic:(NSDictionary *)dic;

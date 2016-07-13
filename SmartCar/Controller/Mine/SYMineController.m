@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+     self.navigationItem.leftBarButtonItem = nil;
     _headerView = [[SYMineHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 180)];
     _headerView.backgroundColor = [UIColor clearColor];
     

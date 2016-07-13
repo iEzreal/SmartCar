@@ -34,9 +34,12 @@
     _lineView1.image = [UIImage imageNamed:@"splitter_line"];
     [self.contentView addSubview:_lineView1];
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 1, SCREEN_W / 2, SCREEN_W / 2)];
     _mapView.zoomLevel = 13;
     _mapView.delegate = self;
+    [_mapView addGestureRecognizer:tapGesture];
     [self.contentView addSubview:_mapView];
     
     _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(SCREEN_W / 2, 1, SCREEN_W / 2, SCREEN_W / 4)];
@@ -52,18 +55,23 @@
     WeakSelf;
     _alarmView.block = ^(){
         if (weakSelf.block) {
-            weakSelf.block(0);
+            weakSelf.block(1);
         }
     };
     _carPhysicalView.block = ^(){
         if (weakSelf.block) {
-            weakSelf.block(1);
+            weakSelf.block(2);
         }
     };
     
     return self;
 }
 
+- (void)tapGesture:(UITapGestureRecognizer *)sender {
+    if (self.block) {
+        self.block(0);
+    }
+}
 
 #pragma mark - 跟新地图位置
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {

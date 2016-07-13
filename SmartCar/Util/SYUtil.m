@@ -26,6 +26,20 @@
 
 }
 
++ (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *componentsToAdd = [[NSDateComponents alloc] init];
+    [componentsToAdd setDay:day];
+    
+    NSDate *dateAfterDay = [calendar dateByAddingComponents:componentsToAdd toDate:date options:0];
+    
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    NSString *dateStr = [formatter stringFromDate:dateAfterDay];
+
+    return dateStr;
+}
+
 + (NSString *)currentDate {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
@@ -54,6 +68,12 @@
     house = [NSString stringWithFormat:@"%d", (int)cha / 3600];
     timeString=[NSString stringWithFormat:@"%@小时%@分", house, min];
     return timeString;
+}
+
++ (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD setMinimumDismissTimeInterval:duration];
+    [SVProgressHUD showInfoWithStatus:status];
 }
 
 @end

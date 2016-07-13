@@ -27,6 +27,7 @@
 #import "UIView+Frame.h"
 #import "UIColor+HEX.h"
 #import "UIImage+Color.h"
+#import "NSDate+Extension.h"
 
 
 //
@@ -43,22 +44,22 @@
 #define HOME_BG_COLOR @"5A6478"
 #define WeakSelf __weak typeof(self) weakSelf = self
 
-// 接口方法
+// 数据交互接口
 #define BASE_URL @"http://www.smartvehicleconnect.com:8090/ReSTiCarUtilService/ReSTiCarUtilService.svc"
 #define TEST @"Test"
 #define METHOD_LOGIN @"UserLogin"
-#define METHOD_CHANGE_PWD @"ChangePassword"
+#define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
+#define METHOD_CHANGE_PASSWORD @"ChangePassword"
 
 #define METHOD_GET_LAST_POSITION @"GetLastPosition"
 #define METHOD_GET_CAR_TRIP @"GetCarTrip"
 #define METHOD_GET_CAR_TRIP_POSITION @"GetCarTripPosition"
-
 #define METHOD_GET_ALARM_INFO @"GetAlarmInfo"
+#define METHOD_GET_GAS_ADD @"GetGasAdd"
 
-#define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
-#define METHOD_CHANGE_PASSWORD @"ChangePassword"
-
-
+// OBD命令接口
+#define BASE_OBD_URL @"http://www.smartvehicleconnect.com:8080/AppCmdService/AppCmdService.svc"
+#define METHOD_GET_DTC_CODE @"GetDtcCode"
 
 
 #endif /* smartcar_pch */

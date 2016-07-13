@@ -46,7 +46,6 @@
     _alarmLabel.numberOfLines = 0;
     _alarmLabel.textColor = [UIColor whiteColor];
     _alarmLabel.font = [UIFont systemFontOfSize:14];
-    _alarmLabel.text = @"aoiffioshfsoikkkkkkkkdfhsodifhodf";
     [self addSubview:_alarmLabel];
     
     [_iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {

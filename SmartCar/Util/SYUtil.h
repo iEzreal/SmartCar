@@ -11,7 +11,9 @@
 @interface SYUtil : NSObject
 
 + (NSString *)currentDate;
++ (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
 + (NSString *)intToBinary:(int)intValue;
++ (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
 
 @end

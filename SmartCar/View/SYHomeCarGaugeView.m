@@ -139,7 +139,7 @@
 }
 
 - (void)setMileageText:(NSString *)mileageText {
-    _mileageText = [NSString stringWithFormat:@"%ld", [mileageText integerValue] / 10];
+    _mileageText = [NSString stringWithFormat:@"%d", [mileageText integerValue] / 10];
     NSUInteger len = _mileageText.length;
     NSMutableString *str = [NSMutableString stringWithString:_mileageText];
     for (NSUInteger i = len; i < 8; i++) {

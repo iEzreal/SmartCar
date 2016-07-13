@@ -8,6 +8,7 @@
 
 #import "SYHomeController.h"
 #import "SYTravelController.h"
+#import "SYCurrentLocationController.h"
 #import "SYAlarmController.h"
 #import "SYPhysicalController.h"
 
@@ -40,7 +41,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.titleView = self.navTitleBtn;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.locationBtn];
     
@@ -202,9 +203,16 @@
         WeakSelf;
         menuCell.block = ^(NSInteger index){
             if (index == 0) {
+                SYCurrentLocationController *locationController = [[SYCurrentLocationController alloc] init];
+                locationController.lat = _vePosition.lat;
+                locationController.lon = _vePosition.lon;
+                [weakSelf.navigationController pushViewController:locationController animated:YES];
+                
+            } else if (index == 1) {
                 SYAlarmController *alarmController = [[SYAlarmController alloc] init];
                 alarmController.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:alarmController animated:YES];
+               
             } else {
                 SYPhysicalController *physicalController = [[SYPhysicalController alloc] init];
                 physicalController.hidesBottomBarWhenPushed = YES;
@@ -224,7 +232,7 @@
 #pragma mark - SYCarSwitchViewDelegate
 - (void)carSwitchView:(SYCarSwitchView *)carSwitchView didSelectRowAtIndex:(NSInteger)index {
     
-    NSLog(@"-----------%ld", index);
+    NSLog(@"-----------%ld", (long)index);
 }
 
 
