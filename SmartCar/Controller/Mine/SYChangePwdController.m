@@ -198,10 +198,15 @@
 
     [SVProgressHUD showWithStatus:@"正在提交..."];
     [SYApiServer POST:METHOD_CHANGE_PASSWORD parameters:parameters success:^(id responseObject) {
-        
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if ([[responseDic objectForKey:@"ChangePasswordResult"] integerValue] == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"密码修改成功"];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"密码修改失败"];
+        }
     } failure:^(NSError *error) {
-        
-        
+        [SVProgressHUD showErrorWithStatus:@"密码修改失败"];
     }];
 
 }

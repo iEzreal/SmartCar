@@ -10,6 +10,8 @@
 #import "SYChangePwdController.h"
 #import "SYPersonalInfoController.h"
 #import "SYSettingMileageController.h"
+#import "SYAboutController.h"
+#import "SYVersionController.h"
 
 #import "SYMineHeaderView.h"
 #import "SYMineMenuCell.h"
@@ -88,6 +90,14 @@
         } else if (index == 2) {
             SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
             [self.navigationController pushViewController:mileageController animated:YES];
+        } else if (index == 3) {
+            SYAboutController *aboutController = [[SYAboutController alloc] init];
+            aboutController.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:aboutController animated:YES];
+        } else {
+            SYVersionController *versionController = [[SYVersionController alloc] init];
+            versionController.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:versionController animated:YES];
         }
         
     };

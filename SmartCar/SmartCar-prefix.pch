@@ -25,6 +25,7 @@
 
 // 类目
 #import "UIView+Frame.h"
+#import "UIView+Border.h"
 #import "UIColor+HEX.h"
 #import "UIImage+Color.h"
 #import "NSDate+Extension.h"
@@ -55,7 +56,10 @@
 #define METHOD_GET_CAR_TRIP @"GetCarTrip"
 #define METHOD_GET_CAR_TRIP_POSITION @"GetCarTripPosition"
 #define METHOD_GET_ALARM_INFO @"GetAlarmInfo"
+#define METHOD_GET_ALARM_COUNT @"GetAlarmCount"
 #define METHOD_GET_GAS_ADD @"GetGasAdd"
+#define METHOD_GET_GAS_ALARM @"GetGasAlarm"
+#define METHOD_GET_MINMAX_POSITION @"GetMinAndMaxTimePosition"
 
 // OBD命令接口
 #define BASE_OBD_URL @"http://www.smartvehicleconnect.com:8080/AppCmdService/AppCmdService.svc"

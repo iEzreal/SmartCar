@@ -8,14 +8,14 @@
 
 #import "SYGasStatController.h"
 #import "SYGasStatCell.h"
-#import "SYDatePickerView.h"
-
-@interface SYGasStatController () <UITableViewDataSource, UITableViewDelegate, SYDatePickerViewDelegate>
+#import "SYPickerView.h"
+#import "SYGasStatDetailsController.h"
+@interface SYGasStatController () <UITableViewDataSource, UITableViewDelegate, SYPickerViewDelegate>
 
 @property(nonatomic, strong) NSMutableArray *gaslArray;
 
 @property(nonatomic, strong) UIButton *rightButton;
-@property(nonatomic, strong) SYDatePickerView *pickerView;
+@property(nonatomic, strong) SYPickerView *pickerView;
 
 @property(nonatomic, strong) UIView *topNavView;
 @property(nonatomic, strong) UILabel *dateLabel;
@@ -136,7 +136,7 @@
 
 - (void)dateSwitchAction:(UIButton *)sender {
     if (!_pickerView) {
-        _pickerView = [[SYDatePickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
+        _pickerView = [[SYPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
         _pickerView.delegate = self;
         _pickerView.dataSourceArray = @[@"一个月内", @"三个月内", @"半年内", @"一年内"];
     }
@@ -149,7 +149,7 @@
 }
 
 #pragma mark -
-- (void)pickerView:(SYDatePickerView *)pickerView didSelectAtIndex:(NSInteger)index {
+- (void)pickerView:(SYPickerView *)pickerView didSelectAtIndex:(NSInteger)index {
     if (index == 0) {
         [self requestGasWithMonth:-1];
     } else if (index == 1) {
@@ -175,7 +175,6 @@
     SYGasStatCell *gasStatCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!gasStatCell) {
         gasStatCell = [[SYGasStatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        gasStatCell.selectionStyle = UITableViewCellSelectionStyleNone;
         gasStatCell.backgroundColor = [UIColor clearColor];
     }
     
@@ -189,7 +188,12 @@
     return gasStatCell;
 }
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    SYGasStatDetailsController *detailsController = [[SYGasStatDetailsController alloc] init];
+    detailsController.gasDic = _gaslArray[indexPath.row];
+    [self.navigationController pushViewController:detailsController animated:YES];
+}
 
 
 @end

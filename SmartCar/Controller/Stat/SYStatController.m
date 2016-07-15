@@ -9,6 +9,8 @@
 #import "SYStatController.h"
 #import "SYAlarmController.h"
 #import "SYGasStatController.h"
+#import "SYOilExceptionController.h"
+#import "SYTravelIInfoController.h"
 
 @interface SYStatController ()
 
@@ -28,6 +30,7 @@
     self.navigationItem.leftBarButtonItem = nil;
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60, 40)];
     titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.font = [UIFont systemFontOfSize:18];
     titleLabel.text = @"各类统计";
     self.navigationItem.titleView = titleLabel;
     
@@ -43,7 +46,14 @@
         [self.navigationController pushViewController:gasStatController animated:YES];
     
     } else if (tag == 203) {
-    
+        SYOilExceptionController *exceptionController = [[SYOilExceptionController alloc] init];
+        exceptionController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:exceptionController animated:YES];
+
+    } else {
+        SYTravelIInfoController *travelController = [[SYTravelIInfoController alloc] init];
+        travelController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:travelController animated:YES];
     }
 }
 
