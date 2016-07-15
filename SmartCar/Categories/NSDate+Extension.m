@@ -10,6 +10,32 @@
 
 @implementation NSDate (Extension)
 
++ (NSUInteger)year:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+    // NSDayCalendarUnit
+    NSDateComponents *dayComponents = [calendar components:(NSCalendarUnitYear) fromDate:date];
+#else
+    NSDateComponents *dayComponents = [calendar components:(NSYearCalendarUnit) fromDate:date];
+#endif
+    
+    return [dayComponents year];
+}
+
++ (NSUInteger)month:(NSDate *)date {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
+    // NSDayCalendarUnit
+    NSDateComponents *dayComponents = [calendar components:(NSCalendarUnitMonth) fromDate:date];
+#else
+    NSDateComponents *dayComponents = [calendar components:(NSMonthCalendarUnit) fromDate:date];
+#endif
+    
+    return [dayComponents month];
+}
+
 + (NSString *)currentDate {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];

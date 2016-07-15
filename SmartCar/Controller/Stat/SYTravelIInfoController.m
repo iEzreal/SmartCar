@@ -7,10 +7,12 @@
 //
 
 #import "SYTravelIInfoController.h"
+#import "SYDatePickerView.h"
 
-@interface SYTravelIInfoController ()
+@interface SYTravelIInfoController () <SYDatePickerViewDelegate>
 
 @property(nonatomic, strong) UIButton *rightButton;
+@property(nonatomic, strong) SYDatePickerView *datePickerView;
 
 @property(nonatomic, strong) UIView *topView;
 @property(nonatomic, strong) UILabel *startHintLabel;
@@ -57,16 +59,15 @@
     [self setupPageSubviews];
     [self layoutPageSubviews];
     
-    [self requestMinMaxPosition];
 }
 
 #pragma mark - 最小时间和最大时间里程和油耗
-- (void)requestMinMaxPosition {
+- (void)requestMinMaxPositionWithStartTime:(NSString *)startTime endTime:(NSString *)endTime {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
-    [parameters setObject:@"2016-06" forKey:@"dtTime"];
-    [parameters setObject:@"2016-07" forKey:@"etTime"];
+    [parameters setObject:startTime forKey:@"dtTime"];
+    [parameters setObject:endTime forKey:@"etTime"];
     
     [SVProgressHUD showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_MINMAX_POSITION parameters:parameters success:^(id responseObject) {
@@ -88,10 +89,12 @@
             [weakSelf requestGasWithStartTime:[_firstDic objectForKey:@"gpstime"] endTime:[_lastDic objectForKey:@"gpstime"]];
             [weakSelf requestAlarmCountWithStartTime:[_firstDic objectForKey:@"gpstime"] endTime:[_lastDic objectForKey:@"gpstime"]];
         } else {
+            [SVProgressHUD setMinimumDismissTimeInterval:2];
             [SVProgressHUD showErrorWithStatus:@"加载失败"];
         }
         
     } failure:^(NSError *error) {
+        [SVProgressHUD setMinimumDismissTimeInterval:2];
         [SVProgressHUD showErrorWithStatus:@"加载失败"];
     }];
 }
@@ -116,7 +119,8 @@
             
             [SVProgressHUD dismiss];
         } else {
-        
+            [SVProgressHUD setMinimumDismissTimeInterval:2];
+            [SVProgressHUD showErrorWithStatus:@"加载失败"];
         }
     } failure:^(NSError *error) {
         [SVProgressHUD setMinimumDismissTimeInterval:2];
@@ -145,6 +149,7 @@
     
 }
 
+
 - (void)updateAlarmCountWithDic:(NSDictionary *)dic {
     _speedAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"overspeed"] intValue]];
     _fenceAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"geofence"] intValue]];
@@ -169,8 +174,9 @@
     CGFloat gas3 = [[_gasArray[_gasArray.count - 1] objectForKey:@"OBDGasLevel"] floatValue] - [[_lastDic objectForKey:@"OBDGasLevel"] floatValue];
     gas3 = gas3 * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
 
-    _startLabel.text = [_firstDic objectForKey:@"gpstime"];
-    _endLabel.text = [_lastDic objectForKey:@"gpstime"];
+    _startLabel.text = [[_firstDic objectForKey:@"gpstime"] componentsSeparatedByString:@" "][0];
+    _endLabel.text = [[_lastDic objectForKey:@"gpstime"] componentsSeparatedByString:@" "][0];
+    
     _totalOilWearLabel.text = [NSString stringWithFormat:@"%.2f", gas1 + gas2 + gas3];
     _avgOilWearLabel.text = [NSString stringWithFormat:@"%.2f", (gas1 + gas2 + gas3) / ((lastMileage - firstMileage) * 0.1) * 100];
     _totalMileageLabel.text =  [NSString stringWithFormat:@"%.2f", (lastMileage - firstMileage) * 0.1];
@@ -178,12 +184,26 @@
 }
 
 
+#pragma mark - SYDatePickerViewDelegate;
+- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartDate:(NSString *)startDate endDate:(NSString *)endDate {
+    [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
 
-
-- (void)dateSwitchAction:(UIButton *)sender {
-    
 }
 
+#pragma mark - 日期选择
+- (void)dateSwitchAction:(UIButton *)sender {
+    if (!_datePickerView) {
+        _datePickerView = [[SYDatePickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
+        _datePickerView.delegate = self;
+    }
+    
+    if (_datePickerView.isShow) {
+        [_datePickerView dismiss];
+    } else {
+        [_datePickerView showWithView:self.view];
+    }
+
+}
 
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
