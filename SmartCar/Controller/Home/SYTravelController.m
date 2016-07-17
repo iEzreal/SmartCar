@@ -121,7 +121,7 @@
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.textAlignment = NSTextAlignmentCenter;
     _dateLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _dateLabel.font = [UIFont systemFontOfSize:14];
+    _dateLabel.font = [UIFont systemFontOfSize:16];
     _dateLabel.textColor = [UIColor whiteColor];
     _dateLabel.text = @"日期";
     [self.view addSubview:_dateLabel];
@@ -129,15 +129,15 @@
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     _timeLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _timeLabel.font = [UIFont systemFontOfSize:14];
+    _timeLabel.font = [UIFont systemFontOfSize:16];
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.text = @"时间";
-    [self.view addSubview:_timeLabel];
+    [self.view addSubview:_timeLabel]; 
     
     _travelLabel = [[UILabel alloc] init];
     _travelLabel.textAlignment = NSTextAlignmentCenter;
     _travelLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _travelLabel.font = [UIFont systemFontOfSize:14];
+    _travelLabel.font = [UIFont systemFontOfSize:16];
     _travelLabel.textColor = [UIColor whiteColor];
     _travelLabel.text = @"里程";
     [self.view addSubview:_travelLabel];

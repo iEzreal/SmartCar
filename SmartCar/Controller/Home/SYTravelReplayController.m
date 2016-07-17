@@ -94,44 +94,50 @@
 #pragma mark - 轨迹回放操作
 - (void)startReplay {
     _pointCount = _travelPointArray.count;
-    CLLocationCoordinate2D paths[_pointCount];
+    CLLocationCoordinate2D baiduCoors[_pointCount];
     for (NSInteger i = 0; i < _pointCount; i++) {
         SYTravelSportNode *node = _travelPointArray[i];
-        paths[i].latitude = [node.lat doubleValue];
-        paths[i].longitude = [node.lon doubleValue];
+        
+        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([node.lat doubleValue], [node.lon doubleValue]);
+        NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
+        CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dic);
+        baiduCoors[i] = baiduCoor;
     }
     
     // 绘制线路
-    _pathLine = [BMKPolyline polylineWithCoordinates:paths count:_pointCount];
+    _pathLine = [BMKPolyline polylineWithCoordinates:baiduCoors count:_pointCount];
     [_mapView addOverlay:_pathLine];
     
     // 起点标注
     _startAnnotation = [[BMKPointAnnotation alloc]init];
-    _startAnnotation.coordinate = paths[0];
+    _startAnnotation.coordinate = baiduCoors[0];
+    _mapView.centerCoordinate = baiduCoors[0];
     [_mapView addAnnotation:_startAnnotation];
-    _mapView.centerCoordinate = paths[0];
+    
     
     // 终点标注
     _endAnnotation = [[BMKPointAnnotation alloc]init];
-    _endAnnotation.coordinate = paths[_pointCount - 1];
+    _endAnnotation.coordinate = baiduCoors[_pointCount - 1];
     [_mapView addAnnotation:_endAnnotation];
     
     // 车
     _currentIndex = 0;
+    
     _carAnnotation = [[BMKPointAnnotation alloc]init];
-    _carAnnotation.coordinate = paths[0];
+    _carAnnotation.coordinate = baiduCoors[0];
     [_mapView addAnnotation:_carAnnotation];
     [self running];
 }
 
 - (void)running {
     SYTravelSportNode *node = [_travelPointArray objectAtIndex:_currentIndex];
-    [UIView animateWithDuration:0.25 animations:^{
+    [UIView animateWithDuration:0.35 animations:^{
         _currentIndex++;
-        CLLocationCoordinate2D coordinate;
-        coordinate.latitude = [node.lat doubleValue];
-        coordinate.longitude = [node.lon doubleValue];
-        _carAnnotation.coordinate = coordinate;
+        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([node.lat doubleValue], [node.lon doubleValue]);
+        NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
+        CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dic);
+        _carAnnotation.coordinate = baiduCoor;
+        
     } completion:^(BOOL finished) {
         if (_currentIndex < _pointCount) {
             [self running];
@@ -155,11 +161,52 @@
     return nil;
 }
 
-//- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
-//    BMKAnnotationView *annotationView = [[BMKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"NY"];
-//    
-//    return annotationView;
-//}
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
+    if (annotation == _startAnnotation) {
+        static NSString *identifier = @"StartAnnotation";
+        BMKPinAnnotationView *startAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!startAnnotationView) {
+            startAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        }
+        
+        startAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        startAnnotationView.animatesDrop = NO;
+        startAnnotationView.annotation=annotation;
+        startAnnotationView.image = [UIImage imageNamed:@"gps_position"];
+        return startAnnotationView;
+    }
+    
+//    if (annotation == _carAnnotation) {
+//        static NSString *identifier = @"CarAnnotation";
+//        BMKPinAnnotationView *carAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+//        if (!carAnnotationView) {
+//            carAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+//        }
+//        
+//        carAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+//        carAnnotationView.animatesDrop = NO;
+//        carAnnotationView.annotation=annotation;
+//        carAnnotationView.image = [UIImage imageNamed:@"gps_position"];
+//        return carAnnotationView;
+//    }
+    
+    if (annotation == _endAnnotation) {
+        static NSString *identifier = @"EndAnnotation";
+        BMKPinAnnotationView *endAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!endAnnotationView) {
+            endAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        }
+        
+        endAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        endAnnotationView.animatesDrop = NO;
+        endAnnotationView.annotation=annotation;
+        endAnnotationView.image = [UIImage imageNamed:@"end"];
+        return endAnnotationView;
+    }
+
+    return nil;
+
+}
 
 - (void)mapView:(BMKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
 

@@ -17,17 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" tag="201" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
-                                <rect key="frame" x="83" y="110" width="117" height="70"/>
-                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="报警" image="alarm_normal"/>
-                                <state key="highlighted" image="alarm_highlight"/>
-                                <connections>
-                                    <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="jdn-ZE-ddZ"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" tag="204" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
-                                <rect key="frame" x="83" y="414" width="189" height="69"/>
+                                <rect key="frame" x="87" y="419" width="189" height="69"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="车辆行驶信息" image="vinfo_normal"/>
                                 <state key="highlighted" image="vinfo_highlight"/>
@@ -36,7 +27,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="203" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
-                                <rect key="frame" x="146" y="326" width="154" height="69"/>
+                                <rect key="frame" x="154" y="305" width="154" height="69"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="油量异常" image="sgasadd_normal"/>
                                 <state key="highlighted" image="sgasadd_highlight"/>
@@ -44,20 +35,25 @@
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="i5F-i1-oFJ"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
-                                <rect key="frame" x="0.0" y="124" width="150" height="350"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="7WJ-S6-saP"/>
-                                    <constraint firstAttribute="height" constant="350" id="dCL-hd-wAZ"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
+                                <rect key="frame" x="0.0" y="96" width="163" height="375"/>
                             </imageView>
                             <button opaque="NO" tag="202" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
-                                <rect key="frame" x="146" y="202" width="126" height="86"/>
+                                <rect key="frame" x="150" y="178" width="126" height="86"/>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="加油" image="gasdec_normal"/>
                                 <state key="highlighted" image="gasdec_highlight"/>
                                 <connections>
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="N9h-rj-7P4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="201" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
+                                <rect key="frame" x="87" y="77" width="117" height="70"/>
+                                <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" title="报警" image="alarm_normal"/>
+                                <state key="highlighted" image="alarm_highlight"/>
+                                <connections>
+                                    <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="jdn-ZE-ddZ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -82,7 +78,7 @@
         <image name="gasdec_normal" width="69" height="70"/>
         <image name="sgasadd_highlight" width="68" height="69"/>
         <image name="sgasadd_normal" width="68" height="69"/>
-        <image name="stat_point_bg" width="115" height="256"/>
+        <image name="stat_point_bg" width="168" height="375"/>
         <image name="vinfo_highlight" width="68" height="69"/>
         <image name="vinfo_normal" width="68" height="69"/>
     </resources>

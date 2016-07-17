@@ -2,4 +2,70 @@
 <Bucket
    type = "0"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartCar/Controller/Home/SYCurrentLocationController.m"
+            timestampString = "490460638.243616"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-setCircleGeoFence:type:rad:lat:lon:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SmartCar/Controller/Home/SYCurrentLocationController.m"
+            timestampString = "490460741.543712"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "-setCircleGeoFence:type:rad:lat:lon:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SYCurrentLocationController setCircleGeoFence:type:rad:lat:lon:]"
+                  moduleName = "SmartCar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Ezreal/Github/SmartCar/SmartCar/Controller/Home/SYCurrentLocationController.m"
+                  timestampString = "490460917.562506"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "190"
+                  endingLineNumber = "190"
+                  offsetFromSymbolStart = "1076">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__66-[SYCurrentLocationController setCircleGeoFence:type:rad:lat:lon:]_block_invoke"
+                  moduleName = "SmartCar"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Ezreal/Github/SmartCar/SmartCar/Controller/Home/SYCurrentLocationController.m"
+                  timestampString = "490460917.562988"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "191"
+                  endingLineNumber = "191"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

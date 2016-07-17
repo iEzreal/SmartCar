@@ -27,21 +27,21 @@
     
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.textAlignment = NSTextAlignmentCenter;
-    _dateLabel.font = [UIFont systemFontOfSize:14];
+    _dateLabel.font = [UIFont systemFontOfSize:16];
     _dateLabel.textColor = [UIColor whiteColor];
     _dateLabel.text = @"2017.07.05";
     [self.contentView addSubview:_dateLabel];
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.font = [UIFont systemFontOfSize:14];
+    _timeLabel.font = [UIFont systemFontOfSize:16];
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.text = @"07:09";
     [self.contentView addSubview:_timeLabel];
     
     _travelLabel = [[UILabel alloc] init];
     _travelLabel.textAlignment = NSTextAlignmentCenter;
-    _travelLabel.font = [UIFont systemFontOfSize:14];
+    _travelLabel.font = [UIFont systemFontOfSize:16];
     _travelLabel.textColor = [UIColor whiteColor];
     _travelLabel.text = @"1公里";
     [self.contentView addSubview:_travelLabel];

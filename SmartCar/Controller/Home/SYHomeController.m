@@ -50,7 +50,6 @@
     
     [self requestCarLastPosition];
     [self requestCarTrip];
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -206,6 +205,7 @@
                 SYCurrentLocationController *locationController = [[SYCurrentLocationController alloc] init];
                 locationController.lat = _vePosition.lat;
                 locationController.lon = _vePosition.lon;
+                locationController.hidesBottomBarWhenPushed = YES;
                 [weakSelf.navigationController pushViewController:locationController animated:YES];
                 
             } else if (index == 1) {

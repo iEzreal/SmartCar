@@ -16,6 +16,7 @@
 		7720FDD51D2E087E00713986 /* SYUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD41D2E087E00713986 /* SYUtil.m */; };
 		7720FDD81D2E30A300713986 /* SYTravelReplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD71D2E30A300713986 /* SYTravelReplayController.m */; };
 		7720FDDB1D2E401600713986 /* SYTravelSportNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDDA1D2E401600713986 /* SYTravelSportNode.m */; };
+		777417401D3B2856006083B3 /* SYGeofence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774173F1D3B2856006083B3 /* SYGeofence.m */; };
 		7792934D1D2A807D006A7E5E /* SYLatestTravelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7792934C1D2A807D006A7E5E /* SYLatestTravelCell.m */; };
 		779293501D2A84E4006A7E5E /* SYLatestTravelHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7792934F1D2A84E4006A7E5E /* SYLatestTravelHeaderView.m */; };
 		779293531D2A9B4F006A7E5E /* SYHomeMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 779293521D2A9B4F006A7E5E /* SYHomeMenuCell.m */; };
@@ -113,6 +114,8 @@
 		7720FDD71D2E30A300713986 /* SYTravelReplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelReplayController.m; sourceTree = "<group>"; };
 		7720FDD91D2E401600713986 /* SYTravelSportNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYTravelSportNode.h; sourceTree = "<group>"; };
 		7720FDDA1D2E401600713986 /* SYTravelSportNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelSportNode.m; sourceTree = "<group>"; };
+		7774173E1D3B2856006083B3 /* SYGeofence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGeofence.h; sourceTree = "<group>"; };
+		7774173F1D3B2856006083B3 /* SYGeofence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGeofence.m; sourceTree = "<group>"; };
 		7792934B1D2A807D006A7E5E /* SYLatestTravelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYLatestTravelCell.h; sourceTree = "<group>"; };
 		7792934C1D2A807D006A7E5E /* SYLatestTravelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYLatestTravelCell.m; sourceTree = "<group>"; };
 		7792934E1D2A84E4006A7E5E /* SYLatestTravelHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYLatestTravelHeaderView.h; sourceTree = "<group>"; };
@@ -436,6 +439,8 @@
 				7794438D1D2BB1570064C8DB /* SYVehicle.m */,
 				7799AF361D2CA277006E332C /* SYVehiclePosition.h */,
 				7799AF371D2CA277006E332C /* SYVehiclePosition.m */,
+				7774173E1D3B2856006083B3 /* SYGeofence.h */,
+				7774173F1D3B2856006083B3 /* SYGeofence.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -761,6 +766,7 @@
 				A20896BA1D1ED3AB00A626FC /* SYHomeController.m in Sources */,
 				A20896721D1ECE2D00A626FC /* AppDelegate.m in Sources */,
 				77DF1B301D37645A00133615 /* SYTravelIInfoController.m in Sources */,
+				777417401D3B2856006083B3 /* SYGeofence.m in Sources */,
 				A208966F1D1ECE2D00A626FC /* main.m in Sources */,
 				77A67E1B1D2A60A300B071ED /* SYButton.m in Sources */,
 				7792935F1D2AC2DA006A7E5E /* UIImage+Color.m in Sources */,
