@@ -55,6 +55,7 @@
     _selectCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _selectCarBtn.backgroundColor = [UIColor redColor];
     [_selectCarBtn addTarget:self action:@selector(mileageClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _selectCarBtn.tag = 300;
     [self.view addSubview:_selectCarBtn];
     
     _mileageHintLabel = [[UILabel alloc] init];
@@ -71,6 +72,7 @@
     [_saveBtn setBackgroundImage:[UIImage imageNamed:@"btn_save_n"] forState:UIControlStateNormal];
     [_saveBtn setBackgroundImage:[UIImage imageNamed:@"btn_save_h"] forState:UIControlStateHighlighted];
     [_saveBtn addTarget:self action:@selector(mileageClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _saveBtn.tag = 301;
     [self.view addSubview:_saveBtn];
     
     [_mileageLogo mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,13 +130,39 @@
     
 }
 
+- (void)requestInitMileage {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
+    [parameters setObject:[NSNumber numberWithInt:[_mileageTF.text intValue]] forKey:@"Mileage"];
+    
+    [SVProgressHUD showWithStatus:@"正在提交数据..."];
+    [SYApiServer POST:METHOD_INIT_MILEAGE parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if ([[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
+             [SVProgressHUD showSuccessWithStatus:@"初始里程成功"];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"初始里程失败"];
+        }
+        
+    } failure:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"初始里程失败"];
+    }];
+}
+
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     [self.view endEditing:YES];
 }
 
 - (void)mileageClickAction:(UIButton *)sender{
-
+    if (sender.tag == 300) {
+        
+    } else {
+        [self requestInitMileage];
+    }
 }
 
 @end

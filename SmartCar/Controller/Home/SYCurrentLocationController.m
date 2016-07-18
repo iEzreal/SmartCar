@@ -179,9 +179,9 @@
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSString *termId = [SYAppManager sharedManager].vehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:carId forKey:@"CarId"];
+    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"CarId"];
     [parameters setObject:termId forKey:@"TermID"];
-    [parameters setObject:[NSNumber numberWithInteger:fenceNo] forKey:@"FencNo"];
+    [parameters setObject:[NSNumber numberWithInteger:fenceNo] forKey:@"FenceNo"];
     [parameters setObject:[NSNumber numberWithInteger:type] forKey:@"Type"];
     [parameters setObject:[NSNumber numberWithInteger:rad] forKey:@"Rad"];
     [parameters setObject:[NSNumber numberWithInteger:lat] forKey:@"Lat"];
@@ -196,6 +196,55 @@
         
     }];
 }
+
+/**
+ *  设置追踪模式
+ */
+- (void)setTrackJT {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"uCarId"];
+    [parameters setObject:termId forKey:@"szTermId"];
+    [parameters setObject:[NSNumber numberWithInteger:5] forKey:@"nInterval"];
+    [parameters setObject:[NSNumber numberWithInteger:15 * 24 * 60] forKey:@"nDealy"];
+    [parameters setObject:[NSNumber numberWithInt:5000] forKey:@"nTimeOut"];
+    
+    [SVProgressHUD showWithStatus:@"设置中..."];
+    [SYApiServer OBD_POST:METHOD_SET_TRACK_JT parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if ([[responseDic objectForKey:@"DoSetTrackJTResult"] integerValue] == 0) {
+            [SVProgressHUD showSuccessWithStatus:@"设置成功"];
+            // 请求车辆位置
+            [self requestCarLastPosition];
+            
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"设置失败"];
+        }
+    } failure:^(NSError *error) {
+         [SVProgressHUD showErrorWithStatus:@"设置失败"];
+    }];
+}
+
+/**
+ *  获取车辆最后位置信息
+ */
+- (void)requestCarLastPosition {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
+    
+    [SYApiServer POST:METHOD_GET_LAST_POSITION parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+       
+        
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+
 
 /**
  *  添加用户当前位置Annotation
@@ -299,6 +348,14 @@
         
         [self setCircleGeoFence:_currentFenceIndex + 1 type:1 rad:self.fenceCircle.radius lat:lat lon:lon];
 
+    }
+    
+    else if (sender.tag == 301) {
+    
+    }
+    
+    else if (sender.tag == 302) {
+        [self setTrackJT];
     }
 }
 
@@ -552,6 +609,8 @@
         stopBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [stopBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [stopBtn setTitle:@"停止" forState:UIControlStateNormal];
+        [stopBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+        stopBtn.tag = 301;
         [_trackMenuView addSubview:stopBtn];
         
         UIButton *traceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -561,6 +620,8 @@
                traceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [traceBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [traceBtn setTitle:@"追踪" forState:UIControlStateNormal];
+        [traceBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+        traceBtn.tag = 302;
         [_trackMenuView addSubview:traceBtn];
         
         [stopBtn mas_makeConstraints:^(MASConstraintMaker *make) {

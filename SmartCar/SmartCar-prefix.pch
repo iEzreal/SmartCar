@@ -41,6 +41,9 @@
 #define SCREEN_W [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_H [[UIScreen mainScreen] bounds].size.height
 
+//
+#define SCALE_W SCREEN_W / 320
+#define SCALE_H SCREEN_H / 480
 
 #define HOME_BG_COLOR @"5A6478"
 #define WeakSelf __weak typeof(self) weakSelf = self
@@ -51,6 +54,7 @@
 #define METHOD_LOGIN @"UserLogin"
 #define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
 #define METHOD_CHANGE_PASSWORD @"ChangePassword"
+#define METHOD_INIT_MILEAGE @"InitMileage"
 
 #define METHOD_GET_LAST_POSITION @"GetLastPosition"
 #define METHOD_GET_CAR_TRIP @"GetCarTrip"
@@ -62,6 +66,8 @@
 #define METHOD_GET_MINMAX_POSITION @"GetMinAndMaxTimePosition"
 #define METHOD_GET_CIRCLE_GEO_FENCE @"GetCircleGeoFence"
 #define METHOD_SET_CIRCLE_GEO_FENCE @"SetCircleGeoFence"
+#define METHOD_SET_TRACK_JT @"DoSetTrackJT"
+
 
 // OBD命令接口
 #define BASE_OBD_URL @"http://www.smartvehicleconnect.com:8080/AppCmdService/AppCmdService.svc"

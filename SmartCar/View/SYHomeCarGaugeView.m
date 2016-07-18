@@ -36,22 +36,22 @@
     }
     
     // 刷新View
-    UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 40)];
+    UIView *refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
     [self addSubview:refreshView];
     _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _refreshBtn.frame = CGRectMake(11, 11, 21, 18);
+    _refreshBtn.frame = CGRectMake(6, 6, 21, 18);
     [_refreshBtn setImage:[UIImage imageNamed:@"refrush"] forState:UIControlStateNormal];
     [_refreshBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchUpInside];
     [refreshView addSubview:_refreshBtn];
     _refreshTimeLabel = [[UILabel alloc] init];
-    _refreshTimeLabel.frame = CGRectMake(_refreshBtn.right + 5, 0, self.width - _refreshBtn.right - 10, 40);
+    _refreshTimeLabel.frame = CGRectMake(_refreshBtn.right + 5, 0, self.width - _refreshBtn.right - 10, 30);
     _refreshTimeLabel.font = [UIFont systemFontOfSize:16];
     _refreshTimeLabel.textColor = [UIColor whiteColor];
     _refreshTimeLabel.text = @"0000-00-00 00:00";
     [refreshView addSubview:_refreshTimeLabel];
     
     // 速度
-    _speedGaugeView = [[SYHomeSpeedGaugeView alloc] initWithFrame:CGRectMake(self.width / 2 - 80, 40, 160, 160)];
+    _speedGaugeView = [[SYHomeSpeedGaugeView alloc] initWithFrame:CGRectMake(self.width / 2 - 80, refreshView.bottom, 160, 160)];
     _speedGaugeView.text = @"0.0";
     [self addSubview:_speedGaugeView];
     
@@ -70,8 +70,9 @@
     _voltageGaugeView.text = @"0v";
     [self addSubview:_voltageGaugeView];
     
+    // 里程
     _mileageLabel = [[UILabel alloc] init];
-    _mileageLabel.frame = CGRectMake(0, _speedGaugeView.bottom, self.width, 40);
+    _mileageLabel.frame = CGRectMake(0, _speedGaugeView.bottom, self.width, 30);
     _mileageLabel.textAlignment = NSTextAlignmentCenter;
     _mileageLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
     _mileageLabel.textColor = [UIColor whiteColor];

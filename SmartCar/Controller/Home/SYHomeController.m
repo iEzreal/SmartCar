@@ -46,10 +46,14 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.locationBtn];
     
     _travelArray = [[NSMutableArray alloc] init];
-    [self.view addSubview:self.tableView];
     
-    [self requestCarLastPosition];
-    [self requestCarTrip];
+    [self.view addSubview:self.carGaugeView];
+    
+//    
+//    [self.view addSubview:self.tableView];
+//    
+//    [self requestCarLastPosition];
+//    [self requestCarTrip];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -300,7 +304,7 @@
 
 - (SYHomeCarGaugeView *)carGaugeView {
     if (!_carGaugeView) {
-        _carGaugeView = [[SYHomeCarGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 240)];
+        _carGaugeView = [[SYHomeCarGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 220)];
         _carGaugeView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
         WeakSelf;
         _carGaugeView.block = ^(){
