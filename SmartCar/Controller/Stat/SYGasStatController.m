@@ -117,14 +117,18 @@
     [SYApiServer POST:METHOD_GET_GAS_ADD parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        NSString *tableInfoStr = [responseDic objectForKey:@"GasAddInfo"];
-        NSDictionary *tableDic = [tableInfoStr objectFromJSONString];
-        NSArray *array = [tableDic objectForKey:@"TableInfo"];
-        
-        [_gaslArray removeAllObjects];
-        [_gaslArray addObjectsFromArray:array];
-        [_tableView reloadData];
-        [SVProgressHUD dismiss];
+        if (responseDic && [[responseDic objectForKey:@"GetGasAddResult"] integerValue] > 0) {
+            
+            NSString *tableInfoStr = [responseDic objectForKey:@"GasAddInfo"];
+            NSDictionary *tableDic = [tableInfoStr objectFromJSONString];
+            NSArray *array = [tableDic objectForKey:@"TableInfo"];
+            
+            [_gaslArray removeAllObjects];
+            [_gaslArray addObjectsFromArray:array];
+            [_tableView reloadData];
+
+        }
+    [SVProgressHUD dismiss];
 
     } failure:^(NSError *error) {
         [SVProgressHUD setMinimumDismissTimeInterval:2];

@@ -432,8 +432,8 @@
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay{
     if ([overlay isKindOfClass:[BMKCircle class]]){
         BMKCircleView* circleView = [[BMKCircleView alloc] initWithOverlay:overlay];
-        circleView.fillColor = [[UIColor cyanColor] colorWithAlphaComponent:0.5];
-        circleView.strokeColor = [[UIColor cyanColor] colorWithAlphaComponent:0.5];
+        circleView.fillColor = [[UIColor cyanColor] colorWithAlphaComponent:0.4];
+        circleView.strokeColor = [[UIColor cyanColor] colorWithAlphaComponent:0.4];
         circleView.lineWidth = 0;
         
         return circleView;

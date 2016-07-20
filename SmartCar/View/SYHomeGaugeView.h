@@ -1,5 +1,5 @@
 //
-//  SYHomeCarGaugeView.h
+//  SYHomeGaugeView.h
 //  SmartCar
 //
 //  Created by Ezreal on 16/7/4.
@@ -10,7 +10,7 @@
 
 typedef void(^RefreshBlock)();
 
-@interface SYHomeCarGaugeView : UIView
+@interface SYHomeGaugeView : UIView
 
 @property(nonatomic, copy) RefreshBlock block;
 

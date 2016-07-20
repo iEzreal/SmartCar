@@ -78,20 +78,27 @@
  */
 - (void)requestCarTrip {
     NSString *termID = [SYAppManager sharedManager].vehicle.termID;
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
+    NSString *endTime = [NSDate currentDate];
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:termID forKey:@"TermId"];
-    [parameters setObject:@"2016-06-20 00:00:00" forKey:@"sTime"];
-    [parameters setObject:@"2016-07-07 23:59:59" forKey:@"eTime"];
+    [parameters setObject:startTime forKey:@"sTime"];
+    [parameters setObject:endTime forKey:@"eTime"];
     
     [SVProgressHUD showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_CAR_TRIP parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
+        if (responseDic && [[responseDic objectForKey:@"GetCarTripResult"] integerValue] > 0) {
+            [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
+        }
         
         [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        
+         [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
     }];
 }
 
@@ -104,8 +111,6 @@
     }
     [_tableView reloadData];
 }
-
-
 
 - (void)setupPageSubviews {
     _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];

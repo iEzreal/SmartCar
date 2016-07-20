@@ -10,10 +10,12 @@
 
 @interface SYUtil : NSObject
 
++ (NSArray *)int2Binary:(int)intValue;
++ (NSString *)intToBinary:(int)intValue;
+
 + (NSString *)currentDate;
 + (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
-+ (NSString *)intToBinary:(int)intValue;
 + (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
 
 @end

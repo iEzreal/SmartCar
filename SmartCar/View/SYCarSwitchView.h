@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SYBaseCell.h"
 
 @class SYCarSwitchView;
 @protocol SYCarSwitchViewDelegate <NSObject>
@@ -27,7 +27,7 @@
 
 @end
 
-@interface  SYCarSwitchViewCell : UITableViewCell
+@interface  SYCarSwitchViewCell : SYBaseCell
 
 @property(nonatomic, strong) UILabel *contentLabel;
 

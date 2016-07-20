@@ -80,7 +80,7 @@
     [SYApiServer POST:METHOD_USER_INFO_UPDATE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"UserInfoUpdateResult"] integerValue] == 1) {
+        if (responseDic && [[responseDic objectForKey:@"UserInfoUpdateResult"] integerValue] == 1) {
             [SYAppManager sharedManager].user.userName = _userNameTF.text;
             [SYAppManager sharedManager].user.phone1 = _phoneTF.text;
             [SYAppManager sharedManager].user.email = _emailTF.text;

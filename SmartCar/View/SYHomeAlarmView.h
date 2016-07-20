@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^CheckAlarmBlock)();
+@protocol SYHomeAlarmViewDelegate <NSObject>
+
+- (void)moreAlarmAction;
+
+@end
 
 @interface SYHomeAlarmView : UIView
 
-@property(nonatomic, copy) CheckAlarmBlock block;
+@property(nonatomic, weak) id<SYHomeAlarmViewDelegate> delegate;
+@property(nonatomic, strong) NSArray *alarmArray;
 
 @end

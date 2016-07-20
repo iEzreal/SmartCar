@@ -115,7 +115,7 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         
-        if ([[responseDic objectForKey:@"GetGasAlarmResult"] integerValue] > 0) {
+        if (responseDic && [[responseDic objectForKey:@"GetGasAlarmResult"] integerValue] > 0) {
             NSString *tableInfoStr = [responseDic objectForKey:@"GasAlarmInfo"];
             NSDictionary *tableDic = [tableInfoStr objectFromJSONString];
             NSArray *array = [tableDic objectForKey:@"TableInfo"];

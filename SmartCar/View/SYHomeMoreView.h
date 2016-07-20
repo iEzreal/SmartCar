@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^MoreTraveBlock)();
+@protocol SYHomeMoreViewDelegate <NSObject>
 
-@interface SYLatestTravelHeaderView : UIView
+- (void)moreAction;
 
-@property(nonatomic, copy) MoreTraveBlock block;
+@end
+
+@interface SYHomeMoreView : UIView
+
+@property(nonatomic, weak) id <SYHomeMoreViewDelegate> delegate;
 
 @end

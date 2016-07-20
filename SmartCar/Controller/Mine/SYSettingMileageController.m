@@ -140,7 +140,7 @@
     [SYApiServer POST:METHOD_INIT_MILEAGE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
+        if (responseDic && [[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
              [SVProgressHUD showSuccessWithStatus:@"初始里程成功"];
         } else {
             [SVProgressHUD showErrorWithStatus:@"初始里程失败"];

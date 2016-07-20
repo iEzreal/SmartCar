@@ -49,14 +49,22 @@
     _progressLayer.strokeEnd = 0.0;
     [self.layer addSublayer:_progressLayer];
 
-    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    _imageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    _imageView = [[UIImageView alloc] init];
     _imageView.image = [UIImage imageNamed:@"oil_logo"];
     [self addSubview:_imageView];
     
     [self setPath];
     
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _trackLayer.frame = self.bounds;
+    _progressLayer.frame = self.bounds;
+    _imageView.frame = CGRectMake(0, 0, 20, 20);
+    _imageView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    [self setPath];
 }
 
 - (void)setPath{

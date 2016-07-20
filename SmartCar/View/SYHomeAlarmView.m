@@ -7,13 +7,13 @@
 //
 
 #import "SYHomeAlarmView.h"
+#import "SYHomeMoreView.h"
 
-@interface SYHomeAlarmView ()
+@interface SYHomeAlarmView () <SYHomeMoreViewDelegate>
 
-@property(nonatomic, strong) UIImageView *iconImgView;
-@property(nonatomic, strong) UILabel *titleLabel;
-@property(nonatomic, strong) UIButton *moreButton;
+@property(nonatomic, strong) SYHomeMoreView *moreView;
 @property(nonatomic, strong) UILabel *alarmLabel;
+
 
 @end
 
@@ -24,50 +24,21 @@
         return nil;
     }
     
-    _iconImgView = [[UIImageView alloc] init];
-    _iconImgView.image = [UIImage imageNamed:@"icon_alarm"];
-    [self addSubview:_iconImgView];
-    
-    _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.font = [UIFont systemFontOfSize:14];
-    _titleLabel.text = @"报警";
-    [self addSubview:_titleLabel];
-    
-    _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _moreButton.backgroundColor = [UIColor colorWithHexString:@"4EB8CD"];
-    _moreButton.titleLabel.font = [UIFont systemFontOfSize:13];
-    [_moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
-    [_moreButton addTarget:self action:@selector(checkAlarmAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:_moreButton];
+    _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
+    _moreView.delegate = self;
+    [self addSubview:_moreView];
     
     _alarmLabel = [[UILabel alloc] init];
+    _alarmLabel.textAlignment = NSTextAlignmentCenter;
     _alarmLabel.numberOfLines = 0;
     _alarmLabel.textColor = [UIColor whiteColor];
-    _alarmLabel.font = [UIFont systemFontOfSize:14];
-    _alarmLabel.text = @"aoiffioshfsoikkkkkkkkdfhsodifhodf";
+    _alarmLabel.font = [UIFont systemFontOfSize:15];
     [self addSubview:_alarmLabel];
-    
-    [_iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self).offset(5);
-    }];
-    
-    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_iconImgView.mas_right).offset(5);
-        make.centerY.equalTo(_iconImgView);
-    }];
-    
-    [_moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self).offset(-5);
-        make.centerY.equalTo(_iconImgView);
-        make.width.equalTo(@65);
-    }];
-    
     [_alarmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_moreButton.mas_bottom).offset(5);
+        make.top.equalTo(_moreView.mas_bottom);
         make.left.equalTo(self).offset(5);
         make.right.equalTo(self).offset(-5);
+        make.bottom.equalTo(self).offset(-5);
     }];
 
     
@@ -75,10 +46,48 @@
 
 }
 
-- (void)checkAlarmAction:(UIButton *)sender {
-    if (_block) {
-        _block();
+- (void)moreAction {
+    if ([self.delegate respondsToSelector:@selector(moreAlarmAction)]) {
+        [self.delegate moreAlarmAction];
     }
+}
+
+- (void)setAlarmArray:(NSArray *)alarmArray {
+    NSInteger count = alarmArray.count;
+    if (count > 4) {
+        count = 4;
+    }
+    
+    NSString *alarmStr = @"";
+    for (int i = 0; i < count; i++) {
+        @autoreleasepool {
+            NSString *time = [alarmArray[i] objectForKey:@"gpstime"];
+            NSString *statuStr = [alarmArray[i] objectForKey:@"AlarmStatu"];;
+            NSArray *statuArray = [SYUtil int2Binary:[statuStr intValue]];
+            NSString *alarmDesc = @"";
+            // 超速报警(第6个bit)
+            if ([statuArray[5] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"超速报警"];
+            }
+            
+            // 进入电子围栏报警 9
+            if ([statuArray[8] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"进入电子围栏"];
+            }
+            
+            // 越出电子围栏报警 10
+            if ([statuArray[9] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"越出电子围栏"];
+            }
+            if ([alarmStr isEqualToString:@""]) {
+                alarmStr = [NSString stringWithFormat:@"%@%@",time, alarmDesc];
+            } else {
+                alarmStr = [NSString stringWithFormat:@"%@\n%@%@",alarmStr, time, alarmDesc];
+            }
+        }
+    }
+    
+    _alarmLabel.text = alarmStr;
 }
 
 @end

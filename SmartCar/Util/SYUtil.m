@@ -10,6 +10,19 @@
 
 @implementation SYUtil
 
++ (NSArray *)int2Binary:(int)intValue {
+    int byteBlock = 8;
+    int binaryDigit = (sizeof(int)) * byteBlock; // Total bits
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:binaryDigit];
+    while (binaryDigit-- > 0) {
+        [array addObject:[NSNumber numberWithInt:(intValue & 1) ? 1 : 0]];
+        intValue >>= 1;
+    }
+    return [[array reverseObjectEnumerator] allObjects];
+}
+
+
+
 + (NSString *)intToBinary:(int)intValue{
     int byteBlock = 8;
     int totalBits = (sizeof(int)) * byteBlock; // Total bits

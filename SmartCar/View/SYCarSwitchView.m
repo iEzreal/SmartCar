@@ -40,6 +40,8 @@
     [self addSubview:_contentView];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.width, CONTENT_H) style:UITableViewStylePlain];
+    _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.bounces = NO;
     _tableView.dataSource = self;
@@ -62,6 +64,7 @@
     SYCarSwitchViewCell  *carSwitchCell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!carSwitchCell) {
         carSwitchCell = [[SYCarSwitchViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        carSwitchCell.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
     }
     
     carSwitchCell.contentLabel.text = _sourceArray[indexPath.row];

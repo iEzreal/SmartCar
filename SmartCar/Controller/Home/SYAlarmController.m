@@ -41,28 +41,35 @@
 }
 
 
-#pragma mark - 请求车辆行程信息
+#pragma mark - 请求警告信息
 - (void)requestAlarmInfo {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
+    NSString *endTime = [NSDate currentDate];
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
-    [parameters setObject:@"2016-07-01 00:00:00" forKey:@"StartTime"];
-    [parameters setObject:@"2016-07-07 23:59:59" forKey:@"EndTime"];
+    [parameters setObject:startTime forKey:@"StartTime"];
+    [parameters setObject:endTime forKey:@"EndTime"];
     [parameters setObject:[NSNumber numberWithInt:0x7FFFFFFF] forKey:@"mask"];
 
     [SVProgressHUD showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_ALARM_INFO parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        NSString *alarmStr = [responseDic objectForKey:@"AlarmInfo"];
-        NSDictionary *alarmDic = [alarmStr objectFromJSONString];
-        NSArray *alarmArray = [alarmDic objectForKey:@"TableInfo"];
-        for (int i = 0; i < alarmArray.count; i++){
-            SYAlarm *alarm = [[SYAlarm alloc] initWithDic:alarmArray[i]];
-            [_alarmArray addObject:alarm];
+        if (responseDic && [[responseDic objectForKey:@"GetAlarmInfoResult"] integerValue] > 0) {
+            NSString *alarmStr = [responseDic objectForKey:@"AlarmInfo"];
+            NSDictionary *alarmDic = [alarmStr objectFromJSONString];
+            NSArray *alarmArray = [alarmDic objectForKey:@"TableInfo"];
+            for (int i = 0; i < alarmArray.count; i++){
+                SYAlarm *alarm = [[SYAlarm alloc] initWithDic:alarmArray[i]];
+                [_alarmArray addObject:alarm];
+            }
+            [_tableView reloadData];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"没有数据"];
         }
         
-        [_tableView reloadData];
         [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"加载失败"];
@@ -91,7 +98,7 @@
     return alarmCell;
 }
 
-#pragma mark - 页面View
+#pragma mark - 页面UI
 - (void)setupPageSubviews {
     _typeLabel = [[UILabel alloc] init];
     _typeLabel.textAlignment = NSTextAlignmentCenter;

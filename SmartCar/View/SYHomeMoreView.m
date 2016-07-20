@@ -6,9 +6,9 @@
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
-#import "SYLatestTravelHeaderView.h"
+#import "SYHomeMoreView.h"
 
-@interface SYLatestTravelHeaderView ()
+@interface SYHomeMoreView ()
 
 @property(nonatomic, strong) UIImageView *iconImgView;
 @property(nonatomic, strong) UILabel *titleLabel;
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation SYLatestTravelHeaderView
+@implementation SYHomeMoreView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (!(self = [super initWithFrame:frame])) {
@@ -34,10 +34,9 @@
     [self addSubview:_titleLabel];
     
     _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _moreButton.backgroundColor = [UIColor colorWithHexString:@"22C064"];
     _moreButton.titleLabel.font = [UIFont systemFontOfSize:13];
     [_moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
+    [_moreButton setTitle:@"更多" forState:UIControlStateNormal];
     [_moreButton addTarget:self action:@selector(moreTravelAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_moreButton];
     
@@ -54,7 +53,6 @@
     [_moreButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-5);
         make.centerY.equalTo(self);
-        make.width.equalTo(@65);
     }];
     
     
@@ -62,8 +60,8 @@
 }
 
 - (void)moreTravelAction:(UIButton *)sender {
-    if (self.block) {
-        self.block();
+    if ([self.delegate respondsToSelector:@selector(moreAction)]) {
+        [self.delegate moreAction];
     }
 }
 

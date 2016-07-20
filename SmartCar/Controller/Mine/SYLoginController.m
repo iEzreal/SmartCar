@@ -87,14 +87,18 @@
     [SYApiServer login:dic success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        
-        [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
-        [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
-        
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        delegate.window.rootViewController = [[SYRootController alloc] init];
-        [SVProgressHUD dismiss];
-        
+        if (responseDic && [[responseDic objectForKey:@"UserLoginResult"] integerValue] == 1) {
+            [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
+            [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
+            
+            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            delegate.window.rootViewController = [[SYRootController alloc] init];
+            [SVProgressHUD dismiss];
+            
+        } else {
+            [SVProgressHUD setMinimumDismissTimeInterval:2];
+            [SVProgressHUD showErrorWithStatus:@"登陆失败"];
+        }
     } failure:^(NSError *error) {
         [SVProgressHUD setMinimumDismissTimeInterval:2];
         [SVProgressHUD showErrorWithStatus:@"登陆失败"];
