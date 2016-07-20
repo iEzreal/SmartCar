@@ -22,7 +22,7 @@
 #import "SYVehiclePosition.h"
 #import "SYTravel.h"
 
-@interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, SYHomePhysicalViewDelegate, BMKMapViewDelegate>
+@interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, SYHomePhysicalViewDelegate, BMKMapViewDelegate>
 
 @property(nonatomic, strong) SYButton *navTitleBtn;
 @property(nonatomic, strong) SYButton *locationBtn;
@@ -88,11 +88,13 @@
     [SYApiServer POST:METHOD_GET_LAST_POSITION parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"GetLastPositionResult"] integerValue] == 1) {
+        if (responseDic && [[responseDic objectForKey:@"GetLastPositionResult"] integerValue] == 1) {
             [self parseVehickePositionWithJsonString:[responseDic objectForKey:@"PositionInfo"]];
         }
+        
+        [_gaugeView endRefresh];
     } failure:^(NSError *error) {
-    
+        [_gaugeView endRefresh];
     }];
 }
 /**
@@ -243,6 +245,10 @@
     
 }
 
+- (void)refreshPositionAction {
+    [self requestCarLastPosition];
+}
+
 - (void)moreTraveAction {
     SYTravelController *travelController = [[SYTravelController alloc] init];
     travelController.hidesBottomBarWhenPushed = YES;
@@ -289,6 +295,7 @@
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
     _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 190)];
+    _gaugeView.delegate = self;
     [self.view addSubview:_gaugeView];
     
     _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 140)];

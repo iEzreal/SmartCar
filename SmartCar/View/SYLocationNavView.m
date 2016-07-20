@@ -25,7 +25,8 @@
     
     _locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
-    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"4EB7CD"]] forState:UIControlStateSelected];
+    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
+    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
     [_locationBtn setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
     _locationBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -37,6 +38,7 @@
     
     _fenceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
+    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
     [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
     [_fenceBtn setImage:[UIImage imageNamed:@"fence"] forState:UIControlStateNormal];
     _fenceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -48,6 +50,7 @@
     
     _trackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
+    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
     [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
     [_trackBtn setImage:[UIImage imageNamed:@"track"] forState:UIControlStateNormal];
     _trackBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -86,7 +89,7 @@
         _locationBtn.selected = NO;
         _fenceBtn.selected = YES;
         _trackBtn.selected = NO;
-    
+        
     } else {
         _locationBtn.selected = NO;
         _fenceBtn.selected = NO;

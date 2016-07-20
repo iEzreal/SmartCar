@@ -16,6 +16,9 @@
 
 @interface SYHomeMoreView : UIView
 
+@property(nonatomic, strong) NSString *title;
+@property(nonatomic, strong) UIImage *image;
+
 @property(nonatomic, weak) id <SYHomeMoreViewDelegate> delegate;
 
 @end

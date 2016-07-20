@@ -30,9 +30,13 @@
 @property(nonatomic, strong) NSMutableArray *fenceArray;
 @property(nonatomic, assign) NSInteger currentFenceIndex;
 
+@property(nonatomic, strong) NSTimer *timer;
+
 @property(nonatomic, strong) BMKPointAnnotation *locationAnnotation;
 @property(nonatomic, strong) BMKPointAnnotation *fenceAnnotation;
 @property(nonatomic, strong) BMKCircle *fenceCircle;
+
+@property(nonatomic, strong) BMKPointAnnotation *trackAnnotation;
 
 @end
 
@@ -197,27 +201,26 @@
     }];
 }
 
-/**
- *  设置追踪模式
- */
+/* *******************************************************************************/
+/*                                 设置追踪模式                                    */
+/* *******************************************************************************/
 - (void)setTrackJT {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSString *termId = [SYAppManager sharedManager].vehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"uCarId"];
+    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
     [parameters setObject:termId forKey:@"szTermId"];
     [parameters setObject:[NSNumber numberWithInteger:5] forKey:@"nInterval"];
     [parameters setObject:[NSNumber numberWithInteger:15 * 24 * 60] forKey:@"nDealy"];
-    [parameters setObject:[NSNumber numberWithInt:5000] forKey:@"nTimeOut"];
+    [parameters setObject:[NSNumber numberWithInteger:5000] forKey:@"nTimeOut"];
     
     [SVProgressHUD showWithStatus:@"设置中..."];
     [SYApiServer OBD_POST:METHOD_SET_TRACK_JT parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"DoSetTrackJTResult"] integerValue] == 0) {
+        if (responseDic && [[responseDic objectForKey:@"DoSetTrackJTResult"] integerValue] == 0) {
             [SVProgressHUD showSuccessWithStatus:@"设置成功"];
-            // 请求车辆位置
-            [self requestCarLastPosition];
+            [self startTrack];
             
         } else {
             [SVProgressHUD showErrorWithStatus:@"设置失败"];
@@ -227,9 +230,12 @@
     }];
 }
 
-/**
- *  获取车辆最后位置信息
- */
+- (void)startTrack {
+    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(requestCarLastPosition) userInfo:nil repeats:YES];
+    [_timer fire];
+}
+
+// 获取车辆最后位置信息
 - (void)requestCarLastPosition {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
@@ -238,17 +244,36 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
        
+//        NSDictionary *positionDic = [jsonString objectFromJSONString];
+//        NSArray *tableArray = [positionDic objectForKey:@"TableInfo"];
+//        NSDictionary *dic = tableArray[0];
+        
+        if (!_trackAnnotation) {
+            _trackAnnotation = [[BMKPointAnnotation alloc]init];
+            
+        }
+//        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([_vePosition.lat doubleValue], [_vePosition.lon doubleValue]);
+//        NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
+//        CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
+//        
+//        _locationAnnotation.coordinate = baiduCoor;
+//        [_mapView addAnnotation:_locationAnnotation];
+//        _mapView.centerCoordinate = baiduCoor;
+
         
     } failure:^(NSError *error) {
         
     }];
 }
 
+- (void)stopTrack {
+    [_timer invalidate];
+}
 
+/* *******************************************************************************/
+/*                            设置用户当前位置Annotation                            */
+/* *******************************************************************************/
 
-/**
- *  添加用户当前位置Annotation
- */
 - (void)addLocationAnnotation {
     CLLocationDegrees lat = [_lat doubleValue];
     CLLocationDegrees lon = [_lon doubleValue];
@@ -350,10 +375,12 @@
 
     }
     
+    // 停止跟踪
     else if (sender.tag == 301) {
-    
+        [self stopTrack];
     }
     
+    // 实时跟踪
     else if (sender.tag == 302) {
         [self setTrackJT];
     }
@@ -405,6 +432,8 @@
         self.trackMenuView.hidden = YES;
         
         [_mapView addAnnotation:self.locationAnnotation];
+        _mapView.centerCoordinate = self.locationAnnotation.coordinate;
+        
         [_mapView removeAnnotation:self.fenceAnnotation];
         [_mapView removeOverlay:self.fenceCircle];
         
@@ -421,6 +450,7 @@
         self.locationLabel.hidden = YES;
         self.fenceMenuView.hidden = YES;
         self.trackMenuView.hidden = NO;
+        
     }
 }
 

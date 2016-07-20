@@ -8,11 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^RefreshBlock)();
+@protocol SYHomeGaugeViewDelegate <NSObject>
+
+- (void)refreshPositionAction;
+
+@end
 
 @interface SYHomeGaugeView : UIView
 
-@property(nonatomic, copy) RefreshBlock block;
+@property(nonatomic, weak) id <SYHomeGaugeViewDelegate> delegate;
 
 @property(nonatomic, strong) NSString *refreshTimeText;
 @property(nonatomic, strong) NSString *oilText;

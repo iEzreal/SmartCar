@@ -191,10 +191,10 @@
 
 - (void)refreshAction:(UIButton *)sender {
     if (!_isRefreshing) {
-        if (_block) {
+        if ([self.delegate respondsToSelector:@selector(refreshPositionAction)]) {
             _isRefreshing = true;
             [self startRefresh];
-            _block();
+            [self.delegate refreshPositionAction];
         }
     }
 }

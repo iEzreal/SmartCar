@@ -59,6 +59,16 @@
     return self;
 }
 
+- (void)setTitle:(NSString *)title {
+    _title = title;
+    _titleLabel.text = title;
+}
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    _iconImgView.image = image;
+}
+
 - (void)moreTravelAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(moreAction)]) {
         [self.delegate moreAction];

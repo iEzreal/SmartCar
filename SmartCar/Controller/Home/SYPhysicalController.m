@@ -97,10 +97,11 @@
 - (void)requestDTC {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"uCarId"];
     [parameters setObject:termId forKey:@"szTermId"];
-    [parameters setObject:[NSNumber numberWithInteger:3000] forKey:@"nTimeOut"];
+    [parameters setObject:[NSNumber numberWithInt:8000] forKey:@"nTimeOut"];
     
     [SVProgressHUD showWithStatus:@"正在加载..."];
     [SYApiServer OBD_POST:METHOD_GET_DTC_CODE parameters:parameters success:^(id responseObject) {

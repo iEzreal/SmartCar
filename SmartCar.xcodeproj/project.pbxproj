@@ -17,6 +17,8 @@
 		7720FDD81D2E30A300713986 /* SYTravelReplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD71D2E30A300713986 /* SYTravelReplayController.m */; };
 		7720FDDB1D2E401600713986 /* SYTravelSportNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDDA1D2E401600713986 /* SYTravelSportNode.m */; };
 		777417401D3B2856006083B3 /* SYGeofence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774173F1D3B2856006083B3 /* SYGeofence.m */; };
+		778768A41D3F665F006EAA50 /* SYAlarmStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778768A31D3F665F006EAA50 /* SYAlarmStatController.m */; };
+		778768A71D3F68CB006EAA50 /* SYAlarmStatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 778768A61D3F68CB006EAA50 /* SYAlarmStatCell.m */; };
 		779293501D2A84E4006A7E5E /* SYHomeMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7792934F1D2A84E4006A7E5E /* SYHomeMoreView.m */; };
 		779293591D2AABEB006A7E5E /* SYHomeAlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = 779293581D2AABEB006A7E5E /* SYHomeAlarmView.m */; };
 		7792935C1D2AAE72006A7E5E /* SYHomePhysicalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7792935B1D2AAE72006A7E5E /* SYHomePhysicalView.m */; };
@@ -111,6 +113,10 @@
 		7720FDDA1D2E401600713986 /* SYTravelSportNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelSportNode.m; sourceTree = "<group>"; };
 		7774173E1D3B2856006083B3 /* SYGeofence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGeofence.h; sourceTree = "<group>"; };
 		7774173F1D3B2856006083B3 /* SYGeofence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGeofence.m; sourceTree = "<group>"; };
+		778768A21D3F665F006EAA50 /* SYAlarmStatController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlarmStatController.h; sourceTree = "<group>"; };
+		778768A31D3F665F006EAA50 /* SYAlarmStatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlarmStatController.m; sourceTree = "<group>"; };
+		778768A51D3F68CB006EAA50 /* SYAlarmStatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlarmStatCell.h; sourceTree = "<group>"; };
+		778768A61D3F68CB006EAA50 /* SYAlarmStatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlarmStatCell.m; sourceTree = "<group>"; };
 		7792934E1D2A84E4006A7E5E /* SYHomeMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYHomeMoreView.h; sourceTree = "<group>"; };
 		7792934F1D2A84E4006A7E5E /* SYHomeMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYHomeMoreView.m; sourceTree = "<group>"; };
 		779293571D2AABEB006A7E5E /* SYHomeAlarmView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYHomeAlarmView.h; sourceTree = "<group>"; };
@@ -263,6 +269,8 @@
 			children = (
 				77EE9A211D2F6FD70076968D /* SYAlarmCell.h */,
 				77EE9A221D2F6FD70076968D /* SYAlarmCell.m */,
+				778768A51D3F68CB006EAA50 /* SYAlarmStatCell.h */,
+				778768A61D3F68CB006EAA50 /* SYAlarmStatCell.m */,
 				7720FDD01D2E00D300713986 /* SYBaseCell.h */,
 				7720FDD11D2E00D300713986 /* SYBaseCell.m */,
 				77DBDD751D361960009EEDD4 /* SYGasStatCell.h */,
@@ -507,6 +515,8 @@
 		A20896BF1D1ED81D00A626FC /* Stat */ = {
 			isa = PBXGroup;
 			children = (
+				778768A21D3F665F006EAA50 /* SYAlarmStatController.h */,
+				778768A31D3F665F006EAA50 /* SYAlarmStatController.m */,
 				77DBDD6F1D36143F009EEDD4 /* SYGasStatController.h */,
 				77DBDD701D36143F009EEDD4 /* SYGasStatController.m */,
 				77BF91FA1D369B6300132C61 /* SYGasStatDetailsController.h */,
@@ -738,6 +748,7 @@
 				A20896721D1ECE2D00A626FC /* AppDelegate.m in Sources */,
 				77DF1B301D37645A00133615 /* SYTravelIInfoController.m in Sources */,
 				777417401D3B2856006083B3 /* SYGeofence.m in Sources */,
+				778768A71D3F68CB006EAA50 /* SYAlarmStatCell.m in Sources */,
 				A208966F1D1ECE2D00A626FC /* main.m in Sources */,
 				77A67E1B1D2A60A300B071ED /* SYButton.m in Sources */,
 				7792935F1D2AC2DA006A7E5E /* UIImage+Color.m in Sources */,
@@ -747,6 +758,7 @@
 				77DF1B2A1D372CFA00133615 /* UIView+Border.m in Sources */,
 				77113B461D34E4C700E30577 /* SYCurrentLocationController.m in Sources */,
 				7794437F1D2B75A70064C8DB /* SYCarPhysicalController.m in Sources */,
+				778768A41D3F665F006EAA50 /* SYAlarmStatController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

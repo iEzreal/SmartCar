@@ -25,6 +25,8 @@
     }
     
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
+    _moreView.title = @"报警信息";
+    _moreView.image = [UIImage imageNamed:@"icon_alarm"];
     _moreView.delegate = self;
     [self addSubview:_moreView];
     

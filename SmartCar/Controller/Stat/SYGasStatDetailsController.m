@@ -45,11 +45,15 @@
     
     double lat = [[_gasDic objectForKey:@"lat"] doubleValue];
     double lon = [[_gasDic objectForKey:@"lon"] doubleValue];
-    
-    _mapView.centerCoordinate = CLLocationCoordinate2DMake(lat, lon);
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(lat, lon);
+    NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
+    CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
+   
     BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
-    annotation.coordinate = CLLocationCoordinate2DMake(lat, lon);
+    annotation.coordinate = baiduCoor;
+    _mapView.centerCoordinate = baiduCoor;
     [_mapView addAnnotation:annotation];
+    
     
     [self reverseGeocodeWithLat:lat lon:lon];
 }
@@ -144,7 +148,7 @@
     // 地图
     _mapView = [[BMKMapView alloc]init];
     _mapView.delegate = self;
-    _mapView.zoomLevel = 13;
+    _mapView.zoomLevel = 19;
     [self.view addSubview:_mapView];
 
 }

@@ -24,6 +24,9 @@
     }
     
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
+    _moreView.title = @"车辆体检";
+    _moreView.image = [UIImage imageNamed:@"icon_physical"];
+
     _moreView.delegate = self;
     [self addSubview:_moreView];
     

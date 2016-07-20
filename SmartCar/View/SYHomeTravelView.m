@@ -28,6 +28,8 @@
         return nil;
     }
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
+    _moreView.title = @"近期行程";
+    _moreView.image = [UIImage imageNamed:@"icon_travel"];
     _moreView.delegate = self;
     [self addSubview:_moreView];
     

@@ -67,12 +67,12 @@
 #define METHOD_GET_MINMAX_POSITION @"GetMinAndMaxTimePosition"
 #define METHOD_GET_CIRCLE_GEO_FENCE @"GetCircleGeoFence"
 #define METHOD_SET_CIRCLE_GEO_FENCE @"SetCircleGeoFence"
-#define METHOD_SET_TRACK_JT @"DoSetTrackJT"
-
 
 // OBD命令接口
 #define BASE_OBD_URL @"http://www.smartvehicleconnect.com:8080/AppCmdService/AppCmdService.svc"
 #define METHOD_GET_DTC_CODE @"GetDtcCode"
+#define METHOD_SET_TRACK_JT @"DoSetTrackJT"
+
 
 
 #endif /* smartcar_pch */

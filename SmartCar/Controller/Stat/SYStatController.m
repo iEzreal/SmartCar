@@ -7,7 +7,7 @@
 //
 
 #import "SYStatController.h"
-#import "SYAlarmController.h"
+#import "SYAlarmStatController.h"
 #import "SYGasStatController.h"
 #import "SYOilExceptionController.h"
 #import "SYTravelIInfoController.h"
@@ -38,7 +38,7 @@
 - (IBAction)statButtonAction:(id)sender {
     NSInteger tag = ((UIButton *)sender).tag;
     if (tag == 201) {
-        SYAlarmController *alarmController = [[SYAlarmController alloc] init];
+        SYAlarmStatController *alarmController = [[SYAlarmStatController alloc] init];
         [self.navigationController pushViewController:alarmController animated:YES];
     } else if (tag == 202) {
         SYGasStatController *gasStatController = [[SYGasStatController alloc] init];
