@@ -105,7 +105,6 @@
 
 #pragma mark - 私有方法
 - (void)setupFenceData {
-    
     _currentFenceIndex = -1;
     
     _fenceTypeArray = @[@"电子围栏1", @"电子围栏2",
@@ -124,9 +123,9 @@
     [_fenceArray addObject:fence5];
 }
 
-/**
- *  获取地理围栏
- */
+/* *******************************************************************************/
+/*                                 获取地理围栏                                    */
+/* *******************************************************************************/
 - (void)getCircleGeoFence {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -170,15 +169,67 @@
     }];
 }
 
-/**
- *  设置电子围栏
- *
- *  @param fenceNo
- *  @param type
- *  @param rad
- *  @param lat
- *  @param lon
- */
+/* *******************************************************************************/
+/*                                 添加电子围栏命令                               */
+/* *******************************************************************************/
+- (void)setElectronicFence:(NSInteger)fencid radius:(NSInteger)radius lat:(NSInteger)lat lon:(NSInteger)lon {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
+    [parameters setObject:termId forKey:@"szTermId"];
+    [parameters setObject:[NSNumber numberWithInteger:fencid] forKey:@"fencid"];
+    [parameters setObject:[NSNumber numberWithInteger:1] forKey:@"cmdtype"];
+    [parameters setObject:[NSNumber numberWithInteger:radius] forKey:@"radius"];
+    [parameters setObject:[NSNumber numberWithInteger:lat] forKey:@"lat"];
+    [parameters setObject:[NSNumber numberWithInteger:lon] forKey:@"lon"];
+    [parameters setObject:[NSNumber numberWithInteger:5000] forKey:@"nTimeOut"];
+    
+    [SYUtil showWithStatus:@"正在设置电子围栏..."];
+    [SYApiServer OBD_POST:METHOD_SET_ELECTRONIC_FENCE parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic && [[responseDic objectForKey:@"SetElectronicFenceResult"] integerValue] == 0) {
+            [self setCircleGeoFence:fencid type:1 rad:radius lat:lat lon:lon];
+        } else {
+            [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
+        }
+    } failure:^(NSError *error) {
+         [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
+    }];
+}
+
+/* *******************************************************************************/
+/*                                   删除电子围栏命令                               */
+/* *******************************************************************************/
+- (void)delElectronicFence:(NSInteger)fencid radius:(NSInteger)radius lat:(NSInteger)lat lon:(NSInteger)lon{
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
+    [parameters setObject:termId forKey:@"szTermId"];
+    [parameters setObject:[NSNumber numberWithInteger:fencid] forKey:@"fencid"];
+    [parameters setObject:[NSNumber numberWithInteger:5000] forKey:@"nTimeOut"];
+    
+    [SYUtil showWithStatus:@"正在设置电子围栏..."];
+    [SYApiServer OBD_POST:METHOD_DEL_ELECTRONIC_FENCE parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic && [[responseDic objectForKey:@"DelElectronicFenceResult"] integerValue] == 0) {
+            [self setCircleGeoFence:fencid type:2 rad:radius lat:lat lon:lon];
+        } else {
+            [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
+        }
+        [self setCircleGeoFence:fencid type:2 rad:radius lat:lat lon:lon];
+    } failure:^(NSError *error) {
+        [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
+    }];
+
+}
+
+/* *******************************************************************************/
+/*                               设置数据库电子围栏信息                              */
+/* *******************************************************************************/
 - (void)setCircleGeoFence:(NSInteger)fenceNo type:(NSInteger)type rad:(NSInteger)rad lat:(NSInteger)lat lon:(NSInteger)lon {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSString *termId = [SYAppManager sharedManager].vehicle.termID;
@@ -194,10 +245,13 @@
     [SYApiServer POST:METHOD_SET_CIRCLE_GEO_FENCE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-       
-        
+        if (responseDic && [[responseDic objectForKey:@"SetCircleGeoFenceResult"] integerValue] == 1) {
+            [SYUtil showErrorWithStatus:@"电子围栏设置成功" duration:2];
+        } else {
+            [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
+        }
     } failure:^(NSError *error) {
-        
+        [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
     }];
 }
 
@@ -214,19 +268,18 @@
     [parameters setObject:[NSNumber numberWithInteger:15 * 24 * 60] forKey:@"nDealy"];
     [parameters setObject:[NSNumber numberWithInteger:5000] forKey:@"nTimeOut"];
     
-    [SVProgressHUD showWithStatus:@"设置中..."];
+    [SYUtil showWithStatus:@"设置追踪中..."];
     [SYApiServer OBD_POST:METHOD_SET_TRACK_JT parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"DoSetTrackJTResult"] integerValue] == 0) {
-            [SVProgressHUD showSuccessWithStatus:@"设置成功"];
             [self startTrack];
             
         } else {
-            [SVProgressHUD showErrorWithStatus:@"设置失败"];
+            [SYUtil showErrorWithStatus:@"设置失败" duration:2];
         }
     } failure:^(NSError *error) {
-         [SVProgressHUD showErrorWithStatus:@"设置失败"];
+         [SYUtil showErrorWithStatus:@"设置失败" duration:2];
     }];
 }
 
@@ -235,7 +288,13 @@
     [_timer fire];
 }
 
-// 获取车辆最后位置信息
+- (void)stopTrack {
+    [_timer invalidate];
+}
+
+/* *******************************************************************************/
+/*                               获取车辆最后位置信息                               */
+/* *******************************************************************************/
 - (void)requestCarLastPosition {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
@@ -243,31 +302,21 @@
     [SYApiServer POST:METHOD_GET_LAST_POSITION parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-       
-//        NSDictionary *positionDic = [jsonString objectFromJSONString];
-//        NSArray *tableArray = [positionDic objectForKey:@"TableInfo"];
-//        NSDictionary *dic = tableArray[0];
-        
-        if (!_trackAnnotation) {
-            _trackAnnotation = [[BMKPointAnnotation alloc]init];
+        if (responseDic && [[responseDic objectForKey:@"GetLastPositionResult"] integerValue] == 1) {
+            NSArray *tableArray = [responseDic objectForKey:@"TableInfo"];
+            NSDictionary *dic = tableArray[0];
+            CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(0, 0);
+            NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
+            CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
             
+            _trackAnnotation.coordinate = baiduCoor;
+            _mapView.centerCoordinate = baiduCoor;
+            [_mapView addAnnotation:_locationAnnotation];
         }
-//        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([_vePosition.lat doubleValue], [_vePosition.lon doubleValue]);
-//        NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
-//        CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
-//        
-//        _locationAnnotation.coordinate = baiduCoor;
-//        [_mapView addAnnotation:_locationAnnotation];
-//        _mapView.centerCoordinate = baiduCoor;
-
         
     } failure:^(NSError *error) {
         
     }];
-}
-
-- (void)stopTrack {
-    [_timer invalidate];
 }
 
 /* *******************************************************************************/
@@ -314,11 +363,9 @@
     }];
 }
 
-/**
- *  添加地理围栏
- *
- *  @param num 围栏序号
- */
+/* *******************************************************************************/
+/*                                   添加地理围栏                                  */
+/* *******************************************************************************/
 - (void)addGeofenceWithNum:(NSInteger)num {
     CLLocationDegrees lat = [[_fenceArray[num] lat] doubleValue];
     CLLocationDegrees lon = [[_fenceArray[num] lon] doubleValue];
@@ -331,11 +378,22 @@
 }
 
 #pragma mark - 点击事件处理
+/* *******************************************************************************/
+/*                                   点击事件处理                                  */
+/* *******************************************************************************/
 - (void)buttonClickAction:(UIButton *)sender {
     // 删除电子围栏
     if (sender.tag == 201) {
+        if (_currentFenceIndex == -1) {
+            [SYUtil showHintWithStatus:@"请选择一个电子围栏" duration:1];
+            return;
+        }
         
-        
+        NSInteger lat = [[_fenceArray[_currentFenceIndex] lat] integerValue];
+        NSInteger lon = [[_fenceArray[_currentFenceIndex] lon] integerValue];
+        NSInteger fenceId = _currentFenceIndex + 1;
+        NSInteger radius = self.fenceCircle.radius;
+        [self delElectronicFence:fenceId radius:radius lat:lat lon:lon];
     }
     
     // 减少电子围栏半径
@@ -370,9 +428,10 @@
 
         NSInteger lat = [[_fenceArray[_currentFenceIndex] lat] integerValue];
         NSInteger lon = [[_fenceArray[_currentFenceIndex] lon] integerValue];
-        
-        [self setCircleGeoFence:_currentFenceIndex + 1 type:1 rad:self.fenceCircle.radius lat:lat lon:lon];
+        NSInteger fenceId = _currentFenceIndex + 1;
+        NSInteger radius = self.fenceCircle.radius;
 
+        [self setElectronicFence:fenceId radius:radius lat:lat lon:lon];
     }
     
     // 停止跟踪
@@ -387,12 +446,9 @@
 }
 
 #pragma mark - 代理方法
-/**
- *  电子围栏选择回调
- *
- *  @param pickerView
- *  @param index
- */
+/* *******************************************************************************/
+/*                                 电子围栏选择代理                                */
+/* *******************************************************************************/
 - (void)pickerView:(SYPickerView *)pickerView didSelectAtIndex:(NSInteger)index {
     _currentFenceIndex = index;
     [_fenceSwitchBtn setTitle:_fenceTypeArray[index] forState:UIControlStateNormal];
@@ -403,7 +459,7 @@
         [self addGeofenceWithNum:index];
         
     }
-    // 删除状态，默认显示当前位置
+    // 删除状态，设置当前位置为围栏位置
     else {
         CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([_lat doubleValue], [_lon doubleValue]);
         NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
@@ -419,12 +475,9 @@
     }
 }
 
-
-/**
- *  SYLocationNavViewDelegate
- *
- *  @param index <#index description#>
- */
+/* *******************************************************************************/
+/*                           位置、电器围栏、实时追踪 切换代理                        */
+/* *******************************************************************************/
 - (void)switchWithIndex:(NSInteger )index {
     if (index == 0) {
         self.locationLabel.hidden = NO;
@@ -436,6 +489,7 @@
         
         [_mapView removeAnnotation:self.fenceAnnotation];
         [_mapView removeOverlay:self.fenceCircle];
+        [_mapView removeAnnotation:self.trackAnnotation];
         
     } else if (index == 1) {
         self.locationLabel.hidden = YES;
@@ -443,6 +497,8 @@
         self.trackMenuView.hidden = YES;
         
         [_mapView removeAnnotation:self.locationAnnotation];
+        [_mapView removeAnnotation:self.trackAnnotation];
+        
         [_mapView addAnnotation:self.fenceAnnotation];
         [_mapView addOverlay:self.fenceCircle];
         
@@ -451,10 +507,17 @@
         self.fenceMenuView.hidden = YES;
         self.trackMenuView.hidden = NO;
         
+        [_mapView removeAnnotation:self.locationAnnotation];
+        [_mapView removeAnnotation:self.fenceAnnotation];
+        [_mapView removeOverlay:self.fenceCircle];
+        
+        [_mapView addAnnotation:self.trackAnnotation];
     }
 }
 
-#pragma mark - BMKMapViewDelegate
+/* *******************************************************************************/
+/*                                   百度地图代理                                  */
+/* *******************************************************************************/
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView {
     [self addLocationAnnotation];
 }
@@ -507,8 +570,7 @@
 }
 
 
-
-#pragma mark - 页面UI
+#pragma mark - setter getter
 - (BMKPointAnnotation *)locationAnnotation {
     if (!_locationAnnotation) {
          _locationAnnotation = [[BMKPointAnnotation alloc]init];
@@ -522,6 +584,15 @@
     }
     return _fenceAnnotation;
 }
+
+
+- (BMKPointAnnotation *)trackAnnotation {
+    if (!_trackAnnotation) {
+        _trackAnnotation = [[BMKPointAnnotation alloc]init];
+    }
+    return _trackAnnotation;
+}
+
 
 - (BMKCircle *)fenceCircle {
     if (!_fenceCircle) {

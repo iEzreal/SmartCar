@@ -85,6 +85,9 @@
     [self addSubview:_oilLabel];
     
     // 中间区域
+    _centerView = [[UIView alloc] init];
+    [self addSubview:_centerView];
+    
     _speedIV = [[UIImageView alloc] init];
     _speedIV.contentMode = UIViewContentModeScaleAspectFill;
     _speedIV.image = [UIImage imageNamed:@"gauge_speed"];
@@ -138,7 +141,7 @@
     [_oilPV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_leftView);
         make.centerY.equalTo(_speedIV).offset(10);
-        make.width.height.equalTo(@60);
+        make.width.height.equalTo(@(40 * SCALE_H));
     }];
     
     [_oilLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -147,14 +150,22 @@
     }];
     
     
+    
+    [_centerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self);
+    }];
+    
     [_speedIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_refreshView.mas_bottom);
-        make.centerX.equalTo(self);
+        make.top.equalTo(_centerView);
+        make.centerX.equalTo(_centerView);
+        make.height.mas_equalTo(@(70 * SCALE_H));
+        make.height.mas_equalTo(@(60 * SCALE_H));
     }];
     
     [_speedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_speedIV.mas_bottom).offset(3);
-        make.centerX.equalTo(self);
+        make.top.equalTo(_speedIV.mas_bottom).offset(5);
+        make.centerX.equalTo(_centerView);
+        make.bottom.equalTo(_centerView);
     }];
     
     [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -165,7 +176,7 @@
     }];
 
     [_stateIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_rightView).offset(15);
+        make.top.equalTo(_rightView).offset(5);
         make.centerX.equalTo(_rightView);
     }];
 

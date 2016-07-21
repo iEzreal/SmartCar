@@ -62,6 +62,7 @@
 #define METHOD_GET_CAR_TRIP_POSITION @"GetCarTripPosition"
 #define METHOD_GET_ALARM_INFO @"GetAlarmInfo"
 #define METHOD_GET_ALARM_COUNT @"GetAlarmCount"
+#define METHOD_DTC_TRANSLATE @"DtcTranslate"
 #define METHOD_GET_GAS_ADD @"GetGasAdd"
 #define METHOD_GET_GAS_ALARM @"GetGasAlarm"
 #define METHOD_GET_MINMAX_POSITION @"GetMinAndMaxTimePosition"
@@ -73,6 +74,8 @@
 #define METHOD_GET_DTC_CODE @"GetDtcCode"
 #define METHOD_SET_TRACK_JT @"DoSetTrackJT"
 
+#define METHOD_SET_ELECTRONIC_FENCE @"SetElectronicFence"
+#define METHOD_DEL_ELECTRONIC_FENCE @"DelElectronicFence"
 
 
 #endif /* smartcar_pch */

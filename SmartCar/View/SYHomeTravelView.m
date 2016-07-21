@@ -14,10 +14,7 @@
 
 @property(nonatomic, strong) SYHomeMoreView *moreView;
 
-@property(nonatomic, strong) UILabel *travelLabel1;
-@property(nonatomic, strong) UILabel *travelLabel2;
-@property(nonatomic, strong) UILabel *travelLabel3;
-@property(nonatomic, strong) UILabel *travelLabel4;
+@property(nonatomic, strong) UILabel *travelLabel;
 
 @end
 
@@ -33,13 +30,14 @@
     _moreView.delegate = self;
     [self addSubview:_moreView];
     
-    _travelLabel1 = [[UILabel alloc] init];
-    _travelLabel1.textAlignment = NSTextAlignmentCenter;
-    _travelLabel1.numberOfLines = 0;
-    _travelLabel1.textColor = [UIColor whiteColor];
-    _travelLabel1.font = [UIFont systemFontOfSize:15];
-    [self addSubview:_travelLabel1];
-    [_travelLabel1 mas_makeConstraints:^(MASConstraintMaker *make) {
+    _travelLabel = [[UILabel alloc] init];
+    _travelLabel.textAlignment = NSTextAlignmentCenter;
+    _travelLabel.numberOfLines = 0;
+    _travelLabel.textColor = [UIColor whiteColor];
+    _travelLabel.font = [UIFont systemFontOfSize:15];
+    _travelLabel.text = @"最近十天内无行程记录，请查看更多行程信息";
+    [self addSubview:_travelLabel];
+    [_travelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_moreView.mas_bottom);
         make.left.equalTo(self).offset(5);
         make.right.equalTo(self).offset(-5);
@@ -75,7 +73,7 @@
         }
     }
     
-    _travelLabel1.text = travelStr;
+    _travelLabel.text = travelStr;
 }
 
 

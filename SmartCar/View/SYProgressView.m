@@ -10,7 +10,7 @@
 
 #define CATDegreesToRadians(x) (M_PI*(x)/180.0)
 #define TRACK_LINE_W 4
-#define PROGRESS_LINE_W 7
+#define PROGRESS_LINE_W 6
 
 @interface SYProgressView ()
 

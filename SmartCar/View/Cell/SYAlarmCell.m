@@ -65,12 +65,15 @@
 }
 
 - (void)boundDataWithAlarm:(SYAlarm *)alarm {
-    _timeLabel.text = alarm.gpstime;
+    
     NSArray *statuArray = [SYUtil int2Binary:[alarm.alarmStatu intValue]];
     NSString *alarmDesc = @"";
-    // 超速报警(第6个bit)
-    if ([statuArray[5] intValue] == 1) {
+    NSString *alarmValue = @"";
+    NSLog(@"------警告码：%@", [SYUtil intToBinary:[alarm.alarmStatu intValue]]);
+    // 超速报警(第7个bit)
+    if ([statuArray[6] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"超速报警"];
+        alarmValue = [NSString stringWithFormat:@"%.1f公里每小时", [alarm.OBDSpeed floatValue] * 0.1];
     }
     
     // 进入电子围栏报警 9
@@ -83,28 +86,35 @@
         alarmDesc = [NSString stringWithFormat:@"%@", @"越出电子围栏"];
     }
     
-    // 震动报警 11
-    if ([statuArray[10] intValue] == 1) {
+    // 震动报警 12
+    if ([statuArray[11] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"震动报警"];
     }
     
-    // 终端欠压 15
-    if ([statuArray[14] intValue] == 1) {
+    // 终端欠压 16
+    if ([statuArray[15] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"终端欠压"];
     }
     
-    // 发动机超转速报警 23
-    if ([statuArray[22] intValue] == 1) {
+    // 发动机超转速报警 24
+    if ([statuArray[23] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"发动机超转速报警"];
+        alarmValue = [NSString stringWithFormat:@"转速%@", alarm.OBDRpm];
     }
 
-    // 发动机异常报警 24
-    if ([statuArray[23] intValue] == 1) {
+    // 发动机异常报警 25
+    if ([statuArray[24] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
     }
-
-
+    
+    // 发动机水温过高报警 26
+    if ([statuArray[25] intValue] == 1) {
+        alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
+        alarmValue = [NSString stringWithFormat:@"转速%@", alarm.OBDCoolTemp];
+    }
+    _timeLabel.text = alarm.gpstime;
     _typeLabel.text = alarmDesc;
+    _valueLabel.text = alarmValue;
 }
 
 @end

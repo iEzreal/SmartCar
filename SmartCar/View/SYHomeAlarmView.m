@@ -25,7 +25,7 @@
     }
     
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
-    _moreView.title = @"报警信息";
+    _moreView.title = @"近期报警";
     _moreView.image = [UIImage imageNamed:@"icon_alarm"];
     _moreView.delegate = self;
     [self addSubview:_moreView];
@@ -35,6 +35,7 @@
     _alarmLabel.numberOfLines = 0;
     _alarmLabel.textColor = [UIColor whiteColor];
     _alarmLabel.font = [UIFont systemFontOfSize:15];
+    _alarmLabel.text = @"最近十天内无报警记录，请查看更多行程信息";
     [self addSubview:_alarmLabel];
     [_alarmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_moreView.mas_bottom);
@@ -67,8 +68,8 @@
             NSString *statuStr = [alarmArray[i] objectForKey:@"AlarmStatu"];;
             NSArray *statuArray = [SYUtil int2Binary:[statuStr intValue]];
             NSString *alarmDesc = @"";
-            // 超速报警(第6个bit)
-            if ([statuArray[5] intValue] == 1) {
+            // 超速报警(第7个bit)
+            if ([statuArray[6] intValue] == 1) {
                 alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"超速报警"];
             }
             
@@ -81,6 +82,32 @@
             if ([statuArray[9] intValue] == 1) {
                 alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"越出电子围栏"];
             }
+            
+            // 震动报警 12
+            if ([statuArray[11] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@", @"震动报警"];
+            }
+            
+            // 终端欠压 16
+            if ([statuArray[15] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@", @"终端欠压"];
+            }
+            
+            // 发动机超转速报警 24
+            if ([statuArray[23] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@", @"发动机超转速报警"];
+            }
+            
+            // 发动机异常报警 25
+            if ([statuArray[24] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
+            }
+            
+            // 发动机水温过高报警 26
+            if ([statuArray[25] intValue] == 1) {
+                alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
+            }
+            
             if ([alarmStr isEqualToString:@""]) {
                 alarmStr = [NSString stringWithFormat:@"%@%@",time, alarmDesc];
             } else {

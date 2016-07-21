@@ -76,7 +76,7 @@
     [parameters setObject:_compTF.text forKey:@"comp"];
     [parameters setObject:_addressTF.text forKey:@"addr"];
     
-    [SVProgressHUD showWithStatus:@"正在提交..."];
+    [SYUtil showWithStatus:@"正在提交..."];
     [SYApiServer POST:METHOD_USER_INFO_UPDATE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
@@ -87,12 +87,12 @@
             [SYAppManager sharedManager].user.company = _compTF.text;
             [SYAppManager sharedManager].user.address = _addressTF.text;
             [self refreshUserInfo];
-            [SVProgressHUD showSuccessWithStatus:@"个人信息修改成功"];
+            [SYUtil showSuccessWithStatus:@"个人信息修改成功" duration:2];
         } else {
-            [SVProgressHUD showErrorWithStatus:@"个人信息修改失败"];
+            [SYUtil showErrorWithStatus:@"个人信息修改失败" duration:2];
         }
     } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"个人信息修改失败"];
+        [SYUtil showErrorWithStatus:@"个人信息修改失败" duration:2];
     }];
 }
 

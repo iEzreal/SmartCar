@@ -37,6 +37,7 @@
 
 @implementation SYLoginController
 
+#pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -60,30 +61,23 @@
     
 }
 
-
+#pragma mark - 登陆
 - (void)login {
     if ([_userNameTF.text isEqualToString:@""]) {
-        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-        [SVProgressHUD setMinimumDismissTimeInterval:1];
-        [SVProgressHUD showInfoWithStatus:@"用户名不能为空"];
+        [SYUtil showHintWithStatus:@"用户名不能为空" duration:2];
         return;
     }
     
     if ([_userPwdTF.text isEqualToString:@""]) {
-        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-        [SVProgressHUD setMinimumDismissTimeInterval:1];
-        [SVProgressHUD showInfoWithStatus:@"密码不能为空"];
+        [SYUtil showHintWithStatus:@"密码不能为空" duration:2];
         return;
     }
     
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setObject:_userNameTF.text forKey:@"userName"];
     [dic setObject:_userPwdTF.text forKey:@"userPwd"];
-//    [dic setObject:@"sy003" forKey:@"userName"];
-//    [dic setObject:@"000000" forKey:@"userPwd"];
     
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-    [SVProgressHUD showWithStatus:@"正在登录..."];
+    [SYUtil showWithStatus:@"正在登录..."];
     [SYApiServer login:dic success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
@@ -93,15 +87,13 @@
             
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             delegate.window.rootViewController = [[SYRootController alloc] init];
-            [SVProgressHUD dismiss];
+            [SYUtil dismissProgressHUD];
             
         } else {
-            [SVProgressHUD setMinimumDismissTimeInterval:2];
-            [SVProgressHUD showErrorWithStatus:@"登陆失败"];
+            [SYUtil showErrorWithStatus:@"登陆失败" duration:2];
         }
     } failure:^(NSError *error) {
-        [SVProgressHUD setMinimumDismissTimeInterval:2];
-        [SVProgressHUD showErrorWithStatus:@"登陆失败"];
+         [SYUtil showErrorWithStatus:@"登陆失败" duration:2];
     }];
 }
 
@@ -110,8 +102,6 @@
     NSArray *tableArray = [userDic objectForKey:@"TableInfo"];
     NSDictionary *dic = tableArray[0];
     SYUser *user = [[SYUser alloc] initWithDic:dic];
-//    user.password = @"000000";
-    // 设置登录时间
     user.password = _userPwdTF.text;
     user.loginTime = [SYUtil currentDate];
     [SYAppManager sharedManager].user = user;
@@ -126,9 +116,7 @@
     [SYAppManager sharedManager].vehicle = vehicle;
 }
 
-/**
- *  读取用户信息
- */
+// 读取用户信息
 - (void)readUserInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     if ([userDefaults objectForKey:@"userName"]) {
@@ -142,9 +130,7 @@
 
 }
 
-/**
- *  保存用户信息
- */
+// 保存用户信息
 - (void)saveUserInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setObject:_userNameTF.text forKey:@"userName"];
@@ -154,11 +140,11 @@
     [userDefaults synchronize];
 }
 
+#pragma mark - 事件处理
 - (void)onClickAction:(UIButton *)sender {
     if (sender.tag == 200) {
         if (_rememberPwdBtn.isSelected) {
             _rememberPwdBtn.selected = NO;
-            
         } else {
             _rememberPwdBtn.selected = YES;
         }
@@ -172,11 +158,11 @@
     }
 }
 
-
 - (void)tapGestureAction:(UITapGestureRecognizer *)sender {
     [self.view endEditing:YES];
 }
 
+#pragma mark - 界面UI
 - (void)setupPageSubviews {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
     _bgImgView = [[UIImageView alloc] init];

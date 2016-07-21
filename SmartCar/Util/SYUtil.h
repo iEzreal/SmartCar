@@ -16,6 +16,10 @@
 + (NSString *)currentDate;
 + (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
-+ (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
 
++ (void)showWithStatus:(NSString *)status;
++ (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
++ (void)showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
++ (void)showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration;
++ (void)dismissProgressHUD;
 @end

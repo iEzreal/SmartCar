@@ -53,7 +53,7 @@
     [parameters setObject:endTime forKey:@"EndTime"];
     [parameters setObject:[NSNumber numberWithInt:0x7FFFFFFF] forKey:@"mask"];
 
-    [SVProgressHUD showWithStatus:@"正在加载..."];
+    [SYUtil showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_ALARM_INFO parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
@@ -66,13 +66,12 @@
                 [_alarmArray addObject:alarm];
             }
             [_tableView reloadData];
+            [SYUtil dismissProgressHUD];
         } else {
-            [SVProgressHUD showErrorWithStatus:@"没有数据"];
+            [SYUtil showErrorWithStatus:@"没有数据" duration:2];
         }
-        
-        [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"加载失败"];
+        [SYUtil showErrorWithStatus:@"没有失败" duration:2];
     }];
 }
 
@@ -160,7 +159,6 @@
         make.left.width.bottom.equalTo(self.view);
     }];
 
-    
 }
 
 

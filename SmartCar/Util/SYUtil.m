@@ -83,10 +83,31 @@
     return timeString;
 }
 
++ (void)showWithStatus:(NSString *)status {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showWithStatus:status];
+}
+
 + (void)showHintWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setMinimumDismissTimeInterval:duration];
     [SVProgressHUD showInfoWithStatus:status];
+}
+
++ (void)showErrorWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD setMinimumDismissTimeInterval:duration];
+    [SVProgressHUD showErrorWithStatus:status];
+}
+
++ (void)showSuccessWithStatus:(NSString *)status duration:(NSTimeInterval)duration {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD setMinimumDismissTimeInterval:duration];
+    [SVProgressHUD showSuccessWithStatus:status];
+}
+
++ (void)dismissProgressHUD {
+     [SVProgressHUD dismiss];
 }
 
 @end

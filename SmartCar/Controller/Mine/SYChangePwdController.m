@@ -196,17 +196,17 @@
     [parameters setObject:[SYAppManager sharedManager].user.loginName forKey:@"UserId"];
     [parameters setObject:_nwePwd1TF.text forKey:@"password"];
 
-    [SVProgressHUD showWithStatus:@"正在提交..."];
+    [SYUtil showWithStatus:@"正在提交..."];
     [SYApiServer POST:METHOD_CHANGE_PASSWORD parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"ChangePasswordResult"] integerValue] == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"密码修改成功"];
+            [SYUtil showSuccessWithStatus:@"密码修改成功" duration:2];
         } else {
-            [SVProgressHUD showErrorWithStatus:@"密码修改失败"];
+            [SYUtil showErrorWithStatus:@"密码修改失败" duration:2];
         }
     } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"密码修改失败"];
+        [SYUtil showErrorWithStatus:@"密码修改失败" duration:2];
     }];
 
 }

@@ -8,12 +8,16 @@
 
 #import "SYTravelController.h"
 #import "SYTravelDetailsController.h"
+#import "SYPickerView.h"
 #import "SYTravelCell.h"
 #import "SYTravel.h"
 
-@interface SYTravelController () <UITableViewDataSource, UITableViewDelegate>
+@interface SYTravelController () <UITableViewDataSource, UITableViewDelegate, SYPickerViewDelegate>
 
 @property(nonatomic, strong) UIButton *rightButton;
+
+@property(nonatomic, strong) SYPickerView *pickerView;
+
 @property(nonatomic, strong) UILabel *timeLabel;
 @property(nonatomic, strong) UILabel *dateLabel;
 @property(nonatomic, strong) UILabel *travelLabel;
@@ -25,6 +29,7 @@
 
 @implementation SYTravelController
 
+#pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"近期行程";
@@ -32,18 +37,79 @@
     _travelArray = [[NSMutableArray alloc] init];
     [self setupPageSubviews];
     [self layoutPageSubviews];
-    
-    [self requestCarTrip];
-    
+    [self requestTravelWithMonth:-1];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
-- (void)homeButtonAction:(UIButton *)sender {
+#pragma mark - 查询车辆行程信息
+- (void)requestTravelWithMonth:(NSInteger)month {
+    NSString *termID = [SYAppManager sharedManager].vehicle.termID;
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:month];
+    NSString *endTime = [NSDate currentDate];
     
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:termID forKey:@"TermId"];
+    [parameters setObject:startTime forKey:@"sTime"];
+    [parameters setObject:endTime forKey:@"eTime"];
+    
+    [SVProgressHUD showWithStatus:@"正在加载..."];
+    [SYApiServer POST:METHOD_GET_CAR_TRIP parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic && [[responseDic objectForKey:@"GetCarTripResult"] integerValue] > 0) {
+            [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
+        } else {
+            [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
+        }
+        
+        [SVProgressHUD dismiss];
+    } failure:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
+    }];
 }
+
+- (void)parseTravelWithJsonString:(NSString *)jsonString {
+    NSDictionary *travelDic = [jsonString objectFromJSONString];
+    NSArray *tableArray = [travelDic objectForKey:@"TableInfo"];
+    [_travelArray removeAllObjects];
+    for (int i = 0; i < tableArray.count; i++) {
+        SYTravel *travel = [[SYTravel alloc] initWithDic:tableArray[i]];
+        [_travelArray addObject:travel];
+    }
+    [_tableView reloadData];
+}
+
+#pragma mark - 点击事件处理
+- (void)dateSwitchAction:(UIButton *)sender {
+    if (!_pickerView) {
+        _pickerView = [[SYPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
+        _pickerView.delegate = self;
+        _pickerView.dataSourceArray = @[@"一个月内", @"三个月内", @"半年内", @"一年内"];
+    }
+    
+    if (_pickerView.isShow) {
+        [_pickerView dismiss];
+    } else {
+        [_pickerView showWithView:self.view];
+    }
+}
+
+#pragma mark - 代理方法
+- (void)pickerView:(SYPickerView *)pickerView didSelectAtIndex:(NSInteger)index {
+    if (index == 0) {
+        [self requestTravelWithMonth:-1];
+    } else if (index == 1) {
+        [self requestTravelWithMonth:-3];
+    } else if (index == 2) {
+        [self requestTravelWithMonth:-6];
+    } else {
+        [self requestTravelWithMonth:-12];
+    }
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _travelArray.count;
@@ -73,51 +139,12 @@
     [self.navigationController pushViewController:dController animated:YES];
 }
 
-/**
- *  查询车辆行程信息
- */
-- (void)requestCarTrip {
-    NSString *termID = [SYAppManager sharedManager].vehicle.termID;
-    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
-    NSString *endTime = [NSDate currentDate];
-    
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:termID forKey:@"TermId"];
-    [parameters setObject:startTime forKey:@"sTime"];
-    [parameters setObject:endTime forKey:@"eTime"];
-    
-    [SVProgressHUD showWithStatus:@"正在加载..."];
-    [SYApiServer POST:METHOD_GET_CAR_TRIP parameters:parameters success:^(id responseObject) {
-        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic && [[responseDic objectForKey:@"GetCarTripResult"] integerValue] > 0) {
-            [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
-        } else {
-            [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
-        }
-        
-        [SVProgressHUD dismiss];
-    } failure:^(NSError *error) {
-         [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
-    }];
-}
-
-- (void)parseTravelWithJsonString:(NSString *)jsonString {
-    NSDictionary *travelDic = [jsonString objectFromJSONString];
-    NSArray *tableArray = [travelDic objectForKey:@"TableInfo"];
-    for (int i = 0; i < tableArray.count; i++) {
-        SYTravel *travel = [[SYTravel alloc] initWithDic:tableArray[i]];
-        [_travelArray addObject:travel];
-    }
-    [_tableView reloadData];
-}
-
+#pragma mark - 界面UI
 - (void)setupPageSubviews {
     _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
     _rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30);
     [_rightButton setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
-    //    [_rightButton setImage:[UIImage imageNamed:@"date_highlight"] forState:UIControlStateHighlighted];
-    [_rightButton addTarget:self action:@selector(homeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_rightButton addTarget:self action:@selector(dateSwitchAction:) forControlEvents:UIControlEventTouchUpInside];
     _rightButton.tag = 101;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightButton];
@@ -149,7 +176,6 @@
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
-    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
     _tableView.delegate = self;

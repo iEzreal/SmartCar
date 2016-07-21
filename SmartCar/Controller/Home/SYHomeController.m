@@ -46,6 +46,7 @@
 
 @implementation SYHomeController
 
+#pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
    
@@ -79,9 +80,7 @@
 }
 
 #pragma mark - 数据请求
-/**
- *  获取车辆最后位置信息
- */
+// 车辆最后位置信息
 - (void)requestCarLastPosition {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
@@ -97,12 +96,11 @@
         [_gaugeView endRefresh];
     }];
 }
-/**
- *  查询车辆行程信息
- */
+
+// 车辆行程信息
 - (void)requestCarTrip {
     NSString *termID = [SYAppManager sharedManager].vehicle.termID;
-    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-7];
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
     NSString *endTime = [NSDate currentDate];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:termID forKey:@"TermId"];
@@ -120,12 +118,10 @@
     }];
 }
 
-/**
- *  请求警告信息
- */
+// 报警信息
 - (void)requestAlarmInfo {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-7];
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
     NSString *endTime = [NSDate currentDate];
     
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -134,11 +130,10 @@
     [parameters setObject:endTime forKey:@"EndTime"];
     [parameters setObject:[NSNumber numberWithInt:0x7FFFFFFF] forKey:@"mask"];
     
-    [SVProgressHUD showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_ALARM_INFO parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"GetAlarmInfoResult"] integerValue] > 0) {
+        if (responseDic && [[responseDic objectForKey:@"GetAlarmInfoResult"] integerValue] > 0) {
             NSString *alarmStr = [responseDic objectForKey:@"AlarmInfo"];
             NSDictionary *alarmDic = [alarmStr objectFromJSONString];
             NSArray *alarmArray = [alarmDic objectForKey:@"TableInfo"];
@@ -151,7 +146,7 @@
     }];
 }
 
-
+// 车辆体检信息
 
 
 - (void)parseTravelWithJsonString:(NSString *)jsonString {
@@ -218,13 +213,12 @@
 }
 
 
-#pragma mark - 按钮点击事件
+#pragma mark - 点击事件处理
 - (void)homeButtonAction:(UIButton *)sender {
     if (sender.tag == 100) {
         if (!_carSwitchView) {
             _carSwitchView = [[SYCarSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
             _carSwitchView.delegate = self;
-            
         }
         
         if (_carSwitchView.isShow) {
@@ -238,9 +232,7 @@
     }
 }
 
-
-
-#pragma mark - 切换车车辆
+#pragma mark - 代理事件
 - (void)carSwitchView:(SYCarSwitchView *)carSwitchView didSelectRowAtIndex:(NSInteger)index {
     
 }
@@ -289,21 +281,18 @@
 //    
 //}
 
-
-
-
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
-    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 190)];
+    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 60 + 90 * SCALE_H)];
     _gaugeView.delegate = self;
     [self.view addSubview:_gaugeView];
     
-    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 140)];
+    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 100 * SCALE_H)];
     [_travelView addBottomBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
     _travelView.delegate = self;
     [self.view addSubview:_travelView];
     
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W / 2 + 30, SCREEN_H - 190 - 140 - 64 - 49)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W / 2 + 30, SCREEN_H - _gaugeView.height - _travelView.height - 64 - 49)];
     _mapView.zoomLevel = 16;
     [_mapView addRightBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
     [self.view addSubview:_mapView];
@@ -317,8 +306,6 @@
     [_physicalView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
     [self.view addSubview:_physicalView ];
 }
-
-
 
 #pragma mark - setter & getter
 - (SYButton *)navTitleBtn {
@@ -345,7 +332,6 @@
         [_locationBtn addTarget:self action:@selector(homeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         _locationBtn.tag = 101;
     }
-    
     return _locationBtn;
 }
 
