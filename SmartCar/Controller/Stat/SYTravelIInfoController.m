@@ -7,11 +7,12 @@
 //
 
 #import "SYTravelIInfoController.h"
+#import "SYPageTopView.h"
 #import "SYDatePickerView.h"
 
-@interface SYTravelIInfoController () <SYDatePickerViewDelegate>
+@interface SYTravelIInfoController () <SYPageTopViewDelegate, SYDatePickerViewDelegate>
 
-@property(nonatomic, strong) UIButton *rightButton;
+@property(nonatomic, strong) SYPageTopView *pageTopView;
 @property(nonatomic, strong) SYDatePickerView *datePickerView;
 
 @property(nonatomic, strong) UIView *topView;
@@ -47,18 +48,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"行驶信息";
-    
-    _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 35, 24)];
-    _rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -10);
-    [_rightButton setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
-    [_rightButton addTarget:self action:@selector(dateSwitchAction:) forControlEvents:UIControlEventTouchUpInside];
-    _rightButton.tag = 101;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightButton];
-    
+   
     [self setupPageSubviews];
     [self layoutPageSubviews];
-    
 }
 
 #pragma mark - 最小时间和最大时间里程和油耗
@@ -146,10 +138,9 @@
     } failure:^(NSError *error) {
         
     }];
-    
 }
 
-
+#pragma mark - 更新数据
 - (void)updateAlarmCountWithDic:(NSDictionary *)dic {
     _speedAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"overspeed"] intValue]];
     _fenceAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"geofence"] intValue]];
@@ -180,33 +171,32 @@
     _totalOilWearLabel.text = [NSString stringWithFormat:@"%.2f", gas1 + gas2 + gas3];
     _avgOilWearLabel.text = [NSString stringWithFormat:@"%.2f", (gas1 + gas2 + gas3) / ((lastMileage - firstMileage) * 0.1) * 100];
     _totalMileageLabel.text =  [NSString stringWithFormat:@"%.2f", (lastMileage - firstMileage) * 0.1];
-
 }
 
-
-#pragma mark - SYDatePickerViewDelegate;
-- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartDate:(NSString *)startDate endDate:(NSString *)endDate {
-    [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
-
-}
-
-#pragma mark - 日期选择
-- (void)dateSwitchAction:(UIButton *)sender {
+#pragma mark - 代理事件
+- (void)topViewRightAction {
     if (!_datePickerView) {
         _datePickerView = [[SYDatePickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
         _datePickerView.delegate = self;
     }
-    
-    if (_datePickerView.isShow) {
-        [_datePickerView dismiss];
-    } else {
-        [_datePickerView showWithView:self.view];
-    }
+    [_datePickerView show];
+}
 
+- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartDate:(NSString *)startDate endDate:(NSString *)endDate {
+    [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
+    
 }
 
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
+    _pageTopView = [[SYPageTopView alloc] init];
+    _pageTopView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
+    _pageTopView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    [_pageTopView.rightBtn setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
+    _pageTopView.title= @"报警统计";
+    _pageTopView.delegate = self;
+    [self.view addSubview:_pageTopView];
+    
     _topView = [[UIView alloc] init];
     [self.view addSubview:_topView];
     
@@ -312,8 +302,15 @@
 }
 
 - (void)layoutPageSubviews {
+    [_pageTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@45);
+    }];
+
+    
     [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
+        make.top.equalTo(_pageTopView.mas_bottom);
+        make.left.right.equalTo(self.view);
         make.height.equalTo(@50);
     }];
     
@@ -429,12 +426,9 @@
         
     }];
     
-    [_topView addBottomBorderWithColor:[UIColor whiteColor] width:1];
-    [_centreView addBottomBorderWithColor:[UIColor whiteColor] width:1];
-    [_bottomView addBottomBorderWithColor:[UIColor whiteColor] width:1];
-
-
-
+    [_topView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_centreView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_bottomView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
 }
 
 @end

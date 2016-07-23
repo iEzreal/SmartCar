@@ -9,7 +9,11 @@
 #import "SYBaseController.h"
 
 @interface SYGasStatDetailsController : SYBaseController
+@property(nonatomic, strong) NSString *titleStr;
+@property(nonatomic, strong) NSString *gasTime;
+@property(nonatomic, strong) NSString *gasAmcount;
 
-@property(nonatomic, strong) NSDictionary *gasDic;
+@property(nonatomic, assign) double lat;
+@property(nonatomic, assign) double lon;
 
 @end

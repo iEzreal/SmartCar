@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		770270F91D421A55004AD0AD /* SYPageTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 770270F81D421A55004AD0AD /* SYPageTopView.m */; };
 		77113B401D349D5F00E30577 /* SYPhysicalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77113B3F1D349D5F00E30577 /* SYPhysicalCell.m */; };
 		77113B431D34CE5300E30577 /* SYURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77113B421D34CE5300E30577 /* SYURLSessionManager.m */; };
 		77113B461D34E4C700E30577 /* SYCurrentLocationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77113B451D34E4C700E30577 /* SYCurrentLocationController.m */; };
@@ -39,8 +40,6 @@
 		779D52451D33E5F9008628AC /* SYChangePwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52401D33E5F9008628AC /* SYChangePwdController.m */; };
 		779D52461D33E5F9008628AC /* SYPersonalInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52421D33E5F9008628AC /* SYPersonalInfoController.m */; };
 		779D52471D33E5F9008628AC /* SYSettingMileageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52441D33E5F9008628AC /* SYSettingMileageController.m */; };
-		779D524A1D33E67A008628AC /* SYMineHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52491D33E67A008628AC /* SYMineHeaderView.m */; };
-		779D524D1D33E6C6008628AC /* SYMineMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D524C1D33E6C6008628AC /* SYMineMenuCell.m */; };
 		77A302C41D37BC8C00DB9F3B /* SYAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A302C31D37BC8C00DB9F3B /* SYAboutController.m */; };
 		77A302C71D37D0C000DB9F3B /* SYVersionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A302C61D37D0C000DB9F3B /* SYVersionController.m */; };
 		77A67E0C1D2A04B700B071ED /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A67E0B1D2A04B700B071ED /* UIColor+HEX.m */; };
@@ -49,13 +48,14 @@
 		77B166751D2EB6D4007B1E7F /* SYPhysicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77B166741D2EB6D4007B1E7F /* SYPhysicalController.m */; };
 		77BF91F91D368C9D00132C61 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BF91F81D368C9D00132C61 /* NSDate+Extension.m */; };
 		77BF91FC1D369B6300132C61 /* SYGasStatDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BF91FB1D369B6300132C61 /* SYGasStatDetailsController.m */; };
+		77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC404C1D42572B00F29148 /* NSDate+Formatter.m */; };
+		77CC40501D43BFCC00F29148 /* SYMineMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */; };
 		77CE636A1D2BF72E0071EA7C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63691D2BF72E0071EA7C /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		77CE63731D2C0CC90071EA7C /* SYApiServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63701D2C0CC90071EA7C /* SYApiServer.m */; };
 		77CE63741D2C0CC90071EA7C /* SYAuthURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63721D2C0CC90071EA7C /* SYAuthURLSessionManager.m */; };
 		77DBDD711D36143F009EEDD4 /* SYGasStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DBDD701D36143F009EEDD4 /* SYGasStatController.m */; };
 		77DBDD741D3614D2009EEDD4 /* SYOilExceptionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DBDD731D3614D2009EEDD4 /* SYOilExceptionController.m */; };
 		77DBDD771D361960009EEDD4 /* SYGasStatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DBDD761D361960009EEDD4 /* SYGasStatCell.m */; };
-		77DBDD7A1D362A56009EEDD4 /* SYPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DBDD791D362A56009EEDD4 /* SYPickerView.m */; };
 		77DF1B2A1D372CFA00133615 /* UIView+Border.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1B291D372CFA00133615 /* UIView+Border.m */; };
 		77DF1B2D1D37515D00133615 /* SYOilExceptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1B2C1D37515D00133615 /* SYOilExceptionCell.m */; };
 		77DF1B301D37645A00133615 /* SYTravelIInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DF1B2F1D37645A00133615 /* SYTravelIInfoController.m */; };
@@ -75,7 +75,7 @@
 		A20896BD1D1ED45000A626FC /* SYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896BC1D1ED45000A626FC /* SYNavigationController.m */; };
 		A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C41D1ED8C000A626FC /* SYMineController.m */; };
 		A20896C81D1ED8EA00A626FC /* SYStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C71D1ED8EA00A626FC /* SYStatController.m */; };
-		A27909551D2404D200880755 /* SYAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27909541D2404D200880755 /* SYAlertView.m */; };
+		A27909551D2404D200880755 /* SYPickerAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27909541D2404D200880755 /* SYPickerAlertView.m */; };
 		A27909581D2406AB00880755 /* SYCarSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A27909571D2406AB00880755 /* SYCarSwitchView.m */; };
 		A2884CE81D22B3AD00C3E8B3 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = A2884CE71D22B3AD00C3E8B3 /* UIView+Frame.m */; };
 /* End PBXBuildFile section */
@@ -93,6 +93,8 @@
 /* Begin PBXFileReference section */
 		1F45FD21067B0CBE24BB868A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		65BA3DC3D94AC7A1630B4F7A /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		770270F71D421A55004AD0AD /* SYPageTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPageTopView.h; sourceTree = "<group>"; };
+		770270F81D421A55004AD0AD /* SYPageTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPageTopView.m; sourceTree = "<group>"; };
 		77113B3E1D349D5F00E30577 /* SYPhysicalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPhysicalCell.h; sourceTree = "<group>"; };
 		77113B3F1D349D5F00E30577 /* SYPhysicalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPhysicalCell.m; sourceTree = "<group>"; };
 		77113B411D34CE5300E30577 /* SYURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYURLSessionManager.h; sourceTree = "<group>"; };
@@ -156,10 +158,6 @@
 		779D52421D33E5F9008628AC /* SYPersonalInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPersonalInfoController.m; sourceTree = "<group>"; };
 		779D52431D33E5F9008628AC /* SYSettingMileageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYSettingMileageController.h; sourceTree = "<group>"; };
 		779D52441D33E5F9008628AC /* SYSettingMileageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYSettingMileageController.m; sourceTree = "<group>"; };
-		779D52481D33E67A008628AC /* SYMineHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYMineHeaderView.h; sourceTree = "<group>"; };
-		779D52491D33E67A008628AC /* SYMineHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineHeaderView.m; sourceTree = "<group>"; };
-		779D524B1D33E6C6008628AC /* SYMineMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYMineMenuCell.h; sourceTree = "<group>"; };
-		779D524C1D33E6C6008628AC /* SYMineMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineMenuCell.m; sourceTree = "<group>"; };
 		77A302C21D37BC8C00DB9F3B /* SYAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAboutController.h; sourceTree = "<group>"; };
 		77A302C31D37BC8C00DB9F3B /* SYAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAboutController.m; sourceTree = "<group>"; };
 		77A302C51D37D0C000DB9F3B /* SYVersionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYVersionController.h; sourceTree = "<group>"; };
@@ -176,6 +174,10 @@
 		77BF91F81D368C9D00132C61 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		77BF91FA1D369B6300132C61 /* SYGasStatDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGasStatDetailsController.h; sourceTree = "<group>"; };
 		77BF91FB1D369B6300132C61 /* SYGasStatDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGasStatDetailsController.m; sourceTree = "<group>"; };
+		77CC404B1D42572B00F29148 /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Formatter.h"; sourceTree = "<group>"; };
+		77CC404C1D42572B00F29148 /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatter.m"; sourceTree = "<group>"; };
+		77CC404E1D43BFCC00F29148 /* SYMineMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYMineMenuView.h; sourceTree = "<group>"; };
+		77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineMenuView.m; sourceTree = "<group>"; };
 		77CE63681D2BF72E0071EA7C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		77CE63691D2BF72E0071EA7C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		77CE636F1D2C0CC90071EA7C /* SYApiServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYApiServer.h; sourceTree = "<group>"; };
@@ -188,8 +190,6 @@
 		77DBDD731D3614D2009EEDD4 /* SYOilExceptionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYOilExceptionController.m; sourceTree = "<group>"; };
 		77DBDD751D361960009EEDD4 /* SYGasStatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGasStatCell.h; sourceTree = "<group>"; };
 		77DBDD761D361960009EEDD4 /* SYGasStatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGasStatCell.m; sourceTree = "<group>"; };
-		77DBDD781D362A56009EEDD4 /* SYPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPickerView.h; sourceTree = "<group>"; };
-		77DBDD791D362A56009EEDD4 /* SYPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPickerView.m; sourceTree = "<group>"; };
 		77DF1B281D372CFA00133615 /* UIView+Border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Border.h"; sourceTree = "<group>"; };
 		77DF1B291D372CFA00133615 /* UIView+Border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Border.m"; sourceTree = "<group>"; };
 		77DF1B2B1D37515C00133615 /* SYOilExceptionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYOilExceptionCell.h; sourceTree = "<group>"; };
@@ -227,8 +227,8 @@
 		A20896C41D1ED8C000A626FC /* SYMineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineController.m; sourceTree = "<group>"; };
 		A20896C61D1ED8EA00A626FC /* SYStatController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYStatController.h; sourceTree = "<group>"; };
 		A20896C71D1ED8EA00A626FC /* SYStatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYStatController.m; sourceTree = "<group>"; };
-		A27909531D2404D200880755 /* SYAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlertView.h; sourceTree = "<group>"; };
-		A27909541D2404D200880755 /* SYAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlertView.m; sourceTree = "<group>"; };
+		A27909531D2404D200880755 /* SYPickerAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPickerAlertView.h; sourceTree = "<group>"; };
+		A27909541D2404D200880755 /* SYPickerAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPickerAlertView.m; sourceTree = "<group>"; };
 		A27909561D2406AB00880755 /* SYCarSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCarSwitchView.h; sourceTree = "<group>"; };
 		A27909571D2406AB00880755 /* SYCarSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCarSwitchView.m; sourceTree = "<group>"; };
 		A2884CE61D22B3AD00C3E8B3 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
@@ -275,8 +275,6 @@
 				7720FDD11D2E00D300713986 /* SYBaseCell.m */,
 				77DBDD751D361960009EEDD4 /* SYGasStatCell.h */,
 				77DBDD761D361960009EEDD4 /* SYGasStatCell.m */,
-				779D524B1D33E6C6008628AC /* SYMineMenuCell.h */,
-				779D524C1D33E6C6008628AC /* SYMineMenuCell.m */,
 				77DF1B2B1D37515C00133615 /* SYOilExceptionCell.h */,
 				77DF1B2C1D37515D00133615 /* SYOilExceptionCell.m */,
 				77113B3E1D349D5F00E30577 /* SYPhysicalCell.h */,
@@ -385,6 +383,8 @@
 			children = (
 				77BF91F71D368C9D00132C61 /* NSDate+Extension.h */,
 				77BF91F81D368C9D00132C61 /* NSDate+Extension.m */,
+				77CC404B1D42572B00F29148 /* NSDate+Formatter.h */,
+				77CC404C1D42572B00F29148 /* NSDate+Formatter.m */,
 				77A67E0A1D2A04B700B071ED /* UIColor+HEX.h */,
 				77A67E0B1D2A04B700B071ED /* UIColor+HEX.m */,
 				7792935D1D2AC2DA006A7E5E /* UIImage+Color.h */,
@@ -438,8 +438,6 @@
 			isa = PBXGroup;
 			children = (
 				7792934A1D2A7F3B006A7E5E /* Cell */,
-				A27909531D2404D200880755 /* SYAlertView.h */,
-				A27909541D2404D200880755 /* SYAlertView.m */,
 				77A67E191D2A60A300B071ED /* SYButton.h */,
 				77A67E1A1D2A60A300B071ED /* SYButton.m */,
 				A27909561D2406AB00880755 /* SYCarSwitchView.h */,
@@ -450,20 +448,22 @@
 				779293581D2AABEB006A7E5E /* SYHomeAlarmView.m */,
 				77A67E101D2A324900B071ED /* SYHomeGaugeView.h */,
 				77A67E111D2A324900B071ED /* SYHomeGaugeView.m */,
+				7792934E1D2A84E4006A7E5E /* SYHomeMoreView.h */,
+				7792934F1D2A84E4006A7E5E /* SYHomeMoreView.m */,
 				7792935A1D2AAE72006A7E5E /* SYHomePhysicalView.h */,
 				7792935B1D2AAE72006A7E5E /* SYHomePhysicalView.m */,
 				77FF1E121D3CD33F00C75378 /* SYHomeTravelView.h */,
 				77FF1E131D3CD33F00C75378 /* SYHomeTravelView.m */,
-				7792934E1D2A84E4006A7E5E /* SYHomeMoreView.h */,
-				7792934F1D2A84E4006A7E5E /* SYHomeMoreView.m */,
 				7793197A1D353A6E0011DDAB /* SYLocationNavView.h */,
 				7793197B1D353A6E0011DDAB /* SYLocationNavView.m */,
-				779D52481D33E67A008628AC /* SYMineHeaderView.h */,
-				779D52491D33E67A008628AC /* SYMineHeaderView.m */,
-				77DBDD781D362A56009EEDD4 /* SYPickerView.h */,
-				77DBDD791D362A56009EEDD4 /* SYPickerView.m */,
+				770270F71D421A55004AD0AD /* SYPageTopView.h */,
+				770270F81D421A55004AD0AD /* SYPageTopView.m */,
+				A27909531D2404D200880755 /* SYPickerAlertView.h */,
+				A27909541D2404D200880755 /* SYPickerAlertView.m */,
 				7799AF391D2CCEA4006E332C /* SYProgressView.h */,
 				7799AF3A1D2CCEA4006E332C /* SYProgressView.m */,
+				77CC404E1D43BFCC00F29148 /* SYMineMenuView.h */,
+				77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -701,13 +701,12 @@
 				77FF1E141D3CD33F00C75378 /* SYHomeTravelView.m in Sources */,
 				7792935C1D2AAE72006A7E5E /* SYHomePhysicalView.m in Sources */,
 				A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */,
-				779D524D1D33E6C6008628AC /* SYMineMenuCell.m in Sources */,
 				77DBDD741D3614D2009EEDD4 /* SYOilExceptionController.m in Sources */,
 				A2884CE81D22B3AD00C3E8B3 /* UIView+Frame.m in Sources */,
-				77DBDD7A1D362A56009EEDD4 /* SYPickerView.m in Sources */,
 				A27909581D2406AB00880755 /* SYCarSwitchView.m in Sources */,
 				77EE9A231D2F6FD70076968D /* SYAlarmCell.m in Sources */,
 				77A302C71D37D0C000DB9F3B /* SYVersionController.m in Sources */,
+				770270F91D421A55004AD0AD /* SYPageTopView.m in Sources */,
 				77A302C41D37BC8C00DB9F3B /* SYAboutController.m in Sources */,
 				77A67E121D2A324900B071ED /* SYHomeGaugeView.m in Sources */,
 				7720FDCF1D2DFCDE00713986 /* SYTravelDetailsCell.m in Sources */,
@@ -720,16 +719,17 @@
 				77B166751D2EB6D4007B1E7F /* SYPhysicalController.m in Sources */,
 				779D52461D33E5F9008628AC /* SYPersonalInfoController.m in Sources */,
 				779443911D2BB3320064C8DB /* SYAppManager.m in Sources */,
-				779D524A1D33E67A008628AC /* SYMineHeaderView.m in Sources */,
 				7799AF3B1D2CCEA4006E332C /* SYProgressView.m in Sources */,
 				7720FDD81D2E30A300713986 /* SYTravelReplayController.m in Sources */,
+				77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */,
 				7794437C1D2B757C0064C8DB /* SYAlarmController.m in Sources */,
+				77CC40501D43BFCC00F29148 /* SYMineMenuView.m in Sources */,
 				779293501D2A84E4006A7E5E /* SYHomeMoreView.m in Sources */,
 				A20896B31D1ED27F00A626FC /* SYBaseController.m in Sources */,
 				77BF91F91D368C9D00132C61 /* NSDate+Extension.m in Sources */,
 				7799AF381D2CA277006E332C /* SYVehiclePosition.m in Sources */,
 				77EE9A261D2F76F50076968D /* SYAlarm.m in Sources */,
-				A27909551D2404D200880755 /* SYAlertView.m in Sources */,
+				A27909551D2404D200880755 /* SYPickerAlertView.m in Sources */,
 				77F365FA1D38B0F10051F600 /* SYDatePickerView.m in Sources */,
 				77BF91FC1D369B6300132C61 /* SYGasStatDetailsController.m in Sources */,
 				7794438E1D2BB1570064C8DB /* SYVehicle.m in Sources */,

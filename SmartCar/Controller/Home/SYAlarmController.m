@@ -7,11 +7,15 @@
 //
 
 #import "SYAlarmController.h"
+#import "SYPageTopView.h"
 #import "SYAlarmCell.h"
 #import "SYAlarm.h"
 
-@interface SYAlarmController () <UITableViewDataSource, UITableViewDelegate>
+@interface SYAlarmController () <SYPageTopViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property(nonatomic, strong) SYPageTopView *topView;
+
+@property(nonatomic, strong) UIView *menuView;
 @property(nonatomic, strong) UILabel *typeLabel;
 @property(nonatomic, strong) UILabel *timeLabel;
 @property(nonatomic, strong) UILabel *valuelLabel;
@@ -44,7 +48,7 @@
 #pragma mark - 请求警告信息
 - (void)requestAlarmInfo {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
+    NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:-1];
     NSString *endTime = [NSDate currentDate];
     
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -66,16 +70,20 @@
                 [_alarmArray addObject:alarm];
             }
             [_tableView reloadData];
-            [SYUtil dismissProgressHUD];
+            [SYUtil showSuccessWithStatus:@"数据加载成功" duration:1];
         } else {
-            [SYUtil showErrorWithStatus:@"没有数据" duration:2];
+            [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
         }
     } failure:^(NSError *error) {
-        [SYUtil showErrorWithStatus:@"没有失败" duration:2];
+        [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
     }];
 }
 
-#pragma mark - UITableViewDataSource && UITableViewDelegate
+#pragma mark - 代理方法
+- (void)topViewRightAction {
+
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _alarmArray.count;
 }
@@ -99,34 +107,43 @@
 
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
+    _topView = [[SYPageTopView alloc] init];
+    _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
+    _topView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    [_topView.rightBtn setImage:[UIImage imageNamed:@"icon_alarm_del"] forState:UIControlStateNormal];
+    _topView.title= @"近期警报";
+    _topView.delegate = self;
+    [self.view addSubview:_topView];
+    
+    _menuView = [[UIView alloc] init];
+    _menuView.backgroundColor = [UIColor colorWithHexString:NAV_BAR_COLOR];
+    [self.view addSubview:_menuView];
+    
     _typeLabel = [[UILabel alloc] init];
     _typeLabel.textAlignment = NSTextAlignmentCenter;
-    _typeLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _typeLabel.font = [UIFont systemFontOfSize:16];
+    _typeLabel.font = [UIFont systemFontOfSize:17];
     _typeLabel.textColor = [UIColor whiteColor];
     _typeLabel.text = @"报警类型";
-    [self.view addSubview:_typeLabel];
+    [_menuView addSubview:_typeLabel];
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _timeLabel.font = [UIFont systemFontOfSize:16];
+    _timeLabel.font = [UIFont systemFontOfSize:17];
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.text = @"时间";
-    [self.view addSubview:_timeLabel];
+    [_menuView addSubview:_timeLabel];
     
     _valuelLabel = [[UILabel alloc] init];
     _valuelLabel.textAlignment = NSTextAlignmentCenter;
-    _valuelLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _valuelLabel.font = [UIFont systemFontOfSize:16];
+    _valuelLabel.font = [UIFont systemFontOfSize:17];
     _valuelLabel.textColor = [UIColor whiteColor];
     _valuelLabel.text = @"报警值";
-    [self.view addSubview:_valuelLabel];
+    [_menuView addSubview:_valuelLabel];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
-    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.bounces = NO;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -134,31 +151,44 @@
 }
 
 - (void)layoutPageSubviews {
+    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@45);
+    }];
+    
+    [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_topView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@35);
+    }];
+
     [_typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(@40);
+        make.left.top.equalTo(_menuView);
+        make.width.equalTo(@(SCREEN_W / 3));
+        make.height.equalTo(_menuView);
     }];
     
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_typeLabel);
+        make.top.equalTo(_menuView);
         make.left.equalTo(_typeLabel.mas_right);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(_typeLabel);
+        make.width.equalTo(@(SCREEN_W / 3));
+        make.height.equalTo(_menuView);
     }];
     
     [_valuelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_typeLabel);
+        make.top.equalTo(_menuView);
         make.left.equalTo(_timeLabel.mas_right);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(_typeLabel);
+        make.width.equalTo(@(SCREEN_W / 3));
+        make.height.equalTo(_menuView);
     }];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_typeLabel.mas_bottom);
+        make.top.equalTo(_menuView.mas_bottom);
         make.left.width.bottom.equalTo(self.view);
     }];
-
+    
+    [_timeLabel addLeftBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_timeLabel addRightBorderWithColor:[UIColor whiteColor] width:0.5];
 }
 
 

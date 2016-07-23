@@ -22,36 +22,36 @@
     }
     
     _typeLabel = [[UILabel alloc] init];
-    _typeLabel.font = [UIFont systemFontOfSize:16];
+    _typeLabel.font = [UIFont systemFontOfSize:15];
     _typeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_typeLabel];
     
     _countLabel = [[UILabel alloc] init];
     _countLabel.textAlignment = NSTextAlignmentCenter;
-    _countLabel.font = [UIFont systemFontOfSize:16];
+    _countLabel.font = [UIFont systemFontOfSize:15];
     _countLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_countLabel];
     
     _descLabel = [[UILabel alloc] init];
-    _descLabel.font = [UIFont systemFontOfSize:16];
+    _descLabel.font = [UIFont systemFontOfSize:15];
     _descLabel.textColor = [UIColor whiteColor];
     [self addSubview:_descLabel];
     
     [_typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self).offset(10);
+        make.left.equalTo(self).offset(5);
         make.centerY.equalTo(self.contentView);
-        make.width.equalTo(self).dividedBy(3);
+        make.width.equalTo(@(SCREEN_W / 3 -5));
     }];
     
     [_countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_typeLabel.mas_right);
-        make.width.equalTo(self).dividedBy(6);
+        make.width.equalTo(@(SCREEN_W / 6));
         make.centerY.equalTo(self.contentView);
     }];
     
     [_descLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_countLabel.mas_right).offset(10);
-        make.width.equalTo(self).dividedBy(2);
+        make.left.equalTo(_countLabel.mas_right).offset(5);
+        make.width.equalTo(@(SCREEN_W / 2 - 10));
         make.centerY.equalTo(self.contentView);
     }];
 

@@ -14,7 +14,9 @@
 + (NSString *)intToBinary:(int)intValue;
 
 + (NSString *)currentDate;
-+ (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day;
++ (NSInteger)currentYear;
++ (NSInteger)currentMonth;
++ (NSString *)dateWithSateStr:(NSString *)dateStr Format:(NSString *)format;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
 
 + (void)showWithStatus:(NSString *)status;

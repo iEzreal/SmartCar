@@ -8,8 +8,14 @@
 
 #import "SYPhysicalController.h"
 #import "SYPhysicalCell.h"
+#import "SYPageTopView.h"
 
-@interface SYPhysicalController () <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface SYPhysicalController () <SYPageTopViewDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+
+@property(nonatomic, strong) SYPageTopView *topView;
+@property(nonatomic, strong) UIView *menuView;
+@property(nonatomic, strong) UILabel *faultCodeLabel;
+@property(nonatomic, strong) UILabel *faultDescLabel;
 
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSMutableArray *physicalArray;
@@ -21,11 +27,8 @@
 #pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
-    self.title = @"车辆体检";
     
     _physicalArray = [[NSMutableArray alloc] init];
-    
     [self setupPageSubviews];
 }
 
@@ -75,13 +78,13 @@
     }];
 }
 
-#pragma mark - 点击事件处理
-- (void)physicalAction:(UIButton *)sender {
+#pragma mark - 代理方法
+- (void)topViewRightAction {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"使用该功能，请确保您的车处于停止行驶状态，否则可能发生危险!" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     [alertView show];
 }
 
-#pragma mark - 代理方法
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         [self getDtcCode];
@@ -111,33 +114,30 @@
 
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
-    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-    rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30);
-    [rightButton setImage:[UIImage imageNamed:@"check_icon"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(physicalAction:) forControlEvents:UIControlEventTouchUpInside];
-    rightButton.tag = 101;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    _topView = [[SYPageTopView alloc] init];
+    _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
+    _topView.iconImage = [UIImage imageNamed:@"icon_physical_white"];
+    [_topView.rightBtn setImage:[UIImage imageNamed:@"icon_check"] forState:UIControlStateNormal];
+    _topView.title= @"车辆体检";
+    _topView.delegate = self;
+    [self.view addSubview:_topView];
     
-    UIView *titleView = [[UIView alloc] init];
-    titleView.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    [self.view addSubview:titleView];
+    _menuView = [[UIView alloc] init];
+    _menuView.backgroundColor = [UIColor colorWithHexString:NAV_BAR_COLOR];
+    [self.view addSubview:_menuView];
     
-    UILabel *faultCodeLabel = [[UILabel alloc] init];
-    faultCodeLabel.textAlignment = NSTextAlignmentCenter;
-    faultCodeLabel.font = [UIFont systemFontOfSize:17];
-    faultCodeLabel.textColor = [UIColor whiteColor];
-    faultCodeLabel.text = @"故障码";
-    [titleView addSubview:faultCodeLabel];
+    _faultCodeLabel = [[UILabel alloc] init];
+    _faultCodeLabel.textAlignment = NSTextAlignmentCenter;
+    _faultCodeLabel.font = [UIFont systemFontOfSize:17];
+    _faultCodeLabel.textColor = [UIColor whiteColor];
+    _faultCodeLabel.text = @"故障码";
+    [_menuView addSubview:_faultCodeLabel];
     
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = [UIColor whiteColor];
-    [titleView addSubview:lineView];
-    
-    UILabel *faultDescLabel = [[UILabel alloc] init];
-    faultDescLabel.font = [UIFont systemFontOfSize:17];
-    faultDescLabel.textColor = [UIColor whiteColor];
-    faultDescLabel.text = @"故障描述";
-    [titleView addSubview:faultDescLabel];
+    _faultDescLabel = [[UILabel alloc] init];
+    _faultDescLabel.font = [UIFont systemFontOfSize:17];
+    _faultDescLabel.textColor = [UIColor whiteColor];
+    _faultDescLabel.text = @"故障描述";
+    [_menuView addSubview:_faultDescLabel];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
@@ -148,34 +148,38 @@
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
     
-    [titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.equalTo(self.view);
-        make.height.equalTo(@40);
+        make.height.equalTo(@45);
     }];
     
-    [faultCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(titleView);
-        make.centerY.equalTo(titleView);
+    [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_topView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@35);
+    }];
+
+    
+    [_faultCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.equalTo(_menuView);
         make.width.equalTo(@100);
+        make.height.equalTo(_menuView);
     }];
     
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(faultCodeLabel.mas_right);
-        make.centerY.equalTo(titleView);
-        make.width.equalTo(@0.5);
-        make.height.equalTo(@25);
-    }];
     
-    [faultDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(lineView.mas_right).offset(10);
-        make.right.equalTo(titleView);
-        make.centerY.equalTo(titleView);
+    [_faultDescLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_menuView);
+        make.left.equalTo(_faultCodeLabel.mas_right).offset(10);
+        make.right.equalTo(_menuView);
+        make.height.equalTo(_menuView);
     }];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(titleView.mas_bottom);
+        make.top.equalTo(_menuView.mas_bottom);
         make.left.width.bottom.equalTo(self.view);
     }];
+    [_faultCodeLabel addRightBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_menuView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
 }
 
 @end

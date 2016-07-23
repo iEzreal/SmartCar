@@ -39,19 +39,18 @@
 
 }
 
-+ (NSString *)dateAfterDate:(NSDate *)date day:(NSInteger)day {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *componentsToAdd = [[NSDateComponents alloc] init];
-    [componentsToAdd setDay:day];
++ (NSString *)dateWithSateStr:(NSString *)dateStr Format:(NSString *)format {
+    NSDateFormatter *formatter1 = [[NSDateFormatter alloc]init];
+    [formatter1 setDateFormat:@"yyyy/MM/dd HH:mm:ss"];
+    NSDate *date = [formatter1 dateFromString:dateStr];
     
-    NSDate *dateAfterDay = [calendar dateByAddingComponents:componentsToAdd toDate:date options:0];
     
-    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
-    NSString *dateStr = [formatter stringFromDate:dateAfterDay];
-
-    return dateStr;
+    NSDateFormatter *formatter2 = [[NSDateFormatter alloc] init];
+    [formatter2 setDateFormat:format];
+    NSString *str = [formatter2 stringFromDate:date];
+    return str;
 }
+
 
 + (NSString *)currentDate {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -59,6 +58,35 @@
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     return dateStr;
 }
+
++ (NSInteger)currentYear {
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSYearCalendarUnit |
+                           NSMonthCalendarUnit |
+                           NSDayCalendarUnit |
+                           NSHourCalendarUnit |
+                           NSMinuteCalendarUnit |
+                        NSSecondCalendarUnit;
+    NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+    NSInteger year = [dateComponent year];
+    return year;
+}
+
++ (NSInteger)currentMonth {
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSYearCalendarUnit |
+                           NSMonthCalendarUnit |
+                           NSDayCalendarUnit |
+                           NSHourCalendarUnit |
+                           NSMinuteCalendarUnit |
+                           NSSecondCalendarUnit;
+    NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+    NSInteger month = [dateComponent month];
+    return month;
+}
+
 
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime {
     NSDateFormatter *date=[[NSDateFormatter alloc] init];

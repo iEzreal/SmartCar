@@ -25,11 +25,81 @@
 
 @implementation SYSettingMileageController
 
+#pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"初始里程";
-    self.view.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
     
+    [self setupPageSubviews];
+    [self layoutPageSubviews];
+    [self requestMileage];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - 数据请求
+- (void)requestMileage {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"carId"];
+    [SYUtil showWithStatus:@"正在加载..."];
+    [SYApiServer POST:METHOD_GET_MILEAGE parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic) {
+            _mileageTF.text = [NSString stringWithFormat:@"%@",[responseDic objectForKey:@"GetMileageResult"]];
+            [SYUtil showSuccessWithStatus:@"获取初始里程成功" duration:2];
+        } else {
+            [SYUtil showSuccessWithStatus:@"获取初始里程失败" duration:2];
+        }
+    } failure:^(NSError *error) {
+        [SYUtil showSuccessWithStatus:@"获取初始里程失败" duration:2];
+    }];
+}
+
+- (void)requestInitMileage {
+    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
+    [parameters setObject:[NSNumber numberWithInt:[_mileageTF.text intValue]] forKey:@"Mileage"];
+    
+    [SYUtil showWithStatus:@"正在提交数据..."];
+    [SYApiServer POST:METHOD_INIT_MILEAGE parameters:parameters success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic && [[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
+            [SYUtil showSuccessWithStatus:@"初始里程成功" duration:2];
+        } else {
+            [SYUtil showErrorWithStatus:@"初始里程失败" duration:2];
+        }
+    } failure:^(NSError *error) {
+        [SYUtil showErrorWithStatus:@"初始里程失败" duration:2];
+    }];
+}
+
+#pragma mark - 数据处理
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    [self.view endEditing:YES];
+}
+
+- (void)mileageClickAction:(UIButton *)sender{
+    if (sender.tag == 300) {
+        
+    } else {
+        if ([_mileageTF.text isEqualToString:@""]) {
+            [SYUtil showHintWithStatus:@"初始里程不能为空!" duration:2];
+            return;
+        }
+        
+        [self requestInitMileage];
+    }
+}
+
+#pragma mark - 界面UI
+- (void)setupPageSubviews {
     _mileageLogo = [[UIImageView alloc] init];
     _mileageLogo.image = [UIImage imageNamed:@"mine_mileage"];
     [self.view addSubview:_mileageLogo];
@@ -74,7 +144,9 @@
     [_saveBtn addTarget:self action:@selector(mileageClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _saveBtn.tag = 301;
     [self.view addSubview:_saveBtn];
-    
+}
+
+- (void)layoutPageSubviews {
     [_mileageLogo mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(30);
         make.centerX.equalTo(self.view);
@@ -115,54 +187,11 @@
         make.right.equalTo(_selectCarBtn);
     }];
     
-   
+    
     [_saveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mileageHintLabel.mas_bottom).offset(50);
         make.centerX.equalTo(self.view);
     }];
-
-
-    
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
-- (void)requestInitMileage {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
-    [parameters setObject:[NSNumber numberWithInt:[_mileageTF.text intValue]] forKey:@"Mileage"];
-    
-    [SVProgressHUD showWithStatus:@"正在提交数据..."];
-    [SYApiServer POST:METHOD_INIT_MILEAGE parameters:parameters success:^(id responseObject) {
-        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic && [[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
-             [SVProgressHUD showSuccessWithStatus:@"初始里程成功"];
-        } else {
-            [SVProgressHUD showErrorWithStatus:@"初始里程失败"];
-        }
-        
-    } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"初始里程失败"];
-    }];
-}
-
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    [super touchesBegan:touches withEvent:event];
-    [self.view endEditing:YES];
-}
-
-- (void)mileageClickAction:(UIButton *)sender{
-    if (sender.tag == 300) {
-        
-    } else {
-        [self requestInitMileage];
-    }
 }
 
 @end

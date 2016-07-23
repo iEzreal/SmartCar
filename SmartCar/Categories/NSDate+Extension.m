@@ -38,7 +38,7 @@
 
 + (NSString *)currentDate {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
     NSString *dateStr = [formatter stringFromDate:[NSDate date]];
     return dateStr;
 }
@@ -55,7 +55,7 @@
     NSDate *dateAfterDay = [calendar dateByAddingComponents:componentsToAdd toDate:date options:0];
     
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *dateStr = [formatter stringFromDate:dateAfterDay];
     
     return dateStr;
@@ -72,7 +72,7 @@
     NSDate *dateAfterMonth = [calendar dateByAddingComponents:componentsToAdd toDate:date options:0];
     
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *dateStr = [formatter stringFromDate:dateAfterMonth];
 
     

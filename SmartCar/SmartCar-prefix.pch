@@ -46,7 +46,12 @@
 #define SCALE_W SCREEN_W / 320
 #define SCALE_H SCREEN_H / 480
 
+#define TAB_SELECTED_COLOR [UIColor colorWithHexString:@"4EB7CD"]
+
 #define HOME_BG_COLOR @"5A6478"
+#define NAV_BAR_COLOR @"3E4451"
+#define PAGE_TOP_COLOR @"4EB7CD"
+
 #define WeakSelf __weak typeof(self) weakSelf = self
 
 // 数据交互接口
@@ -56,6 +61,7 @@
 #define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
 #define METHOD_CHANGE_PASSWORD @"ChangePassword"
 #define METHOD_INIT_MILEAGE @"InitMileage"
+#define METHOD_GET_MILEAGE @"GetMileage"
 
 #define METHOD_GET_LAST_POSITION @"GetLastPosition"
 #define METHOD_GET_CAR_TRIP @"GetCarTrip"

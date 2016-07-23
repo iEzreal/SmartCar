@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Stat Controller-->
@@ -17,8 +18,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" tag="204" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
-                                <rect key="frame" x="87" y="419" width="189" height="69"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
+                                <rect key="frame" x="0.0" y="96" width="168" height="376"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="46K-dZ-Aea"/>
+                                    <constraint firstAttribute="height" constant="376" id="Ls5-GX-pRQ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" tag="204" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
+                                <rect key="frame" x="98" y="412" width="191" height="69"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="69" id="knf-Cr-WJb"/>
+                                    <constraint firstAttribute="width" constant="191" id="yUc-jC-qaj"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="车辆行驶信息" image="vinfo_normal"/>
                                 <state key="highlighted" image="vinfo_highlight"/>
@@ -26,8 +38,12 @@
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="D1H-rF-qxj"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="203" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
-                                <rect key="frame" x="154" y="305" width="154" height="69"/>
+                            <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
+                                <rect key="frame" x="160" y="305" width="151" height="68"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="3UX-9W-LYJ"/>
+                                    <constraint firstAttribute="width" constant="151" id="RfZ-dJ-E4b"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="油量异常" image="sgasadd_normal"/>
                                 <state key="highlighted" image="sgasadd_highlight"/>
@@ -35,11 +51,12 @@
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="i5F-i1-oFJ"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
-                                <rect key="frame" x="0.0" y="96" width="163" height="375"/>
-                            </imageView>
-                            <button opaque="NO" tag="202" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
-                                <rect key="frame" x="150" y="178" width="126" height="86"/>
+                            <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
+                                <rect key="frame" x="160" y="196" width="115" height="86"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="115" id="TGI-Q1-tYQ"/>
+                                    <constraint firstAttribute="height" constant="86" id="xbB-dU-uek"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="加油" image="gasdec_normal"/>
                                 <state key="highlighted" image="gasdec_highlight"/>
@@ -47,8 +64,12 @@
                                     <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="N9h-rj-7P4"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" tag="201" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
-                                <rect key="frame" x="87" y="77" width="117" height="70"/>
+                            <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
+                                <rect key="frame" x="98" y="96" width="125" height="70"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="3Wx-V8-AB0"/>
+                                    <constraint firstAttribute="width" constant="125" id="4YQ-Vs-pLI"/>
+                                </constraints>
                                 <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="报警" image="alarm_normal"/>
                                 <state key="highlighted" image="alarm_highlight"/>
@@ -58,6 +79,18 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="peP-QX-Gr2" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leadingMargin" constant="144" id="2MF-6X-iTy"/>
+                            <constraint firstItem="jlf-WT-ywc" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leading" id="C2X-35-F9U"/>
+                            <constraint firstItem="y4Q-J1-h7v" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leadingMargin" constant="82" id="CmZ-m6-6cS"/>
+                            <constraint firstItem="jlf-WT-ywc" firstAttribute="centerY" secondItem="pQr-mq-AiK" secondAttribute="centerY" id="EJ3-hw-BUy"/>
+                            <constraint firstItem="lQX-H8-ZaS" firstAttribute="bottom" secondItem="alL-aR-QKs" secondAttribute="top" constant="-30" id="NQW-tL-peK"/>
+                            <constraint firstItem="alL-aR-QKs" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leadingMargin" constant="82" id="QbU-cS-iOg"/>
+                            <constraint firstItem="alL-aR-QKs" firstAttribute="bottom" secondItem="jlf-WT-ywc" secondAttribute="bottom" id="VNE-4A-0G8"/>
+                            <constraint firstItem="lQX-H8-ZaS" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leadingMargin" constant="144" id="cDn-Se-rrn"/>
+                            <constraint firstItem="peP-QX-Gr2" firstAttribute="top" secondItem="y4Q-J1-h7v" secondAttribute="bottom" constant="30" id="fT8-GU-Vgb"/>
+                            <constraint firstItem="y4Q-J1-h7v" firstAttribute="top" secondItem="jlf-WT-ywc" secondAttribute="top" id="w0v-4D-m1l"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="alarmButton" destination="y4Q-J1-h7v" id="aGR-0b-UcL"/>

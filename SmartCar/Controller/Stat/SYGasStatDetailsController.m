@@ -10,6 +10,8 @@
 
 @interface SYGasStatDetailsController () <BMKMapViewDelegate>
 
+@property(nonatomic, strong) UILabel *titleLabel;
+
 @property(nonatomic, strong) UIView *gasStationView;
 @property(nonatomic, strong) UILabel *gasStationHintLabel;
 @property(nonatomic, strong) UILabel *gasStationLabel;
@@ -30,22 +32,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"加油详细信息";
     
     [self setupPageSubviews];
     [self layoutPageSubviews];
 
-    _timeLabel.text = [_gasDic objectForKey:@"gpstime"];
-    
-    NSString *OBDGasLevel = [_gasDic objectForKey:@"OBDGasLevel"];
-    NSString *OBDHistoryGasLevel = [_gasDic objectForKey:@"OBDHistoryGasLevel"];
-    CGFloat amount = ([OBDGasLevel floatValue] - [OBDHistoryGasLevel floatValue]) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
-    _oliAmountLabel.text = [NSString stringWithFormat:@"%.2f", amount];
+    _titleLabel.text = _titleStr;
+    _timeLabel.text = _gasTime;
+    _oliAmountLabel.text = _gasAmcount;
 
-    
-    double lat = [[_gasDic objectForKey:@"lat"] doubleValue];
-    double lon = [[_gasDic objectForKey:@"lon"] doubleValue];
-    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(lat, lon);
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_lat, _lon);
     NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
     CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
    
@@ -54,8 +49,7 @@
     _mapView.centerCoordinate = baiduCoor;
     [_mapView addAnnotation:annotation];
     
-    
-    [self reverseGeocodeWithLat:lat lon:lon];
+    [self reverseGeocodeWithLat:_lat lon:_lon];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,19 +93,23 @@
 
 #pragma mark - 页面布局
 - (void)setupPageSubviews {
-    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:_titleLabel];
+
     // 加油站
     _gasStationView = [[UIView alloc] init];
     [self.view addSubview:_gasStationView];
     
     _gasStationHintLabel = [[UILabel alloc] init];
-    _gasStationHintLabel.font = [UIFont systemFontOfSize:16];
+    _gasStationHintLabel.font = [UIFont systemFontOfSize:15];
     _gasStationHintLabel.textColor = [UIColor whiteColor];
     _gasStationHintLabel.text = @"加油站";
     [_gasStationView addSubview:_gasStationHintLabel];
     
     _gasStationLabel = [[UILabel alloc] init];
-    _gasStationLabel.font = [UIFont systemFontOfSize:16];
+    _gasStationLabel.font = [UIFont systemFontOfSize:15];
     _gasStationLabel.textColor = [UIColor whiteColor];
     [_gasStationView addSubview:_gasStationLabel];
     
@@ -120,13 +118,13 @@
     [self.view addSubview:_timeView];
     
     _timeHintLabel = [[UILabel alloc] init];
-    _timeHintLabel.font = [UIFont systemFontOfSize:16];
+    _timeHintLabel.font = [UIFont systemFontOfSize:15];
     _timeHintLabel.textColor = [UIColor whiteColor];
     _timeHintLabel.text = @"时间";
     [_timeView addSubview:_timeHintLabel];
     
     _timeLabel = [[UILabel alloc] init];
-    _timeLabel.font = [UIFont systemFontOfSize:16];
+    _timeLabel.font = [UIFont systemFontOfSize:15];
     _timeLabel.textColor = [UIColor whiteColor];
     [_timeView addSubview:_timeLabel];
     
@@ -135,13 +133,13 @@
     [self.view addSubview:_oliAmountView];
     
     _oliAmountHintLabel = [[UILabel alloc] init];
-    _oliAmountHintLabel.font = [UIFont systemFontOfSize:16];
+    _oliAmountHintLabel.font = [UIFont systemFontOfSize:15];
     _oliAmountHintLabel.textColor = [UIColor whiteColor];
     _oliAmountHintLabel.text = @"油量(L)";
     [_oliAmountView addSubview:_oliAmountHintLabel];
     
     _oliAmountLabel = [[UILabel alloc] init];
-    _oliAmountLabel.font = [UIFont systemFontOfSize:16];
+    _oliAmountLabel.font = [UIFont systemFontOfSize:15];
     _oliAmountLabel.textColor = [UIColor whiteColor];
     [_oliAmountView addSubview:_oliAmountLabel];
     
@@ -154,10 +152,16 @@
 }
 
 - (void)layoutPageSubviews {
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view).offset(10);
+        make.height.equalTo(@50);
+    }];
     
     // 加油站
     [_gasStationView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
+        make.top.equalTo(_titleLabel.mas_bottom);
+        make.left.right.equalTo(self.view);
         make.height.equalTo(@50);
     }];
     
@@ -205,9 +209,10 @@
         make.centerY.equalTo(_oliAmountView);
     }];
     
-    [_gasStationView addBottomBorderWithColor:[UIColor whiteColor] width:1];
-    [_timeView addBottomBorderWithColor:[UIColor whiteColor] width:1];
-    [_oliAmountView addBottomBorderWithColor:[UIColor whiteColor] width:1];
+    [_gasStationView addTopBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_gasStationView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_timeView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_oliAmountView addBottomBorderWithColor:[UIColor whiteColor] width:0.5];
     
     // 地图
     [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {

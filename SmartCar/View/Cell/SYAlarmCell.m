@@ -25,26 +25,22 @@
     }
     
     _typeLabel = [[UILabel alloc] init];
-    _typeLabel.textAlignment = NSTextAlignmentCenter;
-    _typeLabel.font = [UIFont systemFontOfSize:16];
+    _typeLabel.font = [UIFont systemFontOfSize:15];
     _typeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_typeLabel];
     
     _timeLabel = [[UILabel alloc] init];
-    _timeLabel.numberOfLines = 0;
-    _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.font = [UIFont systemFontOfSize:16];
+    _timeLabel.font = [UIFont systemFontOfSize:15];
     _timeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_timeLabel];
     
     _valueLabel = [[UILabel alloc] init];
-    _valueLabel.textAlignment = NSTextAlignmentCenter;
-    _valueLabel.font = [UIFont systemFontOfSize:16];
+    _valueLabel.font = [UIFont systemFontOfSize:15];
     _valueLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_valueLabel];
     
     [_typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView);
+        make.left.equalTo(self.contentView).offset(5);
         make.width.equalTo(self.contentView).dividedBy(3);
         make.centerY.equalTo(self.contentView);
     }];
@@ -57,6 +53,7 @@
     
     [_valueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_timeLabel.mas_right);
+        make.right.equalTo(self.contentView).offset(-5);
         make.width.equalTo(self.contentView).dividedBy(3);
         make.centerY.equalTo(self.contentView);
     }];
@@ -73,7 +70,7 @@
     // 超速报警(第7个bit)
     if ([statuArray[6] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"超速报警"];
-        alarmValue = [NSString stringWithFormat:@"%.1f公里每小时", [alarm.OBDSpeed floatValue] * 0.1];
+        alarmValue = [NSString stringWithFormat:@"%.1fkm/h", [alarm.OBDSpeed floatValue] * 0.1];
     }
     
     // 进入电子围栏报警 9
@@ -112,7 +109,7 @@
         alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
         alarmValue = [NSString stringWithFormat:@"转速%@", alarm.OBDCoolTemp];
     }
-    _timeLabel.text = alarm.gpstime;
+    _timeLabel.text = [SYUtil dateWithSateStr:alarm.gpstime Format:@"yyyy.MM.dd HH.mm"];
     _typeLabel.text = alarmDesc;
     _valueLabel.text = alarmValue;
 }

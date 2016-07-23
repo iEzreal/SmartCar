@@ -8,17 +8,21 @@
 
 #import "SYDatePickerView.h"
 
+#define CONTENT_W (SCREEN_W - 60)
+#define CONTENT_H 296
+#define YEAR_AMCOUNT 50
+
 @interface SYDatePickerView () <UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property(nonatomic, strong) UIView *bgView;
-@property(nonatomic, strong) UIView *contentView;
-@property(nonatomic, strong) UIButton *cancleBtn;
-@property(nonatomic, strong) UIButton *confirmBtn;
+@property(nonatomic, strong) UIView *BGView;
 
+@property(nonatomic, strong) UIView *contentView;
 @property(nonatomic, strong) UILabel *startLabel;
 @property(nonatomic, strong) UILabel *endLabel;
 @property(nonatomic, strong) UIPickerView *leftPickerView;
 @property(nonatomic, strong) UIPickerView *rightPickerView;
+@property(nonatomic, strong) UIButton *cancleBtn;
+@property(nonatomic, strong) UIButton *confirmBtn;
 
 @property(nonatomic, strong) NSMutableArray *yearArray;
 @property(nonatomic, strong) NSMutableArray *monthArray;
@@ -28,61 +32,68 @@
 @property(nonatomic, assign) NSString *endYear;
 @property(nonatomic, strong) NSString *endMonth;
 
-
+@property(nonatomic, assign) NSInteger currentYear;
+@property(nonatomic, assign) NSInteger currentMonth;
 
 @end
 
 @implementation SYDatePickerView
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    if (!(self = [super initWithFrame:frame])) {
+    if (!(self = [super initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)])) {
         return nil;
     }
     _yearArray = [[NSMutableArray alloc] init];
     _monthArray = [[NSMutableArray alloc] init];
     
-    // 50年
-    for (int i = 0; i < 50; i++) {
-        [_yearArray addObject:[NSString stringWithFormat:@"%d", 2016 - i]];
+    _currentYear = [SYUtil currentYear];
+    _currentMonth = [SYUtil currentMonth];
+    
+    for (int i = YEAR_AMCOUNT - 1; i >= 0; i--) {
+        [_yearArray addObject:[NSString stringWithFormat:@"%ld", _currentYear - i]];
     }
     
-    // 12月
     for (int i = 0; i < 12; i++) {
         [_monthArray addObject:[NSString stringWithFormat:@"%d", i + 1]];
     }
     
-    _startYear = _yearArray[0];
-    _startMonth = _monthArray[0];
-    _endYear = _yearArray[0];
-    _endMonth = _monthArray[0];
+    _startYear = _yearArray[YEAR_AMCOUNT - 1];
+    _startMonth = _monthArray[_currentMonth - 1];
+    _endYear = _yearArray[YEAR_AMCOUNT - 1];
+    _endMonth = _monthArray[_currentMonth - 1];
     
     [self setupPageSubviews];
     
     return self;
 }
 
+- (void)tapGesture:(UITapGestureRecognizer *)sender {
+    [self dismiss];
+}
+
 #pragma mark - 菜单显示和关闭
-- (void)showWithView:(UIView *)superView {
-    _isShow = true;
+- (void)show {
+    UIView *superView = [[[UIApplication sharedApplication] windows] firstObject];
     [superView addSubview:self];
+    
+    _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, - CONTENT_H, CONTENT_W, CONTENT_H);
     [UIView animateWithDuration:0.35 animations:^{
-        _bgView.alpha = 0.5;
-        _contentView.frame = CGRectMake(0, self.bottom - 240, SCREEN_W, 240);
+        _BGView.alpha = 0.6;
+        _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, (SCREEN_H - CONTENT_H) / 2, CONTENT_W, CONTENT_H);
+    } completion:^(BOOL finished) {
+        
     }];
 }
 
 - (void)dismiss {
-    _isShow = false;
     [UIView animateWithDuration:0.35 animations:^{
-        _bgView.alpha = 0;
-        _contentView.frame = CGRectMake(0, self.bottom, SCREEN_W, 240);
+        _BGView.alpha = 0;
+        _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, SCREEN_H + CONTENT_H, CONTENT_W, CONTENT_H);
+        
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+        
     }];
-}
-
-- (void)tapGesture:(UITapGestureRecognizer *)sender {
-    [self dismiss];
 }
 
 #pragma mark - 取消 确定事件
@@ -151,59 +162,68 @@
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesture:)];
+    _BGView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    _BGView.backgroundColor = [UIColor blackColor];
+    _BGView.alpha = 0;
+    [_BGView addGestureRecognizer:tapGesture];
+    [self addSubview:_BGView];
     
-    _bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    _bgView.backgroundColor = [UIColor blackColor];
-    _bgView.alpha = 0;
-    [_bgView addGestureRecognizer:tapGesture];
-    [self addSubview:_bgView];
-    
-    _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, self.bottom, self.width, 250)];
-    _contentView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
+    _contentView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_W - CONTENT_W) / 2, -CONTENT_H, CONTENT_W, CONTENT_H)];
+    _contentView.backgroundColor = [UIColor whiteColor];
+    _contentView.layer.cornerRadius = 5;
+    _contentView.layer.masksToBounds = YES;
     [self addSubview:_contentView];
     
-    _startLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W / 2, 30)];
+    _startLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CONTENT_W / 2, 40)];
     _startLabel.textAlignment = NSTextAlignmentCenter;
     _startLabel.textColor = [UIColor blackColor];
     _startLabel.text = @"开始日期";
     [_contentView addSubview:_startLabel];
     
-    _endLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREEN_W / 2, 0, SCREEN_W / 2, 30)];
+    _endLabel = [[UILabel alloc] initWithFrame:CGRectMake(CONTENT_W / 2, 0, CONTENT_W / 2, 40)];
     _endLabel.textAlignment = NSTextAlignmentCenter;
     _endLabel.textColor = [UIColor blackColor];
     _endLabel.text = @"结束日期";
     [_contentView addSubview:_endLabel];
     
-    _leftPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 30, SCREEN_W / 2, 180)];
+    _leftPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, CONTENT_W / 2, 216)];
     _leftPickerView.dataSource = self;
     _leftPickerView.delegate = self;
     _leftPickerView.tag = 1000;
     [_contentView addSubview:_leftPickerView];
     
-    _rightPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(SCREEN_W / 2, 30, SCREEN_W / 2, 180)];
+    _rightPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(CONTENT_W / 2, 40, CONTENT_W / 2, 216)];
     _rightPickerView.dataSource = self;
     _rightPickerView.delegate = self;
     _rightPickerView.tag = 1001;
     [_contentView addSubview:_rightPickerView];
     
     _cancleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _cancleBtn.frame = CGRectMake(0, 210, self.width / 2, 40);
+    _cancleBtn.frame = CGRectMake(0, 256, CONTENT_W / 2, 40);
+    _cancleBtn.backgroundColor = [UIColor colorWithHexString:@"BDC4C8"];
     _cancleBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_cancleBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_cancleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_cancleBtn setTitle:@"取消" forState:UIControlStateNormal];
     [_cancleBtn addTarget:self action:@selector(pickClick:) forControlEvents:UIControlEventTouchUpInside];
     _cancleBtn.tag = 100;
     [_contentView addSubview:_cancleBtn];
     
     _confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _confirmBtn.frame = CGRectMake(self.width / 2, 210, self.width / 2, 40);
+    _confirmBtn.frame = CGRectMake(CONTENT_W / 2, 256, CONTENT_W / 2, 40);
+    _confirmBtn.backgroundColor = [UIColor colorWithHexString:@"2ADE75"];
     _confirmBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_confirmBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBtn setTitle:@"确定" forState:UIControlStateNormal];
     [_confirmBtn setImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     [_confirmBtn addTarget:self action:@selector(pickClick:) forControlEvents:UIControlEventTouchUpInside];
     _confirmBtn.tag = 101;
     [_contentView addSubview:_confirmBtn];
+    
+    //
+    [_leftPickerView selectRow:YEAR_AMCOUNT - 1 inComponent:0 animated:NO];
+    [_leftPickerView selectRow:_currentMonth - 1 inComponent:1 animated:NO];
+    [_rightPickerView selectRow:YEAR_AMCOUNT - 1 inComponent:0 animated:NO];
+    [_rightPickerView selectRow:_currentMonth - 1 inComponent:1 animated:NO];
 
 }
 

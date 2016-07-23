@@ -53,7 +53,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -85,8 +85,10 @@
             [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
             [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
             
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            delegate.window.rootViewController = [[SYRootController alloc] init];
+//            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//            delegate.window.rootViewController = [[SYRootController alloc] init];
+            
+            [self.navigationController pushViewController:[[SYRootController alloc] init] animated:YES];
             [SYUtil dismissProgressHUD];
             
         } else {

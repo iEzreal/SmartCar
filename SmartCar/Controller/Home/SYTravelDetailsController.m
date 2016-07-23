@@ -9,9 +9,12 @@
 #import "SYTravelDetailsController.h"
 #import "SYTravelReplayController.h"
 #import "SYTravelDetailsCell.h"
+#import "SYPageTopView.h"
+#import "SYPickerAlertView.h"
 
-@interface SYTravelDetailsController () <UITableViewDataSource, UITableViewDelegate>
+@interface SYTravelDetailsController () <SYPageTopViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property(nonatomic, strong) SYPageTopView *topView;
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSString *startPoint;
 @property(nonatomic, strong) NSString *endPoint;
@@ -22,25 +25,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"详细行程";
+    _topView = [[SYPageTopView alloc] init];
+    _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
+    _topView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    _topView.title= @"近期行程";
+    _topView.rightBtn.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
+    _topView.rightBtn.contentEdgeInsets = UIEdgeInsetsMake(6, 6, 6, 6);
+    _topView.rightBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+    [_topView.rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_topView.rightBtn setTitle:@"查看行程" forState:UIControlStateNormal];
+    _topView.delegate = self;
+    [self.view addSubview:_topView];
     
-    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-//    rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30);
-    rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [rightButton setTitle:@"查看行程" forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(checkTravelAction:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
     _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.bounces = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
+    
+    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@45);
+    }];
+    
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.equalTo(_topView.mas_bottom);
+        make.left.right.bottom.equalTo(self.view);
     }];
     
     [self reverseGeocode];
@@ -48,10 +62,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-}
-
-- (void)setTravel:(SYTravel *)travel {
-    _travel = travel;
 }
 
 // 反地理编码
@@ -107,11 +117,11 @@
     }];
 }
 
-- (void)checkTravelAction:(UIButton *)sender {
+#pragma mark - 代理方法
+- (void)topViewRightAction {
     SYTravelReplayController *replayController = [[SYTravelReplayController alloc] init];
     replayController.travel = _travel;
     [self.navigationController pushViewController:replayController animated:YES];
-
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

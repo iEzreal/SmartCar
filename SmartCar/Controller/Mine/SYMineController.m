@@ -13,13 +13,15 @@
 #import "SYAboutController.h"
 #import "SYVersionController.h"
 
-#import "SYMineHeaderView.h"
-#import "SYMineMenuCell.h"
+#import "SYMineMenuView.h"
 
-@interface SYMineController () <UITableViewDataSource, UITableViewDelegate>
+@interface SYMineController () <SYMineMenuViewDelegate>
 
-@property(nonatomic, strong) SYMineHeaderView *headerView;
-@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong) UIImageView *bgIV;
+@property(nonatomic, strong) UIImageView *userAvatarIV;
+@property(nonatomic, strong) UILabel *userNameLabel;
+@property(nonatomic, strong) UILabel *loginTimeLabel;
+@property(nonatomic, strong) SYMineMenuView *menuView;
 
 @end
 
@@ -28,25 +30,64 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     self.navigationItem.leftBarButtonItem = nil;
-    _headerView = [[SYMineHeaderView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 180)];
-    _headerView.backgroundColor = [UIColor clearColor];
+    _bgIV = [[UIImageView alloc] init];
+    _bgIV.image = [UIImage imageNamed:@"mine_bg"];
+    [self.view addSubview:_bgIV];
     
-    _headerView.name = [SYAppManager sharedManager].user.userName;
-    _headerView.time = [SYAppManager sharedManager].user.loginTime;
+    _userAvatarIV = [[UIImageView alloc] init];
+    _userAvatarIV.image = [UIImage imageNamed:@"user_photo"];
+    [self.view addSubview:_userAvatarIV];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
-    _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _tableView.dataSource = self;
-    _tableView.delegate = self;
-    _tableView.tableHeaderView = _headerView;
-    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:_tableView];
-    [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 0, 0));
+    _userNameLabel = [[UILabel alloc] init];
+    _userNameLabel.font = [UIFont systemFontOfSize:22];
+    _userNameLabel.textColor = TAB_SELECTED_COLOR;
+    [self.view addSubview:_userNameLabel];
+    
+    _loginTimeLabel = [[UILabel alloc] init];
+    _loginTimeLabel.font = [UIFont systemFontOfSize:16];
+    _loginTimeLabel.textColor = [UIColor whiteColor];
+    [self.view addSubview:_loginTimeLabel];
+    
+    _menuView = [[SYMineMenuView alloc] init];
+    _menuView.deleagate = self;
+    [self.view addSubview:_menuView];
+    
+    [_bgIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_userAvatarIV.mas_centerY);
+        make.left.right.bottom.equalTo(self.view);
+        
     }];
+    
+    [_userAvatarIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(15);
+        make.centerX.equalTo(self.view);
+        
+    }];
+    
+    [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_userAvatarIV.mas_bottom).offset(5);
+        make.centerX.equalTo(self.view);
+        
+    }];
+    
+    [_loginTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_userNameLabel.mas_bottom).offset(10);
+        make.centerX.equalTo(self.view);
+        
+    }];
+    
+    [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_loginTimeLabel.mas_bottom).offset(6);
+        make.centerX.equalTo(self.view);
+        make.width.equalTo(@(SCREEN_W - 40));
+        make.height.equalTo(@((SCREEN_W - 40) / 3 * 2));
+    }];
+
+    
+    _userNameLabel.text = [SYAppManager sharedManager].user.userName;
+    _loginTimeLabel.text = [NSString stringWithFormat:@"[%@]",[SYAppManager sharedManager].user.loginTime];
+    [_menuView addTopBorderWithColor:[UIColor colorWithWhite:1 alpha:0.8] width:0.5];
+    [_menuView addBottomBorderWithColor:[UIColor colorWithWhite:1 alpha:0.8] width:0.5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -54,54 +95,25 @@
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat h = SCREEN_W / 3 * 2;
-    if ( h < (SCREEN_H - 64 - 49 - 180) ) {
-        h = SCREEN_H - 64 - 49 - 180;
-    }
-    
-    return h;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"SYMineMenuCell";
-    SYMineMenuCell *menuCell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!menuCell) {
-        menuCell = [[SYMineMenuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        menuCell.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-        menuCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    
-    menuCell.block = ^(NSInteger index) {
-        if (index == 0) {
-            SYChangePwdController *pwdController = [[SYChangePwdController alloc] init];
-            pwdController.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:pwdController animated:YES];
-            
-        } else if (index == 1) {
-            SYPersonalInfoController *infoController = [[SYPersonalInfoController alloc] init];
-            infoController.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:infoController animated:YES];
+- (void)menuView:(SYMineMenuView *)menuView didSelectedAtIndex:(NSInteger)index {
+    if (index == 0) {
+        SYChangePwdController *pwdController = [[SYChangePwdController alloc] init];
+        [self.navigationController pushViewController:pwdController animated:YES];
         
-        } else if (index == 2) {
-            SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
-            [self.navigationController pushViewController:mileageController animated:YES];
-        } else if (index == 3) {
-            SYAboutController *aboutController = [[SYAboutController alloc] init];
-            aboutController.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:aboutController animated:YES];
-        } else {
-            SYVersionController *versionController = [[SYVersionController alloc] init];
-            versionController.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:versionController animated:YES];
-        }
+    } else if (index == 1) {
+        SYPersonalInfoController *infoController = [[SYPersonalInfoController alloc] init];
+        [self.navigationController pushViewController:infoController animated:YES];
         
-    };
-    return menuCell;
+    } else if (index == 2) {
+        SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
+        [self.navigationController pushViewController:mileageController animated:YES];
+    } else if (index == 3) {
+        SYAboutController *aboutController = [[SYAboutController alloc] init];
+        [self.navigationController pushViewController:aboutController animated:YES];
+    } else {
+        SYVersionController *versionController = [[SYVersionController alloc] init];
+        [self.navigationController pushViewController:versionController animated:YES];
+    }
 }
 
 

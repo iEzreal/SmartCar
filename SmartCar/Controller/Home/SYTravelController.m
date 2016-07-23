@@ -8,19 +8,22 @@
 
 #import "SYTravelController.h"
 #import "SYTravelDetailsController.h"
-#import "SYPickerView.h"
+#import "SYPageTopView.h"
+#import "SYPickerAlertView.h"
 #import "SYTravelCell.h"
 #import "SYTravel.h"
 
-@interface SYTravelController () <UITableViewDataSource, UITableViewDelegate, SYPickerViewDelegate>
+@interface SYTravelController () <UITableViewDataSource, UITableViewDelegate, SYPageTopViewDelegate, SYPickerAlertViewDelegate>
 
-@property(nonatomic, strong) UIButton *rightButton;
+@property(nonatomic, strong) SYPickerAlertView *pickerAlertView;
 
-@property(nonatomic, strong) SYPickerView *pickerView;
+@property(nonatomic, strong) SYPageTopView *topView;
 
+@property(nonatomic, strong) UIView *menuView;
 @property(nonatomic, strong) UILabel *timeLabel;
 @property(nonatomic, strong) UILabel *dateLabel;
 @property(nonatomic, strong) UILabel *travelLabel;
+
 @property(nonatomic, strong) UITableView *tableView;
 
 @property(nonatomic, strong) NSMutableArray *travelArray;
@@ -55,19 +58,18 @@
     [parameters setObject:startTime forKey:@"sTime"];
     [parameters setObject:endTime forKey:@"eTime"];
     
-    [SVProgressHUD showWithStatus:@"正在加载..."];
+    [SYUtil showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_CAR_TRIP parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"GetCarTripResult"] integerValue] > 0) {
             [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
+            [SYUtil showSuccessWithStatus:@"加载数据成功" duration:1];
         } else {
-            [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
+            [SYUtil showErrorWithStatus:@"加载数据失败" duration:2];
         }
-        
-        [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"加载数据失败"];
+        [SYUtil showErrorWithStatus:@"加载数据失败" duration:2];
     }];
 }
 
@@ -84,32 +86,35 @@
 
 #pragma mark - 点击事件处理
 - (void)dateSwitchAction:(UIButton *)sender {
-    if (!_pickerView) {
-        _pickerView = [[SYPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
-        _pickerView.delegate = self;
-        _pickerView.dataSourceArray = @[@"一个月内", @"三个月内", @"半年内", @"一年内"];
     }
-    
-    if (_pickerView.isShow) {
-        [_pickerView dismiss];
-    } else {
-        [_pickerView showWithView:self.view];
-    }
-}
 
 #pragma mark - 代理方法
-- (void)pickerView:(SYPickerView *)pickerView didSelectAtIndex:(NSInteger)index {
+- (void)topViewRightAction {
+    if (!_pickerAlertView) {
+        _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:@[@"一个月内", @"三个月内", @"半年内", @"一年内"]];
+        _pickerAlertView.delegate = self;
+    }
+    [_pickerAlertView show];
+}
+
+- (void)pickerAlertView:(SYPickerAlertView *)pickerAlertView didSelectAtIndex:(NSInteger)index {
     if (index == 0) {
+        _topView.content = @"一个月内";
         [self requestTravelWithMonth:-1];
+        
     } else if (index == 1) {
+        _topView.content = @"三个月内";
         [self requestTravelWithMonth:-3];
+        
     } else if (index == 2) {
+        _topView.content = @"半年内";
         [self requestTravelWithMonth:-6];
+        
     } else {
+        _topView.content = @"一年内";
         [self requestTravelWithMonth:-12];
     }
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _travelArray.count;
@@ -141,38 +146,39 @@
 
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
-    _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44)];
-    _rightButton.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -30);
-    [_rightButton setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
-    [_rightButton addTarget:self action:@selector(dateSwitchAction:) forControlEvents:UIControlEventTouchUpInside];
-    _rightButton.tag = 101;
+    _topView = [[SYPageTopView alloc] init];
+    _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
+    _topView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    [_topView.rightBtn setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
+    _topView.title= @"近期行程";
+    _topView.content = @"一个月内";
+    _topView.delegate = self;
+    [self.view addSubview:_topView];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightButton];
-    
+    _menuView = [[UIView alloc] init];
+    _menuView.backgroundColor = [UIColor colorWithHexString:NAV_BAR_COLOR];
+    [self.view addSubview:_menuView];
     
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.textAlignment = NSTextAlignmentCenter;
-    _dateLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _dateLabel.font = [UIFont systemFontOfSize:16];
+    _dateLabel.font = [UIFont systemFontOfSize:17];
     _dateLabel.textColor = [UIColor whiteColor];
     _dateLabel.text = @"日期";
-    [self.view addSubview:_dateLabel];
+    [_menuView addSubview:_dateLabel];
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _timeLabel.font = [UIFont systemFontOfSize:16];
+    _timeLabel.font = [UIFont systemFontOfSize:17];
     _timeLabel.textColor = [UIColor whiteColor];
     _timeLabel.text = @"时间";
-    [self.view addSubview:_timeLabel]; 
+    [_menuView addSubview:_timeLabel];
     
     _travelLabel = [[UILabel alloc] init];
     _travelLabel.textAlignment = NSTextAlignmentCenter;
-    _travelLabel.backgroundColor = [UIColor colorWithHexString:@"3E4451"];
-    _travelLabel.font = [UIFont systemFontOfSize:16];
+    _travelLabel.font = [UIFont systemFontOfSize:17];
     _travelLabel.textColor = [UIColor whiteColor];
     _travelLabel.text = @"里程";
-    [self.view addSubview:_travelLabel];
+    [_menuView addSubview:_travelLabel];
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
@@ -184,30 +190,43 @@
 }
 
 - (void)layoutPageSubviews {
+    
+    [_topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@45);
+    }];
+    
+    [_menuView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_topView.mas_bottom);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@35);
+    }];
+    
     [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(self.view);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(@40);
+        make.left.equalTo(_menuView);
+        make.width.equalTo(@(SCREEN_W / 3));
+        make.centerY.equalTo(_menuView);
     }];
     
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_dateLabel);
         make.left.equalTo(_dateLabel.mas_right);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(_dateLabel);
+        make.width.equalTo(_dateLabel);
+        make.centerY.equalTo(_menuView);
     }];
     
     [_travelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_dateLabel);
         make.left.equalTo(_timeLabel.mas_right);
-        make.width.equalTo(self.view).dividedBy(3);
-        make.height.equalTo(_dateLabel);
+        make.width.equalTo(_dateLabel);
+        make.centerY.equalTo(_menuView);
     }];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_dateLabel.mas_bottom);
-        make.left.width.bottom.equalTo(self.view);
+        make.top.equalTo(_menuView.mas_bottom);
+        make.left.right.bottom.equalTo(self.view);
     }];
+    
+    [_timeLabel addLeftBorderWithColor:[UIColor whiteColor] width:0.5];
+    [_timeLabel addRightBorderWithColor:[UIColor whiteColor] width:0.5];
 }
 
 

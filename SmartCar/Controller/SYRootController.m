@@ -47,7 +47,7 @@
 //    controller.tabBarItem.selectedImage = [[UIImage imageNamed:selectedImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     CGSize indicatorImageSize = CGSizeMake(self.tabBar.bounds.size.width / 3, self.tabBar.bounds.size.height);
     
-    self.tabBar.backgroundImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:62 green:58 blue:57];
+    self.tabBar.backgroundImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:00 green:00 blue:00];
     self.tabBar.selectionIndicatorImage = [self drawTabBarItemBackgroundImageWithSize:indicatorImageSize red:78 green:183 blue:205];
     
     [controller.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor],

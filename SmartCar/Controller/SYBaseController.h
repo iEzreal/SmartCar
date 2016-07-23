@@ -10,6 +10,9 @@
 
 @interface SYBaseController : UIViewController
 
-- (void)backButtonAction;
+- (void)setTitle:(NSString *)title;
+- (void)setLocation:(NSString *)location;
+
+- (void)navBtnOnClick;
 
 @end

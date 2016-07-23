@@ -21,8 +21,6 @@
 @property(nonatomic, weak) id<SYDatePickerViewDelegate> delegate;
 
 @property(nonatomic, assign) BOOL isShow;
-- (void)showWithView:(UIView *)superView;
-- (void)dismiss;
-
+- (void)show;
 
 @end

@@ -24,9 +24,6 @@
 
 @interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, SYHomePhysicalViewDelegate, BMKMapViewDelegate>
 
-@property(nonatomic, strong) SYButton *navTitleBtn;
-@property(nonatomic, strong) SYButton *locationBtn;
-
 @property(nonatomic, strong) SYCarSwitchView *carSwitchView;
 
 @property(nonatomic, strong) SYHomeGaugeView *gaugeView;
@@ -49,11 +46,7 @@
 #pragma mark - 生命周期
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
-    self.navigationItem.titleView = self.navTitleBtn;
-    self.navigationItem.leftBarButtonItem = nil;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.locationBtn];
-    
+
     _travelArray = [[NSMutableArray alloc] init];
     
     [self setupPageSubviews];
@@ -73,7 +66,6 @@
     [_mapView viewWillDisappear];
     _mapView.delegate = nil;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -139,16 +131,11 @@
             NSArray *alarmArray = [alarmDic objectForKey:@"TableInfo"];
             [_alarmView setAlarmArray:alarmArray];
         }
-        
-        [SVProgressHUD dismiss];
     } failure:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"加载失败"];
     }];
 }
 
 // 车辆体检信息
-
-
 - (void)parseTravelWithJsonString:(NSString *)jsonString {
     NSDictionary *travelDic = [jsonString objectFromJSONString];
     NSArray *tableArray = [travelDic objectForKey:@"TableInfo"];
@@ -239,23 +226,22 @@
 
 - (void)refreshPositionAction {
     [self requestCarLastPosition];
+    [self requestCarTrip];
+    [self requestAlarmInfo];
 }
 
 - (void)moreTraveAction {
     SYTravelController *travelController = [[SYTravelController alloc] init];
-    travelController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:travelController animated:YES];
 }
 
 - (void)moreAlarmAction {
     SYAlarmController *alarmController = [[SYAlarmController alloc] init];
-    alarmController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:alarmController animated:YES];
 }
 
 - (void)morePhysicalAction {
     SYPhysicalController *physicalController = [[SYPhysicalController alloc] init];
-    physicalController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:physicalController animated:YES];
 }
 
@@ -263,7 +249,6 @@
     SYCurrentLocationController *locationController = [[SYCurrentLocationController alloc] init];
     locationController.lat = _vePosition.lat;
     locationController.lon = _vePosition.lon;
-    locationController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:locationController animated:YES];
 
 }
@@ -306,34 +291,5 @@
     [_physicalView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
     [self.view addSubview:_physicalView ];
 }
-
-#pragma mark - setter & getter
-- (SYButton *)navTitleBtn {
-    if (!_navTitleBtn) {
-        _navTitleBtn = [[SYButton alloc] initWithFrame:CGRectMake(0, 0, 120, 44) image:[UIImage imageNamed:@"list_down"] title:[SYAppManager sharedManager].vehicle.carNum];
-        _navTitleBtn.buttonTitleWithImageAlignment = UIButtonTitleWithImageAlignmentRight;
-        _navTitleBtn.titleLabel.font = [UIFont systemFontOfSize:18];
-        [_navTitleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_navTitleBtn addTarget:self action:@selector(homeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        _navTitleBtn.tag = 100;
-
-    }
-    return _navTitleBtn;
-}
-
-- (SYButton *)locationBtn {
-    if (!_locationBtn) {
-        _locationBtn = [[SYButton alloc] initWithFrame:CGRectMake(0, 0, 60, 44) image:[UIImage imageNamed:@"list_down"] title:@"上海"];
-        _locationBtn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -20);
-        _locationBtn.imgTextDistance = 3;
-        _locationBtn.buttonTitleWithImageAlignment = UIButtonTitleWithImageAlignmentRight;
-        _locationBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-        [_locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_locationBtn addTarget:self action:@selector(homeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        _locationBtn.tag = 101;
-    }
-    return _locationBtn;
-}
-
 
 @end

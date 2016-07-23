@@ -24,12 +24,12 @@
     }
     
     _dateLabel = [[UILabel alloc] init];
-    _dateLabel.font = [UIFont systemFontOfSize:16];
+    _dateLabel.font = [UIFont systemFontOfSize:15];
     _dateLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_dateLabel];
     
     _amountLabel = [[UILabel alloc] init];
-    _amountLabel.font = [UIFont systemFontOfSize:16];
+    _amountLabel.font = [UIFont systemFontOfSize:15];
     _amountLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_amountLabel];
     
@@ -52,8 +52,8 @@
 }
 
 - (void)setDate:(NSString *)date {
-    _date = date;
-    _dateLabel.text = date;
+    _date = [SYUtil dateWithSateStr:date Format:@"yyyy-MM-dd HH:mm:ss"];;
+    _dateLabel.text = _date;
 }
 
 - (void)setAmount:(NSString *)amount {

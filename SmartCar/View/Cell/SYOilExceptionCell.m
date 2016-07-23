@@ -24,12 +24,12 @@
     }
     
     _dateLabel = [[UILabel alloc] init];
-    _dateLabel.font = [UIFont systemFontOfSize:16];
+    _dateLabel.font = [UIFont systemFontOfSize:15];
     _dateLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_dateLabel];
     
     _amountLabel = [[UILabel alloc] init];
-    _amountLabel.font = [UIFont systemFontOfSize:16];
+    _amountLabel.font = [UIFont systemFontOfSize:15];
     _amountLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_amountLabel];
     

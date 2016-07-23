@@ -53,6 +53,9 @@
     request.HTTPMethod = @"POST";
     
     NSData *bodyData = [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *str = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
+    NSLog(@"最终数据：%@", str);
+    
     [request setHTTPBody:bodyData];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request];

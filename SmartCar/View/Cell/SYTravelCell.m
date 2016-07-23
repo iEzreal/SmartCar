@@ -27,23 +27,20 @@
     
     _dateLabel = [[UILabel alloc] init];
     _dateLabel.textAlignment = NSTextAlignmentCenter;
-    _dateLabel.font = [UIFont systemFontOfSize:16];
+    _dateLabel.font = [UIFont systemFontOfSize:15];
     _dateLabel.textColor = [UIColor whiteColor];
-    _dateLabel.text = @"2017.07.05";
     [self.contentView addSubview:_dateLabel];
     
     _timeLabel = [[UILabel alloc] init];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
-    _timeLabel.font = [UIFont systemFontOfSize:16];
+    _timeLabel.font = [UIFont systemFontOfSize:15];
     _timeLabel.textColor = [UIColor whiteColor];
-    _timeLabel.text = @"07:09";
     [self.contentView addSubview:_timeLabel];
     
     _travelLabel = [[UILabel alloc] init];
     _travelLabel.textAlignment = NSTextAlignmentCenter;
-    _travelLabel.font = [UIFont systemFontOfSize:16];
+    _travelLabel.font = [UIFont systemFontOfSize:15];
     _travelLabel.textColor = [UIColor whiteColor];
-    _travelLabel.text = @"1公里";
     [self.contentView addSubview:_travelLabel];
     
     _lineView = [[UIImageView alloc] init];
@@ -80,10 +77,9 @@
 }
 
 - (void)setTravelInfo:(SYTravel *)travel {
-    NSArray *array = [[travel recvTime] componentsSeparatedByString:@" "];
-    _dateLabel.text = array[0];
-    _timeLabel.text = array[1];
-    _travelLabel.text = [NSString stringWithFormat:@"%0.1f", [travel.OBDTolMileage_E floatValue] / 10];
+    _dateLabel.text = [SYUtil dateWithSateStr:travel.tripTime Format:@"yyyy.MM.dd"];
+    _timeLabel.text = [SYUtil dateWithSateStr:travel.tripTime Format:@"HH:mm"];
+    _travelLabel.text = [NSString stringWithFormat:@"%0.1f公里", [travel.OBDTolMileage_E floatValue] / 10];
 }
 
 @end

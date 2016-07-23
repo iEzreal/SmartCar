@@ -8,17 +8,17 @@
 
 #import "SYCurrentLocationController.h"
 #import "SYLocationNavView.h"
-#import "SYPickerView.h"
+#import "SYPickerAlertView.h"
 #import "SYGeofence.h"
 
-@interface SYCurrentLocationController () <SYLocationNavViewDelegate, SYPickerViewDelegate, BMKMapViewDelegate>
+@interface SYCurrentLocationController () <SYLocationNavViewDelegate, SYPickerAlertViewDelegate, BMKMapViewDelegate>
 
 
 @property(nonatomic, strong) SYLocationNavView *navView;
 @property(nonatomic, strong) BMKMapView *mapView;
 
 @property(nonatomic, strong) NSArray *fenceTypeArray;
-@property(nonatomic, strong) SYPickerView *pickerView;
+@property(nonatomic, strong) SYPickerAlertView *pickerAlertView;
 
 @property(nonatomic, strong) UIView *bottomView;
 @property(nonatomic, strong) UILabel *locationLabel;
@@ -228,7 +228,7 @@
 }
 
 /* *******************************************************************************/
-/*                               设置数据库电子围栏信息                              */
+/*                               设置电子围栏数据库信息                              */
 /* *******************************************************************************/
 - (void)setCircleGeoFence:(NSInteger)fenceNo type:(NSInteger)type rad:(NSInteger)rad lat:(NSInteger)lat lon:(NSInteger)lon {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
@@ -236,7 +236,7 @@
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"CarId"];
     [parameters setObject:termId forKey:@"TermID"];
-    [parameters setObject:[NSNumber numberWithInteger:fenceNo] forKey:@"FenceNo"];
+    [parameters setObject:[NSNumber numberWithInteger:fenceNo] forKey:@"FencNo"];
     [parameters setObject:[NSNumber numberWithInteger:type] forKey:@"Type"];
     [parameters setObject:[NSNumber numberWithInteger:rad] forKey:@"Rad"];
     [parameters setObject:[NSNumber numberWithInteger:lat] forKey:@"Lat"];
@@ -256,7 +256,7 @@
 }
 
 /* *******************************************************************************/
-/*                                 设置追踪模式                                    */
+/*                               下追踪模式OBD命令                                 */
 /* *******************************************************************************/
 - (void)setTrackJT {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
@@ -398,6 +398,11 @@
     
     // 减少电子围栏半径
     else if (sender.tag == 202) {
+        if (_currentFenceIndex == -1) {
+            [SYUtil showHintWithStatus:@"请选择一个电子围栏" duration:1];
+            return;
+        }
+
         if (self.fenceCircle.radius > 0) {
             self.fenceCircle.radius -= 10;
         }
@@ -405,16 +410,19 @@
     
     // 选择电子围栏类型
     else if (sender.tag == 203) {
-        if (!_pickerView) {
-            _pickerView = [[SYPickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
-            _pickerView.delegate = self;
-            _pickerView.dataSourceArray = _fenceTypeArray;
+        if (!_pickerAlertView) {
+            _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:_fenceTypeArray];
+            _pickerAlertView.delegate = self;
         }
-        [_pickerView showWithView:self.view];
+        [_pickerAlertView show];
     }
     
     // 增加电子围栏半径
     else if (sender.tag == 204) {
+        if (_currentFenceIndex == -1) {
+            [SYUtil showHintWithStatus:@"请选择一个电子围栏" duration:1];
+            return;
+        }
         self.fenceCircle.radius += 10;
         [_fenceArray[_currentFenceIndex] setRad:[NSString stringWithFormat:@"%f", self.fenceCircle.radius]];
     }
@@ -449,7 +457,7 @@
 /* *******************************************************************************/
 /*                                 电子围栏选择代理                                */
 /* *******************************************************************************/
-- (void)pickerView:(SYPickerView *)pickerView didSelectAtIndex:(NSInteger)index {
+- (void)pickerAlertView:(SYPickerAlertView *)pickerAlertView didSelectAtIndex:(NSInteger)index {
     _currentFenceIndex = index;
     [_fenceSwitchBtn setTitle:_fenceTypeArray[index] forState:UIControlStateNormal];
     SYGeofence *geofence = _fenceArray[index];
@@ -465,10 +473,10 @@
         NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
         CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dic);
 
-        [_fenceArray[index] setLat:[NSString stringWithFormat:@"%ld", (NSInteger)(baiduCoor.latitude * 1000000)]];
-        [_fenceArray[index] setLon:[NSString stringWithFormat:@"%ld", (NSInteger)(baiduCoor.longitude * 1000000)]];
+        [_fenceArray[index] setLat:[NSString stringWithFormat:@"%ld", (long)(baiduCoor.latitude * 1000000)]];
+        [_fenceArray[index] setLon:[NSString stringWithFormat:@"%ld", (long)(baiduCoor.longitude * 1000000)]];
         [_fenceArray[index] setRad:[NSString stringWithFormat:@"%d", 200]];
-        NSString *hintStr = [NSString stringWithFormat:@"电子围栏%ld不存在，默认从当前位置开始设置", index + 1];
+        NSString *hintStr = [NSString stringWithFormat:@"电子围栏%ld不存在，默认从当前位置开始设置", (long)(index + 1)];
         [SYUtil showHintWithStatus:hintStr duration:1];
         
         [self addGeofenceWithNum:index];

@@ -25,13 +25,13 @@
     
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.font = [UIFont systemFontOfSize:14];
+    _titleLabel.font = [UIFont systemFontOfSize:15];
     _titleLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_titleLabel];
     
     _contentLabel = [[UILabel alloc] init];
     _contentLabel.textAlignment = NSTextAlignmentCenter;
-    _contentLabel.font = [UIFont systemFontOfSize:14];
+    _contentLabel.font = [UIFont systemFontOfSize:15];
     _contentLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_contentLabel];
     
