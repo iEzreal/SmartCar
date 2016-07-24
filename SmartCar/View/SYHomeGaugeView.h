@@ -25,6 +25,6 @@
 @property(nonatomic, strong) NSString *voltageText;
 @property(nonatomic, strong) NSString *mileageText;
 
-- (void)endRefresh;
+- (void)finishRefresh;
 
 @end

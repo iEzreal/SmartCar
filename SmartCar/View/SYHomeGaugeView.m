@@ -11,7 +11,7 @@
 @interface SYHomeGaugeView ()
 
 @property(nonatomic, strong) UIView *refreshView;
-@property(nonatomic, strong) UIButton *refreshBtn;
+@property(nonatomic, strong) UIImageView *refreshIV;
 @property(nonatomic, strong) UILabel *refreshTimeLabel;
 
 @property(nonatomic, strong) UIView *leftView;
@@ -29,6 +29,8 @@
 
 @property(nonatomic, strong) UILabel *mileageLabel;
 
+@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
+
 @property(nonatomic, assign) BOOL isRefreshing;
 
 @end
@@ -41,14 +43,16 @@
         return nil;
     }
     
+    _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureAction:)];
+    [self addGestureRecognizer:_tapGesture];
+    
     // 上面区域
     _refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
     [self addSubview:_refreshView];
     
-    _refreshBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_refreshBtn setImage:[UIImage imageNamed:@"refrush"] forState:UIControlStateNormal];
-    [_refreshBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_refreshView addSubview:_refreshBtn];
+    _refreshIV = [[UIImageView alloc] init];
+    _refreshIV.image = [UIImage imageNamed:@"refrush"];
+    [_refreshView addSubview:_refreshIV];
     
     _refreshTimeLabel = [[UILabel alloc] init];
     _refreshTimeLabel.font = [UIFont systemFontOfSize:16];
@@ -61,13 +65,13 @@
         make.height.equalTo(@30);
     }];
     
-    [_refreshBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_refreshIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_refreshView).offset(5);
         make.centerY.equalTo(_refreshView);
     }];
     
     [_refreshTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_refreshBtn.mas_right).offset(5);
+        make.left.equalTo(_refreshIV.mas_right).offset(5);
         make.centerY.equalTo(_refreshView);
     }];
     
@@ -200,30 +204,37 @@
     return self;
 }
 
-- (void)refreshAction:(UIButton *)sender {
+- (void)tapGestureAction:(UITapGestureRecognizer *)sender {
     if (!_isRefreshing) {
         if ([self.delegate respondsToSelector:@selector(refreshPositionAction)]) {
             _isRefreshing = true;
-            [self startRefresh];
+            self.backgroundColor = TAB_SELECTED_COLOR;
+            [self startRefreshAnimation];
             [self.delegate refreshPositionAction];
         }
     }
 }
 
-- (void)startRefresh {
+- (void)finishRefresh {
+    _isRefreshing = false;
+     self.backgroundColor = PAGE_BG_COLOR;
+    [self endRefreshAnimation];
+}
+
+- (void)startRefreshAnimation {
     CABasicAnimation* rotationAnimation;
     rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
     rotationAnimation.duration = 0.65;
     rotationAnimation.cumulative = YES;
     rotationAnimation.repeatCount = NSIntegerMax;
-    [_refreshBtn.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+    [_refreshIV.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
-- (void)endRefresh {
-    _isRefreshing = false;
-    [_refreshBtn.layer removeAllAnimations];
+- (void)endRefreshAnimation {
+    [_refreshIV.layer removeAllAnimations];
 }
+
 
 - (void)setRefreshTimeText:(NSString *)refreshTimeText {
     _refreshTimeText = refreshTimeText;

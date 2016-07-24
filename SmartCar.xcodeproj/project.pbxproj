@@ -28,7 +28,6 @@
 		779443761D2B44440064C8DB /* SYTravelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443751D2B44440064C8DB /* SYTravelController.m */; };
 		779443791D2B5E880064C8DB /* SYTravelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443781D2B5E880064C8DB /* SYTravelCell.m */; };
 		7794437C1D2B757C0064C8DB /* SYAlarmController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794437B1D2B757C0064C8DB /* SYAlarmController.m */; };
-		7794437F1D2B75A70064C8DB /* SYCarPhysicalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794437E1D2B75A70064C8DB /* SYCarPhysicalController.m */; };
 		779443811D2B76740064C8DB /* SYStatController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 779443801D2B76740064C8DB /* SYStatController.storyboard */; };
 		779443841D2B80010064C8DB /* SYLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443831D2B80010064C8DB /* SYLoginController.m */; };
 		7794438B1D2BAAE50064C8DB /* SYUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794438A1D2BAAE50064C8DB /* SYUser.m */; };
@@ -135,8 +134,6 @@
 		779443781D2B5E880064C8DB /* SYTravelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelCell.m; sourceTree = "<group>"; };
 		7794437A1D2B757C0064C8DB /* SYAlarmController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlarmController.h; sourceTree = "<group>"; };
 		7794437B1D2B757C0064C8DB /* SYAlarmController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlarmController.m; sourceTree = "<group>"; };
-		7794437D1D2B75A70064C8DB /* SYCarPhysicalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCarPhysicalController.h; sourceTree = "<group>"; };
-		7794437E1D2B75A70064C8DB /* SYCarPhysicalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCarPhysicalController.m; sourceTree = "<group>"; };
 		779443801D2B76740064C8DB /* SYStatController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SYStatController.storyboard; sourceTree = "<group>"; };
 		779443821D2B80010064C8DB /* SYLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYLoginController.h; sourceTree = "<group>"; };
 		779443831D2B80010064C8DB /* SYLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYLoginController.m; sourceTree = "<group>"; };
@@ -473,8 +470,6 @@
 			children = (
 				7794437A1D2B757C0064C8DB /* SYAlarmController.h */,
 				7794437B1D2B757C0064C8DB /* SYAlarmController.m */,
-				7794437D1D2B75A70064C8DB /* SYCarPhysicalController.h */,
-				7794437E1D2B75A70064C8DB /* SYCarPhysicalController.m */,
 				A20896B81D1ED3AB00A626FC /* SYHomeController.h */,
 				A20896B91D1ED3AB00A626FC /* SYHomeController.m */,
 				779443741D2B44440064C8DB /* SYTravelController.h */,
@@ -757,7 +752,6 @@
 				77DBDD711D36143F009EEDD4 /* SYGasStatController.m in Sources */,
 				77DF1B2A1D372CFA00133615 /* UIView+Border.m in Sources */,
 				77113B461D34E4C700E30577 /* SYCurrentLocationController.m in Sources */,
-				7794437F1D2B75A70064C8DB /* SYCarPhysicalController.m in Sources */,
 				778768A41D3F665F006EAA50 /* SYAlarmStatController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

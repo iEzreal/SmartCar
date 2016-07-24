@@ -9,11 +9,11 @@
 #import "SYHomeAlarmView.h"
 #import "SYHomeMoreView.h"
 
-@interface SYHomeAlarmView () <SYHomeMoreViewDelegate>
+@interface SYHomeAlarmView ()
 
+@property(nonatomic, strong) UIButton *eventBtn;
 @property(nonatomic, strong) SYHomeMoreView *moreView;
 @property(nonatomic, strong) UILabel *alarmLabel;
-
 
 @end
 
@@ -24,10 +24,17 @@
         return nil;
     }
     
+    _eventBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _eventBtn.frame = CGRectMake(0, 0, self.width, self.height);
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:PAGE_BG_COLOR] forState:UIControlStateNormal];
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:TAB_SELECTED_COLOR] forState:UIControlStateHighlighted];
+    [_eventBtn addTarget:self action:@selector(clickEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_eventBtn];
+    
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
     _moreView.title = @"近期报警";
     _moreView.image = [UIImage imageNamed:@"icon_alarm"];
-    _moreView.delegate = self;
+    _moreView.moreBGColor = TAB_SELECTED_COLOR;
     [self addSubview:_moreView];
     
     _alarmLabel = [[UILabel alloc] init];
@@ -49,7 +56,7 @@
 
 }
 
-- (void)moreAction {
+- (void)clickEventAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(moreAlarmAction)]) {
         [self.delegate moreAlarmAction];
     }

@@ -94,7 +94,7 @@
 #pragma mark - 页面布局
 - (void)setupPageSubviews {
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.font = [UIFont systemFontOfSize:16];
     _titleLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:_titleLabel];
 
@@ -103,13 +103,13 @@
     [self.view addSubview:_gasStationView];
     
     _gasStationHintLabel = [[UILabel alloc] init];
-    _gasStationHintLabel.font = [UIFont systemFontOfSize:15];
+    _gasStationHintLabel.font = [UIFont systemFontOfSize:16];
     _gasStationHintLabel.textColor = [UIColor whiteColor];
     _gasStationHintLabel.text = @"加油站";
     [_gasStationView addSubview:_gasStationHintLabel];
     
     _gasStationLabel = [[UILabel alloc] init];
-    _gasStationLabel.font = [UIFont systemFontOfSize:15];
+    _gasStationLabel.font = [UIFont systemFontOfSize:16];
     _gasStationLabel.textColor = [UIColor whiteColor];
     [_gasStationView addSubview:_gasStationLabel];
     
@@ -118,13 +118,13 @@
     [self.view addSubview:_timeView];
     
     _timeHintLabel = [[UILabel alloc] init];
-    _timeHintLabel.font = [UIFont systemFontOfSize:15];
+    _timeHintLabel.font = [UIFont systemFontOfSize:16];
     _timeHintLabel.textColor = [UIColor whiteColor];
     _timeHintLabel.text = @"时间";
     [_timeView addSubview:_timeHintLabel];
     
     _timeLabel = [[UILabel alloc] init];
-    _timeLabel.font = [UIFont systemFontOfSize:15];
+    _timeLabel.font = [UIFont systemFontOfSize:16];
     _timeLabel.textColor = [UIColor whiteColor];
     [_timeView addSubview:_timeLabel];
     
@@ -133,13 +133,13 @@
     [self.view addSubview:_oliAmountView];
     
     _oliAmountHintLabel = [[UILabel alloc] init];
-    _oliAmountHintLabel.font = [UIFont systemFontOfSize:15];
+    _oliAmountHintLabel.font = [UIFont systemFontOfSize:16];
     _oliAmountHintLabel.textColor = [UIColor whiteColor];
     _oliAmountHintLabel.text = @"油量(L)";
     [_oliAmountView addSubview:_oliAmountHintLabel];
     
     _oliAmountLabel = [[UILabel alloc] init];
-    _oliAmountLabel.font = [UIFont systemFontOfSize:15];
+    _oliAmountLabel.font = [UIFont systemFontOfSize:16];
     _oliAmountLabel.textColor = [UIColor whiteColor];
     [_oliAmountView addSubview:_oliAmountLabel];
     

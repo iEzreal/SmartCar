@@ -35,6 +35,7 @@
     [self.contentView addSubview:_timeLabel];
     
     _valueLabel = [[UILabel alloc] init];
+    _valueLabel.textAlignment = NSTextAlignmentCenter;
     _valueLabel.font = [UIFont systemFontOfSize:15];
     _valueLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_valueLabel];
@@ -53,7 +54,6 @@
     
     [_valueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_timeLabel.mas_right);
-        make.right.equalTo(self.contentView).offset(-5);
         make.width.equalTo(self.contentView).dividedBy(3);
         make.centerY.equalTo(self.contentView);
     }];

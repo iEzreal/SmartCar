@@ -7,12 +7,15 @@
 //
 
 #import "SYBaseController.h"
+#import "SYPickerAlertView.h"
 
 @interface SYBaseController ()
 
 @property(nonatomic, strong) UIButton *backBtn;
 @property(nonatomic, strong) SYButton *titleBtn;
 @property(nonatomic, strong) SYButton *locationBtn;
+
+@property(nonatomic, strong) SYPickerAlertView *pickerAlertView;
 
 @end
 
@@ -56,20 +59,47 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_locationBtn];
 }
 
-- (void)navBtnOnClick:(UIButton *)sender {
-    if (sender.tag == 10000) {
-        [self.navigationController popViewControllerAnimated:YES];
-    } else if (sender.tag == 10001) {
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
-    } else {
-    
-    }
+    _locationStr = [SYAppManager sharedManager].locationStr;
+    [_locationBtn setTitle:_locationStr forState:UIControlStateNormal];
+   
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
+
+- (void)navBtnOnClick:(UIButton *)sender {
+    if (sender.tag == 10000) {
+        [self returnToPrevController];
+        
+    } else if (sender.tag == 10001) {
+//        if (!_pickerAlertView) {
+//            _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:@[@"一个月内", @"三个月内", @"半年内", @"一年内"]];
+//            _pickerAlertView.delegate = self;
+//        }
+//        [_pickerAlertView show];
+        
+    } else {
+        
+    }
+}
+
+- (void)returnToPrevController {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)setLocationStr:(NSString *)locationStr {
+    _locationStr = locationStr;
+    [_locationBtn setTitle:_locationStr forState:UIControlStateNormal];
+}
+
 
 
 @end

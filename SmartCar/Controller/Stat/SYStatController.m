@@ -11,6 +11,8 @@
 #import "SYGasStatController.h"
 #import "SYOilExceptionController.h"
 #import "SYTravelIInfoController.h"
+#import "SYLoginController.h"
+#import "AppDelegate.h"
 
 @interface SYStatController ()
 
@@ -27,6 +29,13 @@
     [super viewDidLoad];
     
 }
+
+- (void)returnToPrevController {
+    [super returnToPrevController];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = [[SYLoginController alloc] init];
+}
+
 - (IBAction)statButtonAction:(id)sender {
     NSInteger tag = ((UIButton *)sender).tag;
     if (tag == 201) {

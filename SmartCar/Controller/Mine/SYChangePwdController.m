@@ -201,7 +201,7 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"ChangePasswordResult"] integerValue] == 1) {
-            [SYUtil showSuccessWithStatus:@"密码修改成功" duration:2];
+            [SYUtil showSuccessWithStatus:@"密码修改成功" duration:1];
         } else {
             [SYUtil showErrorWithStatus:@"密码修改失败" duration:2];
         }

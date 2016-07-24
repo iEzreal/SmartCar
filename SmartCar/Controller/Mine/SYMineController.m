@@ -12,6 +12,8 @@
 #import "SYSettingMileageController.h"
 #import "SYAboutController.h"
 #import "SYVersionController.h"
+#import "SYLoginController.h"
+#import "AppDelegate.h"
 
 #import "SYMineMenuView.h"
 
@@ -30,6 +32,48 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setPageSubviews];
+    [self layoutPageSubviews];
+    
+    _userNameLabel.text = [SYAppManager sharedManager].user.userName;
+    _loginTimeLabel.text = [NSString stringWithFormat:@"[%@]",[SYAppManager sharedManager].user.loginTime];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    
+}
+
+- (void)returnToPrevController {
+    [super returnToPrevController];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = [[SYLoginController alloc] init];
+}
+
+#pragma mark 代理方法
+- (void)menuView:(SYMineMenuView *)menuView didSelectedAtIndex:(NSInteger)index {
+    if (index == 0) {
+        SYChangePwdController *pwdController = [[SYChangePwdController alloc] init];
+        [self.navigationController pushViewController:pwdController animated:YES];
+        
+    } else if (index == 1) {
+        SYPersonalInfoController *infoController = [[SYPersonalInfoController alloc] init];
+        [self.navigationController pushViewController:infoController animated:YES];
+        
+    } else if (index == 2) {
+        SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
+        [self.navigationController pushViewController:mileageController animated:YES];
+    } else if (index == 3) {
+        SYAboutController *aboutController = [[SYAboutController alloc] init];
+        [self.navigationController pushViewController:aboutController animated:YES];
+    } else {
+        SYVersionController *versionController = [[SYVersionController alloc] init];
+        [self.navigationController pushViewController:versionController animated:YES];
+    }
+}
+
+#pragma mark - 界面UI
+- (void)setPageSubviews {
     _bgIV = [[UIImageView alloc] init];
     _bgIV.image = [UIImage imageNamed:@"mine_bg"];
     [self.view addSubview:_bgIV];
@@ -51,7 +95,9 @@
     _menuView = [[SYMineMenuView alloc] init];
     _menuView.deleagate = self;
     [self.view addSubview:_menuView];
-    
+}
+
+- (void)layoutPageSubviews {
     [_bgIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_userAvatarIV.mas_centerY);
         make.left.right.bottom.equalTo(self.view);
@@ -82,40 +128,10 @@
         make.width.equalTo(@(SCREEN_W - 40));
         make.height.equalTo(@((SCREEN_W - 40) / 3 * 2));
     }];
-
     
-    _userNameLabel.text = [SYAppManager sharedManager].user.userName;
-    _loginTimeLabel.text = [NSString stringWithFormat:@"[%@]",[SYAppManager sharedManager].user.loginTime];
     [_menuView addTopBorderWithColor:[UIColor colorWithWhite:1 alpha:0.8] width:0.5];
     [_menuView addBottomBorderWithColor:[UIColor colorWithWhite:1 alpha:0.8] width:0.5];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
-
-- (void)menuView:(SYMineMenuView *)menuView didSelectedAtIndex:(NSInteger)index {
-    if (index == 0) {
-        SYChangePwdController *pwdController = [[SYChangePwdController alloc] init];
-        [self.navigationController pushViewController:pwdController animated:YES];
-        
-    } else if (index == 1) {
-        SYPersonalInfoController *infoController = [[SYPersonalInfoController alloc] init];
-        [self.navigationController pushViewController:infoController animated:YES];
-        
-    } else if (index == 2) {
-        SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
-        [self.navigationController pushViewController:mileageController animated:YES];
-    } else if (index == 3) {
-        SYAboutController *aboutController = [[SYAboutController alloc] init];
-        [self.navigationController pushViewController:aboutController animated:YES];
-    } else {
-        SYVersionController *versionController = [[SYVersionController alloc] init];
-        [self.navigationController pushViewController:versionController animated:YES];
-    }
-}
-
 
 
 @end

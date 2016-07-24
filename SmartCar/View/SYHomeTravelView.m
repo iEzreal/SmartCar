@@ -10,10 +10,10 @@
 #import "SYHomeMoreView.h"
 #import "SYTravel.h"
 
-@interface SYHomeTravelView () <SYHomeMoreViewDelegate>
+@interface SYHomeTravelView ()
 
+@property(nonatomic, strong) UIButton *eventBtn;
 @property(nonatomic, strong) SYHomeMoreView *moreView;
-
 @property(nonatomic, strong) UILabel *travelLabel;
 
 @end
@@ -24,11 +24,20 @@
     if (!(self = [super initWithFrame:frame])) {
         return nil;
     }
+    
+    _eventBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _eventBtn.frame = CGRectMake(0, 0, self.width, self.height);
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:PAGE_BG_COLOR] forState:UIControlStateNormal];
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:TAB_SELECTED_COLOR] forState:UIControlStateHighlighted];
+    [_eventBtn addTarget:self action:@selector(clickEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_eventBtn];
+    
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
     _moreView.title = @"近期行程";
     _moreView.image = [UIImage imageNamed:@"icon_travel"];
-    _moreView.delegate = self;
+    _moreView.moreBGColor = [UIColor colorWithHexString:@"2ADE75"];
     [self addSubview:_moreView];
+    
     
     _travelLabel = [[UILabel alloc] init];
     _travelLabel.textAlignment = NSTextAlignmentCenter;
@@ -48,7 +57,7 @@
     return self;
 }
 
-- (void)moreAction {
+- (void)clickEventAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(moreTraveAction)]) {
         [self.delegate moreTraveAction];
     }

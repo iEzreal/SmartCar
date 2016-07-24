@@ -12,6 +12,7 @@
 
 @interface SYAppManager : NSObject
 
+@property(nonatomic, strong) NSString *locationStr;
 @property(nonatomic, strong) SYUser *user;
 @property(nonatomic, strong) SYVehicle *vehicle;
 

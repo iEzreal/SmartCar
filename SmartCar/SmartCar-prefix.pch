@@ -46,6 +46,7 @@
 #define SCALE_W SCREEN_W / 320
 #define SCALE_H SCREEN_H / 480
 
+#define PAGE_BG_COLOR [UIColor colorWithHexString:@"5A6478"]
 #define TAB_SELECTED_COLOR [UIColor colorWithHexString:@"4EB7CD"]
 
 #define HOME_BG_COLOR @"5A6478"

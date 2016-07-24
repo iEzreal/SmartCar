@@ -68,6 +68,8 @@
             [_gasExclArray addObjectsFromArray:array];
             [_tableView reloadData];
             [SYUtil showSuccessWithStatus:@"数据加载成功" duration:1];
+        } else if (responseDic && [[responseDic objectForKey:@"GetGasAlarmResult"] integerValue] == 0) {
+            [SYUtil showSuccessWithStatus:@"无数据" duration:2];
         } else {
             [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
         }

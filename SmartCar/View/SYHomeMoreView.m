@@ -34,10 +34,10 @@
     [self addSubview:_titleLabel];
     
     _moreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    _moreButton.titleLabel.font = [UIFont systemFontOfSize:13];
+    _moreButton.contentEdgeInsets = UIEdgeInsetsMake(3, 5, 3, 5);
+    _moreButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [_moreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_moreButton setTitle:@"更多" forState:UIControlStateNormal];
-    [_moreButton addTarget:self action:@selector(moreTravelAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_moreButton setTitle:@"查看更多" forState:UIControlStateNormal];
     [self addSubview:_moreButton];
     
     [_iconImgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -61,12 +61,17 @@
 
 - (void)setTitle:(NSString *)title {
     _title = title;
-    _titleLabel.text = title;
+    _titleLabel.text = _title;
 }
 
 - (void)setImage:(UIImage *)image {
     _image = image;
-    _iconImgView.image = image;
+    _iconImgView.image = _image;
+}
+
+- (void)setMoreBGColor:(UIColor *)moreBGColor {
+    _moreBGColor = moreBGColor;
+    _moreButton.backgroundColor = _moreBGColor;
 }
 
 - (void)moreTravelAction:(UIButton *)sender {

@@ -11,6 +11,8 @@
 #import "SYCurrentLocationController.h"
 #import "SYAlarmController.h"
 #import "SYPhysicalController.h"
+#import "SYLoginController.h"
+#import "AppDelegate.h"
 
 #import "SYCarSwitchView.h"
 
@@ -22,6 +24,8 @@
 #import "SYVehiclePosition.h"
 #import "SYTravel.h"
 
+
+
 @interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, SYHomePhysicalViewDelegate, BMKMapViewDelegate>
 
 @property(nonatomic, strong) SYCarSwitchView *carSwitchView;
@@ -32,12 +36,12 @@
 @property(nonatomic, strong) SYHomeAlarmView *alarmView;
 @property(nonatomic, strong) SYHomePhysicalView *physicalView;
 
-
 @property(nonatomic, strong) BMKPointAnnotation *locationAnnotation;
 
+@property(nonatomic, strong) NSMutableArray *travelArray;
 
 @property(nonatomic, strong) SYVehiclePosition *vePosition;
-@property(nonatomic, strong) NSMutableArray *travelArray;
+@property(nonatomic, strong) NSString *initialMileage;
 
 @end
 
@@ -50,7 +54,7 @@
     _travelArray = [[NSMutableArray alloc] init];
     
     [self setupPageSubviews];
-    [self requestCarLastPosition];
+    [self requestGaugeInfo];
     [self requestCarTrip];
     [self requestAlarmInfo];
 }
@@ -71,22 +75,76 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)returnToPrevController {
+    [super returnToPrevController];
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    delegate.window.rootViewController = [[SYLoginController alloc] init];
+}
+
 #pragma mark - 数据请求
-// 车辆最后位置信息
-- (void)requestCarLastPosition {
+- (void)requestGaugeInfo {
+    dispatch_group_t requestGroup = dispatch_group_create();
+
+    /*************************************************************************/
+    /*                            车辆最后位置信                               */
+    /*************************************************************************/
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
+    
+    dispatch_group_enter(requestGroup);
     [SYApiServer POST:METHOD_GET_LAST_POSITION parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"GetLastPositionResult"] integerValue] == 1) {
-            [self parseVehickePositionWithJsonString:[responseDic objectForKey:@"PositionInfo"]];
+            NSString *positionStr = [responseDic objectForKey:@"PositionInfo"];
+            NSDictionary *positionDic = [positionStr objectFromJSONString];
+            NSArray *tableArray = [positionDic objectForKey:@"TableInfo"];
+            NSDictionary *dic = tableArray[0];
+            _vePosition = [[SYVehiclePosition alloc] initWithDic:dic];
+        }
+        dispatch_group_leave(requestGroup);
+        
+    } failure:^(NSError *error) {
+        dispatch_group_leave(requestGroup);
+        
+    }];
+    
+    /*************************************************************************/
+    /*                               初始里程                                 */
+    /*************************************************************************/
+    NSMutableDictionary *para = [[NSMutableDictionary alloc] init];
+    [para setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"carId"];
+    
+    dispatch_group_enter(requestGroup);
+    [SYApiServer POST:METHOD_GET_MILEAGE parameters:para success:^(id responseObject) {
+        NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+        NSDictionary *responseDic = [responseStr objectFromJSONString];
+        if (responseDic) {
+            _initialMileage = [responseDic objectForKey:@"GetMileageResult"];
+        } else {
+            _initialMileage = @"";
+        }
+        dispatch_group_leave(requestGroup);
+        
+    } failure:^(NSError *error) {
+        _initialMileage = @"";
+        dispatch_group_leave(requestGroup);
+    }];
+    
+    // 跟新数据
+    dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
+        if (_vePosition) {
+            [self addMapAnnotation];
+            _gaugeView.refreshTimeText = _vePosition.recvTime;
+            _gaugeView.oilText = _vePosition.OBDGasLevel;
+            _gaugeView.speedText = _vePosition.OBDSpeed;
+            _gaugeView.stateText = _vePosition.engineOnOff;
+            _gaugeView.voltageText = _vePosition.OBDBatt;
+           _gaugeView.mileageText = [NSString stringWithFormat:@"%.1f", [_vePosition.mileage floatValue] + [_initialMileage floatValue]];
         }
         
-        [_gaugeView endRefresh];
-    } failure:^(NSError *error) {
-        [_gaugeView endRefresh];
-    }];
+        [_gaugeView finishRefresh];
+    });
 }
 
 // 车辆行程信息
@@ -148,19 +206,8 @@
 }
 
 
-- (void)parseVehickePositionWithJsonString:(NSString *)jsonString {
-    NSDictionary *positionDic = [jsonString objectFromJSONString];
-    NSArray *tableArray = [positionDic objectForKey:@"TableInfo"];
-    NSDictionary *dic = tableArray[0];
-    
-    _vePosition = [[SYVehiclePosition alloc] initWithDic:dic];
-    _gaugeView.refreshTimeText = _vePosition.recvTime;
-    _gaugeView.oilText = _vePosition.OBDGasLevel;
-    _gaugeView.speedText = _vePosition.OBDSpeed;
-    _gaugeView.stateText = _vePosition.engineOnOff;
-    _gaugeView.voltageText = _vePosition.OBDBatt;
-    _gaugeView.mileageText = _vePosition.mileage;
-    
+// 添加地图标注
+- (void)addMapAnnotation {
     if (!_locationAnnotation) {
         _locationAnnotation = [[BMKPointAnnotation alloc]init];
         
@@ -171,7 +218,7 @@
 
     _locationAnnotation.coordinate = baiduCoor;
     [_mapView addAnnotation:_locationAnnotation];
-     _mapView.centerCoordinate = baiduCoor;
+    _mapView.centerCoordinate = baiduCoor;
     
     CLLocation *location = [[CLLocation alloc] initWithLatitude:[_vePosition.lat doubleValue] longitude:[_vePosition.lon doubleValue]];
     CLGeocoder *geocoder=[[CLGeocoder alloc] init];
@@ -193,6 +240,9 @@
             if (!street) {
                 street = @"";
             }
+        
+            self.locationStr = city;
+            [SYAppManager sharedManager].locationStr = city;
             _locationAnnotation.title = [NSString stringWithFormat:@"%@%@%@", city, subLocality, street];
             [_mapView selectAnnotation:_locationAnnotation animated:YES];
         }
@@ -225,9 +275,9 @@
 }
 
 - (void)refreshPositionAction {
-    [self requestCarLastPosition];
-    [self requestCarTrip];
-    [self requestAlarmInfo];
+    [self requestGaugeInfo];
+//    [self requestCarTrip];
+//    [self requestAlarmInfo];
 }
 
 - (void)moreTraveAction {

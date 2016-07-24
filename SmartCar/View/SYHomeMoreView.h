@@ -18,6 +18,7 @@
 
 @property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) UIImage *image;
+@property(nonatomic, strong) UIColor *moreBGColor;
 
 @property(nonatomic, weak) id <SYHomeMoreViewDelegate> delegate;
 

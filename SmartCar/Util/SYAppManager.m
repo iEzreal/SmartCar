@@ -23,6 +23,7 @@ static SYAppManager *instance = nil;
     if (!(self = [super init])) {
         return self;
     }
+    _locationStr = @"";
     
     return self;
 }

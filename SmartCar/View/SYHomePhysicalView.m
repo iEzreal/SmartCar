@@ -9,8 +9,9 @@
 #import "SYHomePhysicalView.h"
 #import "SYHomeMoreView.h"
 
-@interface SYHomePhysicalView () <SYHomeMoreViewDelegate>
+@interface SYHomePhysicalView ()
 
+@property(nonatomic, strong) UIButton *eventBtn;
 @property(nonatomic, strong) SYHomeMoreView *moreView;
 @property(nonatomic, strong) UILabel *physicalLabel;
 
@@ -23,11 +24,17 @@
         return nil;
     }
     
+    _eventBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _eventBtn.frame = CGRectMake(0, 0, self.width, self.height);
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:PAGE_BG_COLOR] forState:UIControlStateNormal];
+    [_eventBtn setBackgroundImage:[UIImage imageWithColor:TAB_SELECTED_COLOR] forState:UIControlStateHighlighted];
+    [_eventBtn addTarget:self action:@selector(clickEventAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:_eventBtn];
+    
     _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
     _moreView.title = @"车辆体检";
     _moreView.image = [UIImage imageNamed:@"icon_physical"];
-
-    _moreView.delegate = self;
+    _moreView.moreBGColor = [UIColor colorWithHexString:@"2ADE75"];
     [self addSubview:_moreView];
     
     _physicalLabel = [[UILabel alloc] init];
@@ -46,7 +53,7 @@
     return self;
 }
 
-- (void)moreAction {
+- (void)clickEventAction:(UIButton *)sender {
     if ([self.delegate respondsToSelector:@selector(morePhysicalAction)]) {
         [self.delegate morePhysicalAction];
     }

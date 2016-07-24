@@ -10,9 +10,8 @@
 
 @interface SYBaseController : UIViewController
 
-- (void)setTitle:(NSString *)title;
-- (void)setLocation:(NSString *)location;
+@property(nonatomic, strong) NSString *locationStr;
 
-- (void)navBtnOnClick;
+- (void)returnToPrevController;
 
 @end
