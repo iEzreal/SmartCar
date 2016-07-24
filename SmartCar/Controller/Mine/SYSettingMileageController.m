@@ -32,6 +32,8 @@
     
     [self setupPageSubviews];
     [self layoutPageSubviews];
+    _carNumLabel.text = [SYAppManager sharedManager].vehicle.carNum;
+    
     [self requestMileage];
 }
 
@@ -44,18 +46,14 @@
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"carId"];
-    [SYUtil showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_MILEAGE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic) {
             _mileageTF.text = [NSString stringWithFormat:@"%@",[responseDic objectForKey:@"GetMileageResult"]];
-            [SYUtil showSuccessWithStatus:@"获取初始里程成功" duration:2];
-        } else {
-            [SYUtil showSuccessWithStatus:@"获取初始里程失败" duration:2];
         }
     } failure:^(NSError *error) {
-        [SYUtil showSuccessWithStatus:@"获取初始里程失败" duration:2];
+        
     }];
 }
 
@@ -119,7 +117,6 @@
     _carNumLabel = [[UILabel alloc] init];
     _carNumLabel.font = [UIFont systemFontOfSize:17];
     _carNumLabel.textColor = [UIColor whiteColor];
-    _carNumLabel.text = @"q请选择车辆";
     [self.view addSubview:_carNumLabel];
     
     _selectCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];

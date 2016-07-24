@@ -99,10 +99,12 @@
 #pragma mark - 取消 确定事件
 - (void)pickClick:(UIButton *)sender {
     if (sender.tag == 101) {
-        if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartDate:endDate:)]) {
+        if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartYear:startMonth:endYear:endMonth:)]) {
             [self.delegate datePickerView:self
-                       didSelectStartDate:[NSString stringWithFormat:@"%@-%@", _startYear, _startMonth]
-                                  endDate:[NSString stringWithFormat:@"%@-%@", _endYear, _endMonth]];
+                       didSelectStartYear:_startYear
+                               startMonth:_startMonth
+                                  endYear:_endYear
+                                 endMonth:_endMonth];
         }
     }
     [self dismiss];

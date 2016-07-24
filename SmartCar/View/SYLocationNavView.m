@@ -24,9 +24,9 @@
     }
     
     _locationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
-    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
-    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
+    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateNormal];
+    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateHighlighted];
+    [_locationBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateSelected];
     [_locationBtn setImage:[UIImage imageNamed:@"position"] forState:UIControlStateNormal];
     _locationBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -37,9 +37,9 @@
     [self addSubview:_locationBtn];
     
     _fenceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
-    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
-    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
+    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateNormal];
+    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateHighlighted];
+    [_fenceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateSelected];
     [_fenceBtn setImage:[UIImage imageNamed:@"fence"] forState:UIControlStateNormal];
     _fenceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_fenceBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -49,9 +49,9 @@
     [self addSubview:_fenceBtn];
     
     _trackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"3E4451"]] forState:UIControlStateNormal];
-    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateHighlighted];
-    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateSelected];
+    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"00A3E4"]] forState:UIControlStateNormal];
+    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateHighlighted];
+    [_trackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor blackColor]] forState:UIControlStateSelected];
     [_trackBtn setImage:[UIImage imageNamed:@"track"] forState:UIControlStateNormal];
     _trackBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_trackBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

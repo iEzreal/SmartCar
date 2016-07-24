@@ -60,24 +60,13 @@
     UIView *superView = [[[UIApplication sharedApplication] windows] firstObject];
     [superView addSubview:self];
     
-    _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, - CONTENT_H, CONTENT_W, CONTENT_H);
-    [UIView animateWithDuration:0.35 animations:^{
-        _BGView.alpha = 0.6;
-        _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, (SCREEN_H - CONTENT_H) / 2, CONTENT_W, CONTENT_H);
-    } completion:^(BOOL finished) {
-    
-    }];
+    _BGView.alpha = 0.6;
+    _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, (SCREEN_H - CONTENT_H) / 2, CONTENT_W, CONTENT_H);
 }
 
 - (void)dismiss {
-    [UIView animateWithDuration:0.35 animations:^{
-        _BGView.alpha = 0;
-        _contentView.frame = CGRectMake((SCREEN_W - CONTENT_W) / 2, SCREEN_H + CONTENT_H, CONTENT_W, CONTENT_H);
-        
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-        
-    }];
+    _BGView.alpha = 0;
+    [self removeFromSuperview];
 }
 
 #pragma mark --- 与DataSource有关的代理方法
@@ -116,7 +105,7 @@
     [_BGView addGestureRecognizer:tapGesture];
     [self addSubview:_BGView];
     
-    _contentView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_W - CONTENT_W) / 2, -CONTENT_H, CONTENT_W, CONTENT_H)];
+    _contentView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_W - CONTENT_W) / 2, (SCREEN_H - CONTENT_H) / 2, CONTENT_W, CONTENT_H)];
     _contentView.backgroundColor = [UIColor whiteColor];
     _contentView.layer.cornerRadius = 5;
     _contentView.layer.masksToBounds = YES;

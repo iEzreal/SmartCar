@@ -164,9 +164,6 @@
 
     CGFloat gas3 = [[_gasArray[_gasArray.count - 1] objectForKey:@"OBDGasLevel"] floatValue] - [[_lastDic objectForKey:@"OBDGasLevel"] floatValue];
     gas3 = gas3 * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
-
-    _startLabel.text = [[_firstDic objectForKey:@"gpstime"] componentsSeparatedByString:@" "][0];
-    _endLabel.text = [[_lastDic objectForKey:@"gpstime"] componentsSeparatedByString:@" "][0];
     
     _totalOilWearLabel.text = [NSString stringWithFormat:@"%.2f", gas1 + gas2 + gas3];
     _avgOilWearLabel.text = [NSString stringWithFormat:@"%.2f", (gas1 + gas2 + gas3) / ((lastMileage - firstMileage) * 0.1) * 100];
@@ -182,7 +179,19 @@
     [_datePickerView show];
 }
 
-- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartDate:(NSString *)startDate endDate:(NSString *)endDate {
+- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartYear:(NSString *)startYear startMonth:(NSString *)startMonth endYear:(NSString *)endYear endMonth:(NSString *)endMonth {
+    _startLabel.text = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
+    _endLabel.text = [NSString stringWithFormat:@"%@-%@", endYear, endMonth];
+    NSString *startDate;
+    NSString *endDate;
+    if ([startYear isEqualToString:endYear] && [startMonth isEqualToString:endMonth]) {
+        startDate = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
+        endDate = [NSString stringWithFormat:@"%@-%d", endYear, [endMonth intValue] + 1];
+    } else {
+        startDate = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
+        endDate = [NSString stringWithFormat:@"%@-%@", endYear, endMonth];
+    }
+    
     [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
     
 }
