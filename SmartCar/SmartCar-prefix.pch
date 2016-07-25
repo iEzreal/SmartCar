@@ -55,12 +55,23 @@
 
 #define WeakSelf __weak typeof(self) weakSelf = self
 
+#ifdef DEBUG
+#define DLog(...) NSLog(__VA_ARGS__)
+#else
+#define DLog(...)
+#endif
+
+
 // 数据交互接口
 #define BASE_URL @"http://www.smartvehicleconnect.com:8090/ReSTiCarUtilService/ReSTiCarUtilService.svc"
 #define TEST @"Test"
 #define METHOD_LOGIN @"UserLogin"
 #define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
 #define METHOD_CHANGE_PASSWORD @"ChangePassword"
+#define METHOD_SEND_MAIL_FOR_APPROVE @"SendMailForApprove"
+#define METHOD_MAIL_FOR_APPROVE @"MailForApprove"
+#define METHOD_APPROVE_NEWPWD @"ApproveNewPwd"
+
 #define METHOD_INIT_MILEAGE @"InitMileage"
 #define METHOD_GET_MILEAGE @"GetMileage"
 

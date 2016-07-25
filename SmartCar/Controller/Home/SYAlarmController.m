@@ -109,7 +109,7 @@
 - (void)setupPageSubviews {
     _topView = [[SYPageTopView alloc] init];
     _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
-    _topView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    _topView.iconImage = [UIImage imageNamed:@"icon_alarm_white"];
     [_topView.rightBtn setImage:[UIImage imageNamed:@"icon_alarm_del"] forState:UIControlStateNormal];
     _topView.title= @"近期警报";
     _topView.delegate = self;

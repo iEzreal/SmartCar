@@ -34,7 +34,7 @@
 		7799AF381D2CA277006E332C /* SYVehiclePosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799AF371D2CA277006E332C /* SYVehiclePosition.m */; };
 		7799AF3B1D2CCEA4006E332C /* SYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799AF3A1D2CCEA4006E332C /* SYProgressView.m */; };
 		7799AF3E1D2CF46A006E332C /* SYTravel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799AF3D1D2CF46A006E332C /* SYTravel.m */; };
-		779D52451D33E5F9008628AC /* SYChangePwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52401D33E5F9008628AC /* SYChangePwdController.m */; };
+		779D52451D33E5F9008628AC /* SYModifyPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52401D33E5F9008628AC /* SYModifyPwdController.m */; };
 		779D52461D33E5F9008628AC /* SYPersonalInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52421D33E5F9008628AC /* SYPersonalInfoController.m */; };
 		779D52471D33E5F9008628AC /* SYSettingMileageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779D52441D33E5F9008628AC /* SYSettingMileageController.m */; };
 		77A302C41D37BC8C00DB9F3B /* SYAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A302C31D37BC8C00DB9F3B /* SYAboutController.m */; };
@@ -47,6 +47,7 @@
 		77BF91FC1D369B6300132C61 /* SYGasStatDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BF91FB1D369B6300132C61 /* SYGasStatDetailsController.m */; };
 		77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC404C1D42572B00F29148 /* NSDate+Formatter.m */; };
 		77CC40501D43BFCC00F29148 /* SYMineMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */; };
+		77CC40871D464AD600F29148 /* SYForgotPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC40861D464AD600F29148 /* SYForgotPwdController.m */; };
 		77CE636A1D2BF72E0071EA7C /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63691D2BF72E0071EA7C /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		77CE63731D2C0CC90071EA7C /* SYApiServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63701D2C0CC90071EA7C /* SYApiServer.m */; };
 		77CE63741D2C0CC90071EA7C /* SYAuthURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CE63721D2C0CC90071EA7C /* SYAuthURLSessionManager.m */; };
@@ -143,8 +144,8 @@
 		7799AF3A1D2CCEA4006E332C /* SYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYProgressView.m; sourceTree = "<group>"; };
 		7799AF3C1D2CF46A006E332C /* SYTravel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYTravel.h; sourceTree = "<group>"; };
 		7799AF3D1D2CF46A006E332C /* SYTravel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravel.m; sourceTree = "<group>"; };
-		779D523F1D33E5F9008628AC /* SYChangePwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYChangePwdController.h; sourceTree = "<group>"; };
-		779D52401D33E5F9008628AC /* SYChangePwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYChangePwdController.m; sourceTree = "<group>"; };
+		779D523F1D33E5F9008628AC /* SYModifyPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYModifyPwdController.h; sourceTree = "<group>"; };
+		779D52401D33E5F9008628AC /* SYModifyPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYModifyPwdController.m; sourceTree = "<group>"; };
 		779D52411D33E5F9008628AC /* SYPersonalInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYPersonalInfoController.h; sourceTree = "<group>"; };
 		779D52421D33E5F9008628AC /* SYPersonalInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYPersonalInfoController.m; sourceTree = "<group>"; };
 		779D52431D33E5F9008628AC /* SYSettingMileageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYSettingMileageController.h; sourceTree = "<group>"; };
@@ -169,6 +170,8 @@
 		77CC404C1D42572B00F29148 /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Formatter.m"; sourceTree = "<group>"; };
 		77CC404E1D43BFCC00F29148 /* SYMineMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYMineMenuView.h; sourceTree = "<group>"; };
 		77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYMineMenuView.m; sourceTree = "<group>"; };
+		77CC40851D464AD600F29148 /* SYForgotPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYForgotPwdController.h; sourceTree = "<group>"; };
+		77CC40861D464AD600F29148 /* SYForgotPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYForgotPwdController.m; sourceTree = "<group>"; };
 		77CE63681D2BF72E0071EA7C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		77CE63691D2BF72E0071EA7C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		77CE636F1D2C0CC90071EA7C /* SYApiServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYApiServer.h; sourceTree = "<group>"; };
@@ -479,18 +482,20 @@
 		A20896BE1D1ED81D00A626FC /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				779D523F1D33E5F9008628AC /* SYChangePwdController.h */,
-				779D52401D33E5F9008628AC /* SYChangePwdController.m */,
+				77A302C21D37BC8C00DB9F3B /* SYAboutController.h */,
+				77A302C31D37BC8C00DB9F3B /* SYAboutController.m */,
+				77CC40851D464AD600F29148 /* SYForgotPwdController.h */,
+				77CC40861D464AD600F29148 /* SYForgotPwdController.m */,
+				779443821D2B80010064C8DB /* SYLoginController.h */,
+				779443831D2B80010064C8DB /* SYLoginController.m */,
+				A20896C31D1ED8C000A626FC /* SYMineController.h */,
+				A20896C41D1ED8C000A626FC /* SYMineController.m */,
+				779D523F1D33E5F9008628AC /* SYModifyPwdController.h */,
+				779D52401D33E5F9008628AC /* SYModifyPwdController.m */,
 				779D52411D33E5F9008628AC /* SYPersonalInfoController.h */,
 				779D52421D33E5F9008628AC /* SYPersonalInfoController.m */,
 				779D52431D33E5F9008628AC /* SYSettingMileageController.h */,
 				779D52441D33E5F9008628AC /* SYSettingMileageController.m */,
-				A20896C31D1ED8C000A626FC /* SYMineController.h */,
-				A20896C41D1ED8C000A626FC /* SYMineController.m */,
-				779443821D2B80010064C8DB /* SYLoginController.h */,
-				779443831D2B80010064C8DB /* SYLoginController.m */,
-				77A302C21D37BC8C00DB9F3B /* SYAboutController.h */,
-				77A302C31D37BC8C00DB9F3B /* SYAboutController.m */,
 				77A302C51D37D0C000DB9F3B /* SYVersionController.h */,
 				77A302C61D37D0C000DB9F3B /* SYVersionController.m */,
 			);
@@ -708,6 +713,7 @@
 				77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */,
 				7794437C1D2B757C0064C8DB /* SYAlarmController.m in Sources */,
 				77CC40501D43BFCC00F29148 /* SYMineMenuView.m in Sources */,
+				77CC40871D464AD600F29148 /* SYForgotPwdController.m in Sources */,
 				A20896B31D1ED27F00A626FC /* SYBaseController.m in Sources */,
 				77BF91F91D368C9D00132C61 /* NSDate+Extension.m in Sources */,
 				7799AF381D2CA277006E332C /* SYVehiclePosition.m in Sources */,
@@ -719,7 +725,7 @@
 				A20896BD1D1ED45000A626FC /* SYNavigationController.m in Sources */,
 				77113B401D349D5F00E30577 /* SYPhysicalCell.m in Sources */,
 				77CE63731D2C0CC90071EA7C /* SYApiServer.m in Sources */,
-				779D52451D33E5F9008628AC /* SYChangePwdController.m in Sources */,
+				779D52451D33E5F9008628AC /* SYModifyPwdController.m in Sources */,
 				7720FDD21D2E00D300713986 /* SYBaseCell.m in Sources */,
 				77DF1B2D1D37515D00133615 /* SYOilExceptionCell.m in Sources */,
 				779443791D2B5E880064C8DB /* SYTravelCell.m in Sources */,

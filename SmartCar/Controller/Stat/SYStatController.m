@@ -33,7 +33,9 @@
 - (void)returnToPrevController {
     [super returnToPrevController];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.window.rootViewController = [[SYLoginController alloc] init];
+    SYLoginController *loginController = [[SYLoginController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
+    delegate.window.rootViewController = navController;
 }
 
 - (IBAction)statButtonAction:(id)sender {

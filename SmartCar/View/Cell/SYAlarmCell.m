@@ -66,7 +66,7 @@
     NSArray *statuArray = [SYUtil int2Binary:[alarm.alarmStatu intValue]];
     NSString *alarmDesc = @"";
     NSString *alarmValue = @"";
-    NSLog(@"------警告码：%@", [SYUtil intToBinary:[alarm.alarmStatu intValue]]);
+    DLog(@"------警告码：%@", [SYUtil intToBinary:[alarm.alarmStatu intValue]]);
     // 超速报警(第7个bit)
     if ([statuArray[6] intValue] == 1) {
         alarmDesc = [NSString stringWithFormat:@"%@", @"超速报警"];

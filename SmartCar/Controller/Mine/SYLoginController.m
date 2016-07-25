@@ -7,7 +7,7 @@
 //
 
 #import "SYLoginController.h"
-#import "SYChangePwdController.h"
+#import "SYForgotPwdController.h"
 #import "SYRootController.h"
 #import "AppDelegate.h"
 
@@ -17,6 +17,9 @@
 @interface SYLoginController ()
 
 @property(nonatomic, strong) UIImageView *bgImgView;
+
+@property(nonatomic, strong) UIImageView *titleView;
+@property(nonatomic, strong) UILabel *titleLabel;
 
 @property(nonatomic, strong) UIImageView *logoIV;
 
@@ -46,6 +49,7 @@
     [self readUserInfo];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillDisappear: animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -53,7 +57,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-   
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -152,7 +157,7 @@
         }
         
     } else if (sender.tag == 201) {
-        SYChangePwdController *changePwdController = [[SYChangePwdController alloc] init];
+        SYForgotPwdController *changePwdController = [[SYForgotPwdController alloc] init];
         [self.navigationController pushViewController:changePwdController animated:YES];
         
     } else {
@@ -172,17 +177,20 @@
     _bgImgView.image = [UIImage imageNamed:@"login_bg"];
     [_bgImgView addGestureRecognizer:tapGesture];
     [self.view addSubview:_bgImgView];
-    [_bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+    
+    _titleView = [[UIImageView alloc] init];
+    _titleView.image = [UIImage imageNamed:@"nav_bg"];
+    [self.view addSubview:_titleView];
+    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.text = @"智能车联-用户登录";
+    [self.view addSubview:_titleLabel];
     
     _logoIV = [[UIImageView alloc] init];
     _logoIV.image = [UIImage imageNamed:@"logo"];
     [self.view addSubview:_logoIV];
-    [_logoIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(100);
-        make.centerX.equalTo(self.view);
-    }];
     
     // 用户名
     _userNameBgIV = [[UIImageView alloc] init];
@@ -235,6 +243,7 @@
     _forgetPwdBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _forgetPwdBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_forgetPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_forgetPwdBtn setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
     [_forgetPwdBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
     [_forgetPwdBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _forgetPwdBtn.tag = 201;
@@ -244,16 +253,35 @@
     _loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _loginBtn.layer.cornerRadius = 18;
     _loginBtn.layer.masksToBounds = YES;
-    _loginBtn.backgroundColor = [UIColor colorWithHexString:@"4EB8CD"];
+    [_loginBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"4EB8CD"]] forState:UIControlStateNormal];
     [_loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_loginBtn setTitle:@"LOGIN IN | 登陆" forState:UIControlStateNormal];
     [_loginBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _loginBtn.tag = 202;
     [self.view addSubview:_loginBtn];
-
 }
 
 - (void)layoutPageSubviews {
+    [_bgImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(20);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@30);
+    }];
+    
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_titleView).offset(6);
+        make.centerY.equalTo(_titleView);
+    }];
+    
+    [_logoIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_titleView.mas_bottom).offset(70);
+        make.centerX.equalTo(self.view);
+    }];
+    
     // 用户名
     [_userNameBgIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_logoIV.mas_bottom).offset(30);

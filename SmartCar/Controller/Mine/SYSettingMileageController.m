@@ -120,7 +120,7 @@
     [self.view addSubview:_carNumLabel];
     
     _selectCarBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _selectCarBtn.backgroundColor = [UIColor redColor];
+    [_selectCarBtn setImage:[UIImage imageNamed:@"car"] forState:UIControlStateNormal];
     [_selectCarBtn addTarget:self action:@selector(mileageClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _selectCarBtn.tag = 300;
     [self.view addSubview:_selectCarBtn];

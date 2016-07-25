@@ -1,14 +1,14 @@
 //
-//  SYChangePwdController.m
+//  SYModifyPwdController.m
 //  SmartCar
 //
 //  Created by liuyiming on 16/7/9.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
-#import "SYChangePwdController.h"
+#import "SYModifyPwdController.h"
 
-@interface SYChangePwdController ()
+@interface SYModifyPwdController ()
 
 @property(nonatomic, strong) UIImageView *pwdLogo;
 
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation SYChangePwdController
+@implementation SYModifyPwdController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

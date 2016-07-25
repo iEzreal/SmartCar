@@ -1,5 +1,5 @@
 //
-//  SYChangePwdController.h
+//  SYModifyPwdController.h
 //  SmartCar
 //
 //  Created by liuyiming on 16/7/9.
@@ -8,6 +8,6 @@
 
 #import "SYBaseController.h"
 
-@interface SYChangePwdController : SYBaseController
+@interface SYModifyPwdController : SYBaseController
 
 @end

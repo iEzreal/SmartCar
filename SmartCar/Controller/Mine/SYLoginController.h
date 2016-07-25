@@ -6,8 +6,8 @@
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
-#import "SYBaseController.h"
+#import <UIKit/UIKit.h>
 
-@interface SYLoginController : SYBaseController
+@interface SYLoginController : UIViewController
 
 @end

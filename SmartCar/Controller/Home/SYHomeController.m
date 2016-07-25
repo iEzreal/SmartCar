@@ -76,7 +76,9 @@
 - (void)returnToPrevController {
     [super returnToPrevController];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.window.rootViewController = [[SYLoginController alloc] init];
+    SYLoginController *loginController = [[SYLoginController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
+    delegate.window.rootViewController = navController;
 }
 
 #pragma mark - 数据请求
@@ -129,7 +131,7 @@
         dispatch_group_leave(requestGroup);
     }];
     
-    // 跟新数据
+    // 更新数据
     dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
         if (_vePosition) {
             [self addMapAnnotation];
@@ -140,7 +142,6 @@
             _gaugeView.voltageText = _vePosition.OBDBatt;
            _gaugeView.mileageText = [NSString stringWithFormat:@"%.1f", [_vePosition.mileage floatValue] + [_initialMileage floatValue]];
         }
-        
         [_gaugeView finishRefresh];
     });
 }
@@ -263,7 +264,7 @@
             [_carSwitchView showWithView:self.view];
         }
     } else {
-        NSLog(@"===== 位置切换 =====");
+    
     }
 }
 

@@ -54,7 +54,7 @@
     
     NSData *bodyData = [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil];
     NSString *str = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
-    NSLog(@"最终数据：%@", str);
+    DLog(@"----提交到服务器数据：%@", str);
     
     [request setHTTPBody:bodyData];
     
@@ -78,7 +78,7 @@
 /*                              身份验证                                    */
 /***************************************************************************/
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
-    NSLog(@"-------- 身份验证 ----------");
+    DLog(@"----身份验证");
     // 创建 NSURLCredential 对象
     NSURLCredential *urlCredential = [NSURLCredential credentialWithUser:_authName
                                                           password:_authPwd
@@ -96,7 +96,6 @@
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     
-    NSLog(@"-------- 接受服务器响应 ----------");
     completionHandler(NSURLSessionResponseAllow);
 }
 

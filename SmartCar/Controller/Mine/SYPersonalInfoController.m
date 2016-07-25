@@ -12,6 +12,16 @@
 
 @property(nonatomic, strong) UIImageView *infoLogo;
 
+@property(nonatomic, strong) UIView *carNumView;
+@property(nonatomic, strong) UIImageView *carNumIV;
+@property(nonatomic, strong) UILabel *carNumLabel;
+@property(nonatomic, strong) UITextField *carNumTF;
+
+@property(nonatomic, strong) UIView *userIdView;
+@property(nonatomic, strong) UIImageView *userIdIV;
+@property(nonatomic, strong) UILabel *userIdLabel;
+@property(nonatomic, strong) UITextField *userIdTF;
+
 @property(nonatomic, strong) UIView *userNameView;
 @property(nonatomic, strong) UIImageView *userNameIV;
 @property(nonatomic, strong) UILabel *userNameLabel;
@@ -60,6 +70,8 @@
 }
 
 - (void)refreshUserInfo {
+    _carNumTF.text = [SYAppManager sharedManager].vehicle.carNum;
+    _userIdTF.text = [SYAppManager sharedManager].user.loginName;
     _userNameTF.text = [SYAppManager sharedManager].user.userName;
     _phoneTF.text = [SYAppManager sharedManager].user.phone1;
     _compTF.text = [SYAppManager sharedManager].user.company;
@@ -70,6 +82,9 @@
 - (void)changePersonalInfoAction:(UIButton *)sender {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[SYAppManager sharedManager].user.loginName forKey:@"UserId"];
+    [parameters setObject:[NSNumber numberWithInteger:[[SYAppManager sharedManager].vehicle.carID integerValue]] forKey:@"carid"];
+    [parameters setObject:_carNumTF.text forKey:@"carnum"];
+    [parameters setObject:_userIdTF.text forKey:@"newUserID"];
     [parameters setObject:_userNameTF.text forKey:@"userName"];
     [parameters setObject:_phoneTF.text forKey:@"phone"];
     [parameters setObject:_emailTF.text forKey:@"email"];
@@ -105,6 +120,50 @@
     _infoLogo = [[UIImageView alloc] init];
     _infoLogo.image = [UIImage imageNamed:@"mine_info"];
     [self.view addSubview:_infoLogo];
+    
+    // 车牌号
+    _carNumView = [[UIView alloc] init];
+    _carNumView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _carNumView.layer.borderWidth = 0.5;
+    _carNumView.layer.cornerRadius = 18;
+    [self.view addSubview:_carNumView];
+    
+    _carNumIV = [[UIImageView alloc] init];
+    _carNumIV.image = [UIImage imageNamed:@"login_name_icon"];
+    [self.view addSubview:_carNumIV];
+    
+    _carNumLabel = [[UILabel alloc] init];
+    _carNumLabel.font = [UIFont systemFontOfSize:15];
+    _carNumLabel.textColor = [UIColor whiteColor];
+    _carNumLabel.text = @"车牌号:";
+    [self.view addSubview:_carNumLabel];
+    
+    _carNumTF = [[UITextField alloc] init];
+    _carNumTF.textColor = [UIColor whiteColor];
+    _carNumTF.font = [UIFont systemFontOfSize:15];
+    [self.view addSubview:_carNumTF];
+    
+    // 用户id
+    _userIdView = [[UIView alloc] init];
+    _userIdView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _userIdView.layer.borderWidth = 0.5;
+    _userIdView.layer.cornerRadius = 18;
+    [self.view addSubview:_userIdView];
+    
+    _userIdIV = [[UIImageView alloc] init];
+    _userIdIV.image = [UIImage imageNamed:@"login_name_icon"];
+    [self.view addSubview:_userIdIV];
+    
+    _userIdLabel = [[UILabel alloc] init];
+    _userIdLabel.font = [UIFont systemFontOfSize:15];
+    _userIdLabel.textColor = [UIColor whiteColor];
+    _userIdLabel.text = @"用户ID:";
+    [self.view addSubview:_userIdLabel];
+    
+    _userIdTF = [[UITextField alloc] init];
+    _userIdTF.textColor = [UIColor whiteColor];
+    _userIdTF.font = [UIFont systemFontOfSize:15];
+    [self.view addSubview:_userIdTF];
     
     // 用户名
     _userNameView = [[UIView alloc] init];
@@ -235,12 +294,62 @@
 
 - (void)layoutPageSubviews {
     [_infoLogo mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(30);
+        make.top.equalTo(self.view).offset(20);
         make.centerX.equalTo(self.view);
     }];
     
+    // 车牌号
+    [_carNumView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_infoLogo.mas_bottom).offset(20);
+        make.centerX.equalTo(self.view);
+        make.width.equalTo(@280);
+        make.height.equalTo(@36);
+    }];
+    
+    [_carNumIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_carNumView).offset(10);
+        make.centerY.equalTo(_carNumView);
+    }];
+    
+    [_carNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_carNumIV.mas_right).offset(5);
+        make.centerY.equalTo(_carNumView);
+    }];
+    
+    [_carNumTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_carNumLabel.mas_right).offset(6);
+        make.right.equalTo(_carNumView.mas_right).offset(-6);
+        make.centerY.equalTo(_carNumView);
+    }];
+
+    // 用户ID
+    [_userIdView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_carNumView.mas_bottom).offset(15);
+        make.centerX.equalTo(self.view);
+        make.width.equalTo(@280);
+        make.height.equalTo(@36);
+    }];
+    
+    [_userIdIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_userIdView).offset(10);
+        make.centerY.equalTo(_userIdView);
+    }];
+    
+    [_userIdLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_userIdIV.mas_right).offset(5);
+        make.centerY.equalTo(_userIdView);
+    }];
+    
+    [_userIdTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_userIdLabel.mas_right).offset(6);
+        make.right.equalTo(_userIdView.mas_right).offset(-6);
+        make.centerY.equalTo(_userIdView);
+    }];
+
+    
+    // 用户名
     [_userNameView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_infoLogo.mas_bottom).offset(30);
+        make.top.equalTo(_userIdView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@280);
         make.height.equalTo(@36);
@@ -262,8 +371,9 @@
         make.centerY.equalTo(_userNameView);
     }];
     
+    // 手机号
     [_phoneView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_userNameView.mas_bottom).offset(20);
+        make.top.equalTo(_userNameView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@280);
         make.height.equalTo(@36);
@@ -285,8 +395,9 @@
         make.centerY.equalTo(_phoneView);
     }];
     
+    // 公司
     [_compView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_phoneView.mas_bottom).offset(30);
+        make.top.equalTo(_phoneView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@280);
         make.height.equalTo(@36);
@@ -308,8 +419,9 @@
         make.centerY.equalTo(_compView);
     }];
     
+    // 邮箱
     [_emailView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_compView.mas_bottom).offset(30);
+        make.top.equalTo(_compView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@280);
         make.height.equalTo(@36);
@@ -331,8 +443,9 @@
         make.centerY.equalTo(_emailView);
     }];
     
+    // 地址
     [_addressView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_emailView.mas_bottom).offset(30);
+        make.top.equalTo(_emailView.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@280);
         make.height.equalTo(@36);
@@ -356,7 +469,7 @@
     
     //
     [_saveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_addressView.mas_bottom).offset(30);
+        make.top.equalTo(_addressView.mas_bottom).offset(20);
         make.left.equalTo(_addressView);
     }];
     

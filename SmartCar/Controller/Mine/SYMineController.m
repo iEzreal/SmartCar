@@ -7,7 +7,7 @@
 //
 
 #import "SYMineController.h"
-#import "SYChangePwdController.h"
+#import "SYModifyPwdController.h"
 #import "SYPersonalInfoController.h"
 #import "SYPhysicalController.h"
 #import "SYSettingMileageController.h"
@@ -48,13 +48,15 @@
 - (void)returnToPrevController {
     [super returnToPrevController];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.window.rootViewController = [[SYLoginController alloc] init];
+    SYLoginController *loginController = [[SYLoginController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
+    delegate.window.rootViewController = navController;
 }
 
 #pragma mark 代理方法
 - (void)menuView:(SYMineMenuView *)menuView didSelectedAtIndex:(NSInteger)index {
     if (index == 0) {
-        SYChangePwdController *pwdController = [[SYChangePwdController alloc] init];
+        SYModifyPwdController *pwdController = [[SYModifyPwdController alloc] init];
         [self.navigationController pushViewController:pwdController animated:YES];
         
     } else if (index == 1) {

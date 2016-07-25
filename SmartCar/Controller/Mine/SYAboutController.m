@@ -27,7 +27,7 @@
     
     self.title = @"关于我们";
     _imageView = [[UIImageView alloc] init];
-    _imageView.image = [UIImage imageNamed:@"logo"];
+    _imageView.image = [UIImage imageNamed:@"logo_sy"];
     [self.view addSubview:_imageView];
     
     _label1 = [[UILabel alloc] init];
