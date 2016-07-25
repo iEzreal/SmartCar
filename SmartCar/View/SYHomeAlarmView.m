@@ -7,12 +7,14 @@
 //
 
 #import "SYHomeAlarmView.h"
-#import "SYHomeMoreView.h"
 
 @interface SYHomeAlarmView ()
 
 @property(nonatomic, strong) UIButton *eventBtn;
-@property(nonatomic, strong) SYHomeMoreView *moreView;
+
+@property(nonatomic, strong) UIImageView *iconIV;
+@property(nonatomic, strong) UILabel *titleLabel;
+@property(nonatomic, strong) UIImageView *moreIV;
 @property(nonatomic, strong) UILabel *alarmLabel;
 
 @end
@@ -31,26 +33,56 @@
     [_eventBtn addTarget:self action:@selector(clickEventAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_eventBtn];
     
-    _moreView = [[SYHomeMoreView alloc] initWithFrame:CGRectMake(0, 0, self.width, 30)];
-    _moreView.title = @"近期报警";
-    _moreView.image = [UIImage imageNamed:@"icon_alarm"];
-    _moreView.moreBGColor = TAB_SELECTED_COLOR;
-    [self addSubview:_moreView];
+    _iconIV = [[UIImageView alloc] init];
+    _iconIV.image = [UIImage imageNamed:@"icon_alarm"];
+    [self addSubview:_iconIV];
+    
+    _titleLabel = [[UILabel alloc] init];
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.textColor = [UIColor whiteColor];
+    _titleLabel.font = [UIFont systemFontOfSize:16];
+    _titleLabel.text = @"近期警报";
+    [self addSubview:_titleLabel];
+    
+    _moreIV = [[UIImageView alloc] init];
+    _moreIV.image = [UIImage imageNamed:@"check_more_blue"];
+    [self addSubview:_moreIV];
+    
+    
+    UIView *contentView = [[UIView alloc] init];
+    [self addSubview:contentView];
     
     _alarmLabel = [[UILabel alloc] init];
-    _alarmLabel.textAlignment = NSTextAlignmentCenter;
     _alarmLabel.numberOfLines = 0;
     _alarmLabel.textColor = [UIColor whiteColor];
-    _alarmLabel.font = [UIFont systemFontOfSize:15];
-    _alarmLabel.text = @"最近十天内无报警记录，请查看更多行程信息";
+    _alarmLabel.font = [UIFont systemFontOfSize:16];
     [self addSubview:_alarmLabel];
-    [_alarmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_moreView.mas_bottom);
-        make.left.equalTo(self).offset(5);
-        make.right.equalTo(self).offset(-5);
-        make.bottom.equalTo(self).offset(-5);
-    }];
 
+    [_iconIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(self).offset(5);
+        make.width.height.equalTo(@22);
+    }];
+    
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_iconIV.mas_right).offset(5);
+        make.centerY.equalTo(_iconIV);
+    }];
+    
+    [_moreIV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self).offset(-5);
+        make.centerY.equalTo(_iconIV);
+    }];
+    
+    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_iconIV.mas_bottom);
+        make.bottom.equalTo(self.mas_bottom);
+    }];
+    
+    [_alarmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_titleLabel);
+        make.right.equalTo(self).offset(-32);
+        make.centerY.equalTo(contentView);
+    }];
     
     return self;
 
@@ -64,20 +96,22 @@
 
 - (void)setAlarmArray:(NSArray *)alarmArray {
     NSInteger count = alarmArray.count;
-    if (count > 4) {
-        count = 4;
+    if (count > 2) {
+        count = 2;
     }
     
     NSString *alarmStr = @"";
     for (int i = 0; i < count; i++) {
         @autoreleasepool {
-            NSString *time = [alarmArray[i] objectForKey:@"gpstime"];
+            NSString *time = [SYUtil dateWithSateStr:[alarmArray[i] objectForKey:@"gpstime"] Format:@"MM月dd日 HH:mm"];
             NSString *statuStr = [alarmArray[i] objectForKey:@"AlarmStatu"];;
             NSArray *statuArray = [SYUtil int2Binary:[statuStr intValue]];
             NSString *alarmDesc = @"";
+            NSString *alarmValue = @"";
             // 超速报警(第7个bit)
             if ([statuArray[6] intValue] == 1) {
                 alarmDesc = [NSString stringWithFormat:@"%@%@", alarmDesc, @"超速报警"];
+                alarmValue = [NSString stringWithFormat:@"%.1fkm/h", [[alarmArray[i] objectForKey:@"OBDSpeed"] floatValue] * 0.1];
             }
             
             // 进入电子围栏报警 9
@@ -103,6 +137,8 @@
             // 发动机超转速报警 24
             if ([statuArray[23] intValue] == 1) {
                 alarmDesc = [NSString stringWithFormat:@"%@", @"发动机超转速报警"];
+                alarmValue = [NSString stringWithFormat:@"转速%@", [alarmArray[i] objectForKey:@"OBDRpm"]];
+               
             }
             
             // 发动机异常报警 25
@@ -112,13 +148,18 @@
             
             // 发动机水温过高报警 26
             if ([statuArray[25] intValue] == 1) {
-                alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
+                alarmDesc = [NSString stringWithFormat:@"%@", @"发动机水温过高报警"];
+                alarmValue = [NSString stringWithFormat:@"温度%@", [alarmArray[i] objectForKey:@"OBDCoolTemp"]];
+            }
+            
+            if (![alarmValue isEqualToString:@""]) {
+                alarmValue = [NSString stringWithFormat:@"-%@",alarmValue];
             }
             
             if ([alarmStr isEqualToString:@""]) {
-                alarmStr = [NSString stringWithFormat:@"%@%@",time, alarmDesc];
+                alarmStr = [NSString stringWithFormat:@"%@-%@%@",time, alarmDesc, alarmValue];
             } else {
-                alarmStr = [NSString stringWithFormat:@"%@\n%@%@",alarmStr, time, alarmDesc];
+                alarmStr = [NSString stringWithFormat:@"%@\n%@-%@%@",alarmStr, time, alarmDesc, alarmValue];
             }
         }
     }

@@ -1,18 +1,18 @@
 //
-//  SYDatePickerView.m
+//  SYPickerDateView.m
 //  SmartCar
 //
 //  Created by Ezreal on 16/7/15.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
-#import "SYDatePickerView.h"
+#import "SYPickerDateView.h"
 
 #define CONTENT_W (SCREEN_W - 60)
 #define CONTENT_H 296
 #define YEAR_AMCOUNT 50
 
-@interface SYDatePickerView () <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface SYPickerDateView () <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property(nonatomic, strong) UIView *BGView;
 
@@ -37,7 +37,7 @@
 
 @end
 
-@implementation SYDatePickerView
+@implementation SYPickerDateView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (!(self = [super initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)])) {

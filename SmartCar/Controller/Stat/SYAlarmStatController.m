@@ -156,7 +156,7 @@
 - (void)setupPageSubviews {
     _topView = [[SYPageTopView alloc] init];
     _topView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
-    _topView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
+    _topView.iconImage = [UIImage imageNamed:@"icon_alarm_white"];
     [_topView.rightBtn setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
     _topView.title= @"报警统计";
     _topView.content = @"一个月内";

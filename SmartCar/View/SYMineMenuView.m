@@ -15,11 +15,11 @@
         return nil;
     }
     NSArray *imageArray = @[@"mine_upwd", @"mine_personal", @"mine_milestage",
-                            @"mine_afterservice ", @"mine_softupdate"];
+                            @"mine_car_physical", @"mine_afterservice ", @"mine_softupdate"];
     NSArray *titleArray = @[@"修改密码", @"个人信息", @"初始里程",
-                            @"关于我们", @"版本信息"];
+                            @"车辆体检", @"关于我们", @"版本信息"];
     // 总共5个 分3列
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
         long rowIndex = i / 3;
         long columnIndex = i % 3;
         

@@ -106,8 +106,8 @@
     
     // 发动机水温过高报警 26
     if ([statuArray[25] intValue] == 1) {
-        alarmDesc = [NSString stringWithFormat:@"%@", @"发动机异常报警"];
-        alarmValue = [NSString stringWithFormat:@"转速%@", alarm.OBDCoolTemp];
+        alarmDesc = [NSString stringWithFormat:@"%@", @"发动机水温过高报警"];
+        alarmValue = [NSString stringWithFormat:@"温度%@", alarm.OBDCoolTemp];
     }
     _timeLabel.text = [SYUtil dateWithSateStr:alarm.gpstime Format:@"yyyy.MM.dd HH.mm"];
     _typeLabel.text = alarmDesc;

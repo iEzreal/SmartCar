@@ -173,6 +173,8 @@
         startAnnotationView.animatesDrop = NO;
         startAnnotationView.annotation=annotation;
         startAnnotationView.image = [UIImage imageNamed:@"gps_position"];
+        
+        
         return startAnnotationView;
     }
     

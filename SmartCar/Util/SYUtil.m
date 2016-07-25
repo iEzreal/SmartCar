@@ -51,7 +51,6 @@
     return str;
 }
 
-
 + (NSString *)currentDate {
     NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];

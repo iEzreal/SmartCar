@@ -8,12 +8,12 @@
 
 #import "SYTravelIInfoController.h"
 #import "SYPageTopView.h"
-#import "SYDatePickerView.h"
+#import "SYPickerDateView.h"
 
-@interface SYTravelIInfoController () <SYPageTopViewDelegate, SYDatePickerViewDelegate>
+@interface SYTravelIInfoController () <SYPageTopViewDelegate, SYPickerDateViewDelegate>
 
 @property(nonatomic, strong) SYPageTopView *pageTopView;
-@property(nonatomic, strong) SYDatePickerView *datePickerView;
+@property(nonatomic, strong) SYPickerDateView *datePickerView;
 
 @property(nonatomic, strong) UIView *topView;
 @property(nonatomic, strong) UILabel *startHintLabel;
@@ -173,13 +173,13 @@
 #pragma mark - 代理事件
 - (void)topViewRightAction {
     if (!_datePickerView) {
-        _datePickerView = [[SYDatePickerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
+        _datePickerView = [[SYPickerDateView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
         _datePickerView.delegate = self;
     }
     [_datePickerView show];
 }
 
-- (void)datePickerView:(SYDatePickerView *)datePickerView didSelectStartYear:(NSString *)startYear startMonth:(NSString *)startMonth endYear:(NSString *)endYear endMonth:(NSString *)endMonth {
+- (void)datePickerView:(SYPickerDateView *)datePickerView didSelectStartYear:(NSString *)startYear startMonth:(NSString *)startMonth endYear:(NSString *)endYear endMonth:(NSString *)endMonth {
     _startLabel.text = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
     _endLabel.text = [NSString stringWithFormat:@"%@-%@", endYear, endMonth];
     NSString *startDate;

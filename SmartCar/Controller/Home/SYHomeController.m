@@ -10,7 +10,6 @@
 #import "SYTravelController.h"
 #import "SYCurrentLocationController.h"
 #import "SYAlarmController.h"
-#import "SYPhysicalController.h"
 #import "SYLoginController.h"
 #import "AppDelegate.h"
 
@@ -19,14 +18,13 @@
 #import "SYHomeGaugeView.h"
 #import "SYHomeTravelView.h"
 #import "SYHomeAlarmView.h"
-#import "SYHomePhysicalView.h"
 
 #import "SYVehiclePosition.h"
 #import "SYTravel.h"
 
 
 
-@interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, SYHomePhysicalViewDelegate, BMKMapViewDelegate>
+@interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, BMKMapViewDelegate>
 
 @property(nonatomic, strong) SYCarSwitchView *carSwitchView;
 
@@ -34,7 +32,7 @@
 @property(nonatomic, strong) SYHomeTravelView *travelView;
 @property(nonatomic, strong) BMKMapView *mapView;
 @property(nonatomic, strong) SYHomeAlarmView *alarmView;
-@property(nonatomic, strong) SYHomePhysicalView *physicalView;
+//@property(nonatomic, strong) SYHomePhysicalView *physicalView;
 
 @property(nonatomic, strong) BMKPointAnnotation *locationAnnotation;
 
@@ -291,8 +289,7 @@
 }
 
 - (void)morePhysicalAction {
-    SYPhysicalController *physicalController = [[SYPhysicalController alloc] init];
-    [self.navigationController pushViewController:physicalController animated:YES];
+    
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
@@ -318,28 +315,30 @@
 
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
-    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 60 + 90 * SCALE_H)];
+    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 60 + 100 * SCALE_H)];
     _gaugeView.delegate = self;
     [self.view addSubview:_gaugeView];
     
-    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 100 * SCALE_H)];
-    [_travelView addBottomBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
+    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 55 * SCALE_H)];
     _travelView.delegate = self;
     [self.view addSubview:_travelView];
     
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W / 2 + 30, SCREEN_H - _gaugeView.height - _travelView.height - 64 - 49)];
-    _mapView.zoomLevel = 16;
-    [_mapView addRightBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
-    [self.view addSubview:_mapView];
-    
-    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(SCREEN_W / 2 + 30, _mapView.top, SCREEN_W / 2 - 30, _mapView.height / 2)];
+    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W, 55 * SCALE_H)];
+    [_alarmView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
+    [_alarmView addBottomBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
     _alarmView.delegate = self;
     [self.view addSubview:_alarmView ];
+
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, _alarmView.bottom, SCREEN_W , SCREEN_H - _gaugeView.height - _travelView.height - _alarmView.height - 64 - 49)];
+    _mapView.zoomLevel = 16;
+    [self.view addSubview:_mapView];
     
-    _physicalView = [[SYHomePhysicalView alloc] initWithFrame:CGRectMake(_alarmView.left, _alarmView.bottom, _alarmView.width, _mapView.height / 2)];
-    _physicalView.delegate = self;
-    [_physicalView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
-    [self.view addSubview:_physicalView ];
+    
+    // 去掉体检
+//    _physicalView = [[SYHomePhysicalView alloc] initWithFrame:CGRectMake(_alarmView.left, _alarmView.bottom, _alarmView.width, _mapView.height / 2)];
+//    _physicalView.delegate = self;
+//    [_physicalView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:1];
+//    [self.view addSubview:_physicalView ];
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "SYMineController.h"
 #import "SYChangePwdController.h"
 #import "SYPersonalInfoController.h"
+#import "SYPhysicalController.h"
 #import "SYSettingMileageController.h"
 #import "SYAboutController.h"
 #import "SYVersionController.h"
@@ -63,9 +64,15 @@
     } else if (index == 2) {
         SYSettingMileageController *mileageController = [[SYSettingMileageController alloc] init];
         [self.navigationController pushViewController:mileageController animated:YES];
+        
     } else if (index == 3) {
+        SYPhysicalController *physicalController = [[SYPhysicalController alloc] init];
+        [self.navigationController pushViewController:physicalController animated:YES];
+        
+    } else if (index == 4) {
         SYAboutController *aboutController = [[SYAboutController alloc] init];
         [self.navigationController pushViewController:aboutController animated:YES];
+       
     } else {
         SYVersionController *versionController = [[SYVersionController alloc] init];
         [self.navigationController pushViewController:versionController animated:YES];
