@@ -6,6 +6,8 @@
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
+#define SY_URL @"http://www.sycarnet.com"
+
 #import "SYAboutController.h"
 
 @interface SYAboutController ()
@@ -16,7 +18,7 @@
 @property(nonatomic, strong) UILabel *label2;
 @property(nonatomic, strong) UILabel *label3;
 @property(nonatomic, strong) UILabel *label4;
-@property(nonatomic, strong) UILabel *label5;
+@property(nonatomic, strong) UIButton *urlBtn;
 
 @end
 
@@ -58,11 +60,13 @@
     _label4.text = @"公司网址:";
     [self.view addSubview:_label4];
     
-    _label5 = [[UILabel alloc] init];
-    _label5.font = [UIFont systemFontOfSize:18];
-    _label5.textColor = [UIColor whiteColor];
-    _label5.text = @"http://www.sycarnet.com";
-    [self.view addSubview:_label5];
+    _urlBtn = [[UIButton alloc] init];
+    _urlBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    [_urlBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [_urlBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [_urlBtn setTitle:SY_URL forState:UIControlStateNormal];
+    [_urlBtn addTarget:self action:@selector(returnToBrowser:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_urlBtn];
     
     [_imageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(60);
@@ -77,7 +81,7 @@
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_label1.mas_bottom).offset(20);
         make.left.right.equalTo(self.view);
-        make.height.equalTo(@1);
+        make.height.equalTo(@0.5);
     }];
     
     [_label2 mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -95,12 +99,15 @@
         make.left.equalTo(self.view).offset(20);
     }];
     
-    [_label5 mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_urlBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_label4.mas_right).offset(10);
         make.centerY.equalTo(_label4);
     }];
-
     
+}
+
+- (void)returnToBrowser:(UIButton *)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:SY_URL]];
 }
 
 

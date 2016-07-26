@@ -9,6 +9,7 @@
 #import "SYPhysicalController.h"
 #import "SYPhysicalCell.h"
 #import "SYPageTopView.h"
+#import "SYDtcCode.h"
 
 @interface SYPhysicalController () <SYPageTopViewDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 
@@ -18,7 +19,7 @@
 @property(nonatomic, strong) UILabel *faultDescLabel;
 
 @property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong) NSMutableArray *physicalArray;
+@property(nonatomic, strong) NSMutableArray *dtcCodeArray;
 
 @end
 
@@ -28,16 +29,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _physicalArray = [[NSMutableArray alloc] init];
+    _dtcCodeArray = [[NSMutableArray alloc] init];
+    
     [self setupPageSubviews];
+    
+//    // 跳过请求DTC命令，直接测试翻译
+//    NSString *dtcCode = @"P0100P0200P0300C0300B0200U0100P0101";
+//    NSString *newDtcCode = @"";
+//    for (int i = 0; i < dtcCode.length / 5; i++) {
+//        NSString *str = [dtcCode substringWithRange:NSMakeRange(i * 5, 5)];
+//        NSString *str2 = [NSString stringWithFormat:@"'%@'", str];
+//        if ([newDtcCode isEqualToString:@""]) {
+//            newDtcCode = [NSString stringWithFormat:@"%@",str2];
+//        } else {
+//            newDtcCode = [NSString stringWithFormat:@"%@,%@",newDtcCode ,str2];
+//        }
+//    }
+//    [self dtcTranslate:newDtcCode];
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 #pragma mark - 数据请求
+/**
+ *  发送DTC查询命令
+ */
 - (void)getDtcCode {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSString *termId = [SYAppManager sharedManager].vehicle.termID;
@@ -51,25 +70,50 @@
     [SYApiServer OBD_POST:METHOD_GET_DTC_CODE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"GetDtcCodeResult"] intValue] > 0) {
-            [self dtcTranslate:@""];
+        if ([[responseDic objectForKey:@"GetDtcCodeResult"] intValue] == 0) {
+            // sy235 请求到的数据 -> P0100P0200P0300C0300B0200U0100P0101
+            NSString *dtcCode = [responseDic objectForKey:@"dtcCode"];
+            // 格式化dtcCode -> 'P0100','P0200','P0300','C0300','B0200','U0100','P0101'
+            NSString *newDtcCode = @"";
+            for (int i = 0; i < dtcCode.length / 5; i++) {
+                NSString *str = [dtcCode substringWithRange:NSMakeRange(i * 5, 5)];
+                NSString *str2 = [NSString stringWithFormat:@"'%@'", str];
+                if ([newDtcCode isEqualToString:@""]) {
+                    newDtcCode = [NSString stringWithFormat:@"%@",str2];
+                } else {
+                    newDtcCode = [NSString stringWithFormat:@"%@,%@",newDtcCode ,str2];
+                }
+            }
+            // 翻译DTC 命令
+            [self dtcTranslate:newDtcCode];
         } else {
-            [SYUtil showErrorWithStatus:@"体检失败" duration:2];
+            [SYUtil showErrorWithStatus:@"体检失败, 请重试" duration:2];
         }
     } failure:^(NSError *error) {
-        [SYUtil showErrorWithStatus:@"体检失败" duration:2];
+        [SYUtil showErrorWithStatus:@"体检失败, 请重试" duration:2];
     }];
 }
 
+/**
+ *  翻译DTC错误代码
+ *
+ *  @param dtcCode 格式化的dtcCode -> 'P0100','P0200','P0300','P0101'
+ */
 - (void)dtcTranslate:(NSString *)dtcCode {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:dtcCode forKey:@"dtc"];
     [SYApiServer POST:METHOD_DTC_TRANSLATE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if ([[responseDic objectForKey:@"GetDtcCodeResult"] intValue] > 0) {
-            
-            
+        if (responseDic && [[responseDic objectForKey:@"DtcTranslateResult"] intValue] > 0) {
+            NSString *dtcInfoStr = [responseDic objectForKey:@"dtcInfo"];
+            NSDictionary *dtcInfoDic = [dtcInfoStr objectFromJSONString];
+            NSArray *tableInfoArray = [dtcInfoDic objectForKey:@"TableInfo"];
+            for (int i = 0; i < tableInfoArray.count; i++) {
+                SYDtcCode *dtcCode = [[SYDtcCode alloc] initWithDic:tableInfoArray[i]];
+                [_dtcCodeArray addObject:dtcCode];
+            }
+            [_tableView reloadData];
         } else {
             [SYUtil showErrorWithStatus:@"体检失败" duration:2];
         }
@@ -92,7 +136,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _physicalArray.count;
+    return _dtcCodeArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -107,8 +151,8 @@
         physicalCell.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
         physicalCell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-//    physicalCell.faultCode = @"test";
-//    physicalCell.faultDesc = @"testtestetsetstetste";
+    physicalCell.faultCode = [_dtcCodeArray[indexPath.row] dtcCode];
+    physicalCell.faultDesc = [_dtcCodeArray[indexPath.row] explain];
     return physicalCell;
 }
 
@@ -141,8 +185,8 @@
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     _tableView.backgroundColor = [UIColor colorWithHexString:HOME_BG_COLOR];
-    _tableView.showsVerticalScrollIndicator = NO;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.bounces = NO;
     _tableView.dataSource = self;
     _tableView.delegate = self;
     _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];

@@ -42,6 +42,7 @@
 }
 
 #pragma mark - 数据请求
+// 获取初始里程
 - (void)requestMileage {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -49,6 +50,7 @@
     [SYApiServer POST:METHOD_GET_MILEAGE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
+        DLog(@"---- 获取初始里程结果：%@", [responseDic objectForKey:@"GetMileageResult"]);
         if (responseDic) {
             _mileageTF.text = [NSString stringWithFormat:@"%@",[responseDic objectForKey:@"GetMileageResult"]];
         }
@@ -57,6 +59,7 @@
     }];
 }
 
+// 初始化初始里程
 - (void)requestInitMileage {
     NSString *carId = [SYAppManager sharedManager].vehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -67,6 +70,7 @@
     [SYApiServer POST:METHOD_INIT_MILEAGE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
+        DLog(@"---- 初始里程结果：%@", [responseDic objectForKey:@"InitMileageResult"]);
         if (responseDic && [[responseDic objectForKey:@"InitMileageResult"] integerValue] == 1) {
             [SYUtil showSuccessWithStatus:@"初始里程成功" duration:2];
         } else {

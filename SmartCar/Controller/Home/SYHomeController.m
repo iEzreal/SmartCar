@@ -136,6 +136,7 @@
         if (_vePosition) {
             [self addMapAnnotation];
             _gaugeView.refreshTimeText = _vePosition.recvTime;
+            _gaugeView.refreshTimeText = [SYUtil currentDate];
             _gaugeView.oilText = _vePosition.OBDGasLevel;
             _gaugeView.speedText = _vePosition.OBDSpeed;
             _gaugeView.stateText = _vePosition.engineOnOff;
@@ -301,18 +302,18 @@
 
 }
 
-//- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
-//    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
-//        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
-//        newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
-//        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
-//        newAnnotationView.annotation = annotation;
-//        newAnnotationView.image = [UIImage imageNamed:@"gps_position"];
-//        return newAnnotationView;
-//    }
-//    return nil;
-//    
-//}
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+        newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        newAnnotationView.annotation = annotation;
+        newAnnotationView.image = [UIImage imageNamed:@"location_red"];
+        return newAnnotationView;
+    }
+    return nil;
+    
+}
 
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
@@ -331,7 +332,7 @@
     [self.view addSubview:_alarmView ];
 
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, _alarmView.bottom, SCREEN_W , SCREEN_H - _gaugeView.height - _travelView.height - _alarmView.height - 64 - 49)];
-    _mapView.zoomLevel = 16;
+    _mapView.zoomLevel = 17;
     [self.view addSubview:_mapView];
     
     

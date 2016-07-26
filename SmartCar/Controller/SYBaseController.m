@@ -62,6 +62,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [_titleBtn setTitle:[SYAppManager sharedManager].vehicle.carNum forState:UIControlStateNormal];
+    
     _locationStr = [SYAppManager sharedManager].locationStr;
     [_locationBtn setTitle:_locationStr forState:UIControlStateNormal];
    

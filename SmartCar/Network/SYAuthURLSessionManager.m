@@ -45,9 +45,9 @@
  *  @param responseBlock
  */
 - (void)POST:(NSString *)URLString parameters:(id)parameters resultBlock:(ResultBlock)resultBlock {
+    DLog(@"----请求URL地址：%@", URLString);
     _resultBlock = resultBlock;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-    
     request.timeoutInterval = 5.0;
     [request setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"content-type"];
     request.HTTPMethod = @"POST";
@@ -55,7 +55,6 @@
     NSData *bodyData = [NSJSONSerialization dataWithJSONObject:parameters options:NSJSONWritingPrettyPrinted error:nil];
     NSString *str = [[NSString alloc] initWithData:bodyData encoding:NSUTF8StringEncoding];
     DLog(@"----提交到服务器数据：%@", str);
-    
     [request setHTTPBody:bodyData];
     
     NSURLSessionDataTask *task = [self.session dataTaskWithRequest:request];
@@ -78,7 +77,6 @@
 /*                              身份验证                                    */
 /***************************************************************************/
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
-    DLog(@"----身份验证");
     // 创建 NSURLCredential 对象
     NSURLCredential *urlCredential = [NSURLCredential credentialWithUser:_authName
                                                           password:_authPwd

@@ -77,8 +77,8 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="油量异常" image="sgasadd_normal"/>
-                                        <state key="highlighted" image="sgasadd_highlight"/>
+                                        <state key="normal" title="油量异常" image="gasdec_normal"/>
+                                        <state key="highlighted" image="gasdec_highlight"/>
                                         <connections>
                                             <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="i5F-i1-oFJ"/>
                                         </connections>
@@ -103,8 +103,8 @@
                                             <constraint firstAttribute="height" constant="86" id="y4t-hO-Ozf"/>
                                         </constraints>
                                         <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="加油" image="gasdec_normal"/>
-                                        <state key="highlighted" image="gasdec_highlight"/>
+                                        <state key="normal" title="加油" image="sgasadd_normal"/>
+                                        <state key="highlighted" image="sgasadd_highlight"/>
                                         <connections>
                                             <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="N9h-rj-7P4"/>
                                         </connections>

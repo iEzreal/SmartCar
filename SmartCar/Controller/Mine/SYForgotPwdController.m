@@ -58,8 +58,11 @@
 
 // 发送邮件获取认证码
 - (void)sendMailForApprove {
+    NSString *userId = [SYAppManager sharedManager].user.userId;
+    NSString *mail = [SYAppManager sharedManager].user.email;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInteger:[@"17" integerValue]] forKey:@"userID"];
+    [parameters setObject:[NSNumber numberWithInteger:[userId integerValue]] forKey:@"userID"];
+    [parameters setObject:mail forKey:@"mailAddress"];
     [SYApiServer POST:METHOD_SEND_MAIL_FOR_APPROVE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
@@ -120,6 +123,18 @@
     [self.view endEditing:YES];
 }
 
+- (void)btnClickAction:(UIButton *)sender {
+    if (sender.tag == 1001) {
+        [self sendMailForApprove];
+        
+    } else if (sender.tag == 1002) {
+        
+    } else {
+    
+    }
+
+}
+
 
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
@@ -177,6 +192,8 @@
     _getAuthCodeBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_getAuthCodeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_getAuthCodeBtn setTitle:@"获取认证码" forState:UIControlStateNormal];
+    [_getAuthCodeBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _getAuthCodeBtn.tag = 1001;
     [self.view addSubview:_getAuthCodeBtn];
     
     _confirmBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -186,6 +203,8 @@
     _confirmBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    [_confirmBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _confirmBtn.tag = 1002;
     [self.view addSubview:_confirmBtn];
     
     [_getAuthCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -276,6 +295,8 @@
    [_resetBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"22C064"]] forState:UIControlStateNormal];    _resetBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_resetBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_resetBtn setTitle:@"重置" forState:UIControlStateNormal];
+    [_confirmBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _confirmBtn.tag = 1003;
     [self.view addSubview:_resetBtn];
     
     [_resetBtn mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -25,12 +25,12 @@
     
     _faultCodeLabel = [[UILabel alloc] init];
     _faultCodeLabel.textAlignment = NSTextAlignmentCenter;
-    _faultCodeLabel.font = [UIFont systemFontOfSize:14];
+    _faultCodeLabel.font = [UIFont systemFontOfSize:16];
     _faultCodeLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_faultCodeLabel];
     
     _faultDescLabel = [[UILabel alloc] init];
-    _faultDescLabel.font = [UIFont systemFontOfSize:14];
+    _faultDescLabel.font = [UIFont systemFontOfSize:16];
     _faultDescLabel.textColor = [UIColor whiteColor];
     [self.contentView addSubview:_faultDescLabel];
     

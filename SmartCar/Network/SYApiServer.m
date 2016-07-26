@@ -38,6 +38,7 @@
         if (error) {
             failure(error);
         } else {
+            DLog(@"----服务器返回结果：%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
             success(responseData);
         }
     }];
@@ -51,6 +52,7 @@
         if (error) {
             failure(error);
         } else {
+             DLog(@"----服务器返回结果：%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
             success(responseData);
         }
     }];

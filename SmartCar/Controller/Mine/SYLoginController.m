@@ -93,7 +93,6 @@
             AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
             delegate.window.rootViewController = [[SYRootController alloc] init];
             
-//            [self.navigationController pushViewController:[[SYRootController alloc] init] animated:YES];
             [SYUtil dismissProgressHUD];
             
         } else {

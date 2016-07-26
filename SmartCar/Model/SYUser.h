@@ -10,6 +10,7 @@
 
 @interface SYUser : NSObject
 
+@property(nonatomic, strong) NSString *userId;
 @property(nonatomic, strong) NSString *loginTime;
 @property(nonatomic, strong) NSString *loginName;
 @property(nonatomic, strong) NSString *password;

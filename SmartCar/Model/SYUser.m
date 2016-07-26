@@ -15,6 +15,7 @@
         return nil;
     }
     
+    _userId = [dic objectForKey:@"id"];
     _loginName = [dic objectForKey:@"LoginName"];
     _password = [dic objectForKey:@"password"];
     _userName = [dic objectForKey:@"UserName"];

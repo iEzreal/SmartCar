@@ -24,7 +24,10 @@
 @property(nonatomic, strong) UILabel *locationLabel;
 @property(nonatomic, strong) UIView *fenceMenuView;
 @property(nonatomic, strong) UIButton *fenceSwitchBtn;
+
 @property(nonatomic, strong) UIView *trackMenuView;
+@property(nonatomic, strong) UIButton *stopTrackBtn;
+@property(nonatomic, strong) UIButton *startTrackBtn;
 
 
 @property(nonatomic, strong) NSMutableArray *fenceArray;
@@ -96,6 +99,7 @@
     [super viewWillDisappear:animated];
     [_mapView viewWillDisappear];
     _mapView.delegate = nil;
+    [self stopTrack];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -268,13 +272,13 @@
     [parameters setObject:[NSNumber numberWithInteger:15 * 24 * 60] forKey:@"nDealy"];
     [parameters setObject:[NSNumber numberWithInteger:5000] forKey:@"nTimeOut"];
     
-    [SYUtil showWithStatus:@"设置追踪中..."];
+    [SYUtil showWithStatus:@"正在设置追踪模式"];
     [SYApiServer OBD_POST:METHOD_SET_TRACK_JT parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"DoSetTrackJTResult"] integerValue] == 0) {
             [self startTrack];
-            
+            [SYUtil showSuccessWithStatus:@"追踪模式设置成功" duration:1];
         } else {
             [SYUtil showErrorWithStatus:@"设置失败" duration:2];
         }
@@ -283,12 +287,17 @@
     }];
 }
 
+// 开启定时器，每五秒更新一次位置信息
 - (void)startTrack {
+    _startTrackBtn.enabled = NO;
+    _stopTrackBtn.enabled = YES;
     _timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(requestCarLastPosition) userInfo:nil repeats:YES];
     [_timer fire];
 }
 
 - (void)stopTrack {
+    _startTrackBtn.enabled = YES;
+    _stopTrackBtn.enabled = NO;
     [_timer invalidate];
 }
 
@@ -303,15 +312,19 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"GetLastPositionResult"] integerValue] == 1) {
-            NSArray *tableArray = [responseDic objectForKey:@"TableInfo"];
-            NSDictionary *dic = tableArray[0];
-            CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(0, 0);
+           
+            NSString *positionInfoStr = [responseDic objectForKey:@"PositionInfo"];
+            NSDictionary *positionInfoDic = [positionInfoStr objectFromJSONString];
+            
+            NSArray *tableArray = [positionInfoDic objectForKey:@"TableInfo"];
+            NSDictionary *tableDic = tableArray[0];
+            
+            CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([[tableDic objectForKey:@"lat"] doubleValue], [[tableDic objectForKey:@"lon"] doubleValue]);
             NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
             CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
-            
-            _trackAnnotation.coordinate = baiduCoor;
+            self.trackAnnotation.coordinate = baiduCoor;
             _mapView.centerCoordinate = baiduCoor;
-            [_mapView addAnnotation:_locationAnnotation];
+            [_mapView addAnnotation:self.trackAnnotation];
         }
         
     } failure:^(NSError *error) {
@@ -520,6 +533,7 @@
         [_mapView removeOverlay:self.fenceCircle];
         
         [_mapView addAnnotation:self.trackAnnotation];
+
     }
 }
 
@@ -544,7 +558,7 @@
 
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
     // 当前位置
-    if (annotation == _locationAnnotation) {
+    if (annotation == self.locationAnnotation) {
         static NSString *locationStr = @"LocationAnnotation";
         BMKPinAnnotationView *locationAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:locationStr];
         if (!locationAnnotationView) {
@@ -554,9 +568,24 @@
         locationAnnotationView.pinColor = BMKPinAnnotationColorPurple;
         locationAnnotationView.animatesDrop = NO;
         locationAnnotationView.annotation=annotation;
-        locationAnnotationView.image = [UIImage imageNamed:@"gps_position"];
+        locationAnnotationView.image = [UIImage imageNamed:@"location_red"];
         return locationAnnotationView;
     }
+    
+    if (annotation == self.trackAnnotation) {
+        static NSString *trackStr = @"TrackAnnotation";
+        BMKPinAnnotationView *trackStrAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:trackStr];
+        if (!trackStrAnnotationView) {
+            trackStrAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:trackStr];
+        }
+        
+        trackStrAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        trackStrAnnotationView.animatesDrop = NO;
+        trackStrAnnotationView.annotation = annotation;
+        trackStrAnnotationView.image = [UIImage imageNamed:@"location_red"];
+        return trackStrAnnotationView;
+    }
+
     
 //    // 围栏中心点
 //    if (annotation == _fenceAnnotation) {
@@ -574,9 +603,7 @@
 //    }
     
     return nil;
-
 }
-
 
 #pragma mark - setter getter
 - (BMKPointAnnotation *)locationAnnotation {
@@ -669,29 +696,24 @@
             make.height.equalTo(@40);
         }];
         
-        
         [subRadiusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(delFenceBtn.mas_right).offset(5);
             make.centerY.equalTo(_fenceMenuView);
             make.width.equalTo(@40);
         }];
 
-        
         [_fenceSwitchBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(subRadiusBtn.mas_right).offset(5);
             make.right.equalTo(addRadiusBtn.mas_left).offset(-5);
             make.center.equalTo(_fenceMenuView);
             make.height.equalTo(@40);
         }];
-
-        
         
         [addRadiusBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(addFenceBtn.mas_left).offset(-5);
             make.centerY.equalTo(_fenceMenuView);
             make.width.equalTo(@40);
         }];
-        
         
         [addFenceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_fenceMenuView).offset(-5);
@@ -700,51 +722,52 @@
             make.height.equalTo(@40);
             
         }];
-
     }
 
     return _fenceMenuView;
-    
 }
 
 - (UIView *)trackMenuView {
     if (!_trackMenuView) {
         _trackMenuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 45)];
         
-        UIButton *stopBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        stopBtn.layer.cornerRadius = 15;
-        stopBtn.layer.masksToBounds = YES;
-        [stopBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"BDC4C8"]] forState:UIControlStateNormal];
-        stopBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [stopBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [stopBtn setTitle:@"停止" forState:UIControlStateNormal];
-        [stopBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
-        stopBtn.tag = 301;
-        [_trackMenuView addSubview:stopBtn];
+        _stopTrackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _stopTrackBtn.layer.cornerRadius = 15;
+        _stopTrackBtn.layer.masksToBounds = YES;
+        _stopTrackBtn.enabled = NO;
+        [_stopTrackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"2ADE75"]] forState:UIControlStateNormal];
+        [_stopTrackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"BDC4C8"]] forState:UIControlStateDisabled];
+        _stopTrackBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_stopTrackBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_stopTrackBtn setTitle:@"停止" forState:UIControlStateNormal];
+        [_stopTrackBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+        _stopTrackBtn.tag = 301;
+        [_trackMenuView addSubview:_stopTrackBtn];
         
-        UIButton *traceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        traceBtn.layer.cornerRadius = 15;
-        traceBtn.layer.masksToBounds = YES;
-        [traceBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"2ADE75"]] forState:UIControlStateNormal];
-               traceBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [traceBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [traceBtn setTitle:@"追踪" forState:UIControlStateNormal];
-        [traceBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
-        traceBtn.tag = 302;
-        [_trackMenuView addSubview:traceBtn];
+        _startTrackBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _startTrackBtn.layer.cornerRadius = 15;
+        _startTrackBtn.layer.masksToBounds = YES;
+        [_startTrackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"2ADE75"]] forState:UIControlStateNormal];
+        [_startTrackBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"BDC4C8"]] forState:UIControlStateDisabled];
+        _startTrackBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+        [_startTrackBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_startTrackBtn setTitle:@"追踪" forState:UIControlStateNormal];
+        [_startTrackBtn addTarget:self action:@selector(buttonClickAction:) forControlEvents:UIControlEventTouchUpInside];
+        _startTrackBtn.tag = 302;
+        [_trackMenuView addSubview:_startTrackBtn];
         
-        [stopBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_stopTrackBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_trackMenuView).offset(20);
             make.right.equalTo(_trackMenuView.mas_centerX).offset(-10);
             make.centerY.equalTo(_trackMenuView);
             make.height.equalTo(@30);
         }];
         
-        [traceBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_startTrackBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_trackMenuView.mas_centerX).offset(10);
             make.right.equalTo(_trackMenuView).offset(-20);
             make.centerY.equalTo(_trackMenuView);
-            make.height.equalTo(stopBtn);
+            make.height.equalTo(_stopTrackBtn);
         }];
     }
     return _trackMenuView;
