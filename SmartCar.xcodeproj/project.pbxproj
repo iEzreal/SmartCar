@@ -490,8 +490,6 @@
 		A20896BE1D1ED81D00A626FC /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				770378001D475E1F001E435D /* SYPhysicalController.h */,
-				770378011D475E1F001E435D /* SYPhysicalController.m */,
 				77A302C21D37BC8C00DB9F3B /* SYAboutController.h */,
 				77A302C31D37BC8C00DB9F3B /* SYAboutController.m */,
 				77CC40851D464AD600F29148 /* SYForgotPwdController.h */,
@@ -504,6 +502,8 @@
 				779D52401D33E5F9008628AC /* SYModifyPwdController.m */,
 				779D52411D33E5F9008628AC /* SYPersonalInfoController.h */,
 				779D52421D33E5F9008628AC /* SYPersonalInfoController.m */,
+				770378001D475E1F001E435D /* SYPhysicalController.h */,
+				770378011D475E1F001E435D /* SYPhysicalController.m */,
 				779D52431D33E5F9008628AC /* SYSettingMileageController.h */,
 				779D52441D33E5F9008628AC /* SYSettingMileageController.m */,
 				77A302C51D37D0C000DB9F3B /* SYVersionController.h */,

@@ -73,19 +73,23 @@
         if ([[responseDic objectForKey:@"GetDtcCodeResult"] intValue] == 0) {
             // sy235 请求到的数据 -> P0100P0200P0300C0300B0200U0100P0101
             NSString *dtcCode = [responseDic objectForKey:@"dtcCode"];
-            // 格式化dtcCode -> 'P0100','P0200','P0300','C0300','B0200','U0100','P0101'
-            NSString *newDtcCode = @"";
-            for (int i = 0; i < dtcCode.length / 5; i++) {
-                NSString *str = [dtcCode substringWithRange:NSMakeRange(i * 5, 5)];
-                NSString *str2 = [NSString stringWithFormat:@"'%@'", str];
-                if ([newDtcCode isEqualToString:@""]) {
-                    newDtcCode = [NSString stringWithFormat:@"%@",str2];
-                } else {
-                    newDtcCode = [NSString stringWithFormat:@"%@,%@",newDtcCode ,str2];
+            if (![dtcCode isEqualToString:@""]) {
+                // 格式化dtcCode -> 'P0100','P0200','P0300','C0300','B0200','U0100','P0101'
+                NSString *newDtcCode = @"";
+                for (int i = 0; i < dtcCode.length / 5; i++) {
+                    NSString *str = [dtcCode substringWithRange:NSMakeRange(i * 5, 5)];
+                    NSString *str2 = [NSString stringWithFormat:@"'%@'", str];
+                    if ([newDtcCode isEqualToString:@""]) {
+                        newDtcCode = [NSString stringWithFormat:@"%@",str2];
+                    } else {
+                        newDtcCode = [NSString stringWithFormat:@"%@,%@",newDtcCode ,str2];
+                    }
                 }
+                // 翻译DTC 命令
+                [self dtcTranslate:newDtcCode];
+            } else {
+                [SYUtil showSuccessWithStatus:@"车辆健康，无故障" duration:2];
             }
-            // 翻译DTC 命令
-            [self dtcTranslate:newDtcCode];
         } else {
             [SYUtil showErrorWithStatus:@"体检失败, 请重试" duration:2];
         }

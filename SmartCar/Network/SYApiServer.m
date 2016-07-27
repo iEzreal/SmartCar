@@ -36,6 +36,7 @@
     SYAuthURLSessionManager *manager = [[SYAuthURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
     [manager POST:URLString parameters:parameters resultBlock:^(id responseData, NSError *error) {
         if (error) {
+            DLog(@"----请求服务器错误：%@", error);
             failure(error);
         } else {
             DLog(@"----服务器返回结果：%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);

@@ -156,9 +156,13 @@
         }
         
     } else if (sender.tag == 201) {
-        SYForgotPwdController *changePwdController = [[SYForgotPwdController alloc] init];
-        [self.navigationController pushViewController:changePwdController animated:YES];
-        
+        if (![_userNameTF.text isEqualToString:@""]) {
+            SYForgotPwdController *resetPwdController = [[SYForgotPwdController alloc] init];
+            resetPwdController.loginName = _userNameTF.text;
+            [self.navigationController pushViewController:resetPwdController animated:YES];
+        } else {
+            [SYUtil showHintWithStatus:@"请输入用户名" duration:2];
+        }
     } else {
         [self login];
     }

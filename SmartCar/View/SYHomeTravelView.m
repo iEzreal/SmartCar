@@ -15,9 +15,11 @@
 
 @property(nonatomic, strong) UIImageView *iconIV;
 @property(nonatomic, strong) UILabel *titleLabel;
-@property(nonatomic, strong) UIImageView *moreIV;
 
-@property(nonatomic, strong) UILabel *travelLabel;
+@property(nonatomic, strong) UILabel *travel1Label;
+@property(nonatomic, strong) UILabel *travel2Label;
+
+@property(nonatomic, strong) UIImageView *moreIV;
 
 @end
 
@@ -40,50 +42,57 @@
     [self addSubview:_iconIV];
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.font = [UIFont systemFontOfSize:16];
-    _titleLabel.text = @"近期行程";
+    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.text = @"近期\n行程";
     [self addSubview:_titleLabel];
     
     _moreIV = [[UIImageView alloc] init];
     _moreIV.image = [UIImage imageNamed:@"check_more_green"];
     [self addSubview:_moreIV];
     
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
+    _travel1Label = [[UILabel alloc] init];
+    _travel1Label.textColor = [UIColor whiteColor];
+    _travel1Label.font = [UIFont systemFontOfSize:15];
+    [self addSubview:_travel1Label];
     
-    _travelLabel = [[UILabel alloc] init];
-    _travelLabel.numberOfLines = 0;
-    _travelLabel.textColor = [UIColor whiteColor];
-    _travelLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview:_travelLabel];
+    _travel2Label = [[UILabel alloc] init];
+    _travel2Label.textColor = [UIColor whiteColor];
+    _travel2Label.font = [UIFont systemFontOfSize:15];
+    [self addSubview:_travel2Label];
     
     [_iconIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(self).offset(5);
-        make.width.height.equalTo(@22);
+        make.left.equalTo(self).offset(5);
+        make.width.height.equalTo(@30);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(5);
         make.left.equalTo(_iconIV.mas_right).offset(5);
         make.centerY.equalTo(_iconIV);
+        make.width.equalTo(@30);
+    }];
+    
+    [_travel1Label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(5);
+        make.left.equalTo(_titleLabel.mas_right).offset(10);
+        make.right.equalTo(_moreIV.mas_left).offset(-10);
+    }];
+    
+    [_travel2Label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_travel1Label.mas_bottom).offset(4);
+        make.left.equalTo(_travel1Label);
+        make.right.equalTo(_travel1Label);
     }];
     
     [_moreIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-5);
         make.centerY.equalTo(_iconIV);
+        make.width.equalTo(@50);
     }];
-    
-    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_iconIV.mas_bottom);
-        make.bottom.equalTo(self.mas_bottom);
-    }];
-    
-    [_travelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_titleLabel);
-        make.right.equalTo(self).offset(-32);
-        make.centerY.equalTo(contentView);
-    }];
+
+
     
     return self;
 }
@@ -101,7 +110,7 @@
     }
 
     NSString *travelStr = @"";
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < 1; i++) {
         @autoreleasepool {
             SYTravel *travel = travelArray[i];
             NSString *recvTime = [SYUtil dateWithSateStr:travel.recvTime Format:@"MM月dd日 HH:mm"];
@@ -115,7 +124,8 @@
         }
     }
     
-    _travelLabel.text = travelStr;
+    _travel1Label.text = travelStr;
+    _travel2Label.text = travelStr;
 }
 
 

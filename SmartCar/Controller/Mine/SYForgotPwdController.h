@@ -10,4 +10,6 @@
 
 @interface SYForgotPwdController : UIViewController
 
+@property(nonatomic, strong) NSString *loginName;
+
 @end

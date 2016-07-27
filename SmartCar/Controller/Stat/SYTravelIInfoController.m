@@ -149,25 +149,27 @@
 }
 
 - (void)updateTravelInfo {
-    CGFloat firstMileage = [[_firstDic objectForKey:@"Mileage"] floatValue];
-    CGFloat lastMileage = [[_lastDic objectForKey:@"Mileage"] floatValue];
+    CGFloat sumMileage = [[_lastDic objectForKey:@"Mileage"] floatValue] - [[_firstDic objectForKey:@"Mileage"] floatValue];
+    sumMileage = sumMileage * 0.1;
     
-    CGFloat gas1 = [[_lastDic objectForKey:@"OBDGasLevel"] floatValue] - [[_gasArray[0] objectForKey:@"OBDHistoryGasLevel"] floatValue];
-    gas1 = gas1 * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+    CGFloat sumOil = 0;
+    CGFloat avroil = 0;
     
-    CGFloat gas2 = 0;
+    CGFloat startafterlevel = [[_firstDic objectForKey:@"OBDGasLevel"] floatValue];
     for (int i = 0; i < _gasArray.count; i++) {
-        gas2 += [[_gasArray[i] objectForKey:@"OBDGasLevel"] floatValue] - [[_gasArray[i] objectForKey:@"OBDHistoryGasLevel"] floatValue];
+        CGFloat hislevel = [[_gasArray[i] objectForKey:@"OBDHistoryGasLevel"] floatValue];
+        CGFloat afterlevel = [[_gasArray[i] objectForKey:@"OBDGasLevel"] floatValue];
+        sumOil += (startafterlevel - hislevel) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+        startafterlevel = afterlevel;
     }
-   
-    gas2 = gas2 * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
-
-    CGFloat gas3 = [[_gasArray[_gasArray.count - 1] objectForKey:@"OBDGasLevel"] floatValue] - [[_lastDic objectForKey:@"OBDGasLevel"] floatValue];
-    gas3 = gas3 * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
     
-    _totalOilWearLabel.text = [NSString stringWithFormat:@"%.2f", gas1 + gas2 + gas3];
-    _avgOilWearLabel.text = [NSString stringWithFormat:@"%.2f", (gas1 + gas2 + gas3) / ((lastMileage - firstMileage) * 0.1) * 100];
-    _totalMileageLabel.text =  [NSString stringWithFormat:@"%.2f", (lastMileage - firstMileage) * 0.1];
+    CGFloat nowlevel = [[_lastDic objectForKey:@"OBDGasLevel"] floatValue];
+    sumOil += (startafterlevel - nowlevel) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+    avroil = sumOil * 100 / sumMileage;
+
+    _totalOilWearLabel.text = [NSString stringWithFormat:@"%.3fL", sumOil];
+    _avgOilWearLabel.text = [NSString stringWithFormat:@"%.3f(100公里)", avroil];
+    _totalMileageLabel.text =  [NSString stringWithFormat:@"%.3f(公里)", sumMileage];
 }
 
 #pragma mark - 代理事件
@@ -179,19 +181,19 @@
     [_datePickerView show];
 }
 
-- (void)datePickerView:(SYPickerDateView *)datePickerView didSelectStartYear:(NSString *)startYear startMonth:(NSString *)startMonth endYear:(NSString *)endYear endMonth:(NSString *)endMonth {
-    _startLabel.text = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
-    _endLabel.text = [NSString stringWithFormat:@"%@-%@", endYear, endMonth];
-    NSString *startDate;
-    NSString *endDate;
-    if ([startYear isEqualToString:endYear] && [startMonth isEqualToString:endMonth]) {
-        startDate = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
-        endDate = [NSString stringWithFormat:@"%@-%d", endYear, [endMonth intValue] + 1];
-    } else {
-        startDate = [NSString stringWithFormat:@"%@-%@", startYear, startMonth];
-        endDate = [NSString stringWithFormat:@"%@-%@", endYear, endMonth];
-    }
+- (void)datePickerView:(SYPickerDateView *)datePickerView didSelectStartMonth:(NSInteger)startMonth startDay:(NSInteger)startDay endMonth:(NSInteger)endMonth endDay:(NSInteger)endDay {
+    NSInteger year = [SYUtil currentYear];
+    _startLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日", year, startMonth, startDay];
+    _endLabel.text = [NSString stringWithFormat:@"%ld年%ld月%ld日", year, endMonth, endDay];
+    _totalOilWearLabel.text = @"";
+    _avgOilWearLabel.text = @"";
+    _totalMileageLabel.text =  @"";
+    _speedAlarmCountLabel.text = @"";
+    _fenceAlarmCountLabel.text = @"";
+    _faultAlarmCountLabel.text = @"";
     
+    NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-%ld 00:00:00", year, startMonth, startDay];
+    NSString *endDate = [NSString stringWithFormat:@"%ld-%ld-%ld 23:59:59", year, endMonth, endDay];
     [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
     
 }
@@ -202,7 +204,7 @@
     _pageTopView.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
     _pageTopView.iconImage = [UIImage imageNamed:@"icon_travel_white"];
     [_pageTopView.rightBtn setImage:[UIImage imageNamed:@"date_normal"] forState:UIControlStateNormal];
-    _pageTopView.title= @"报警统计";
+    _pageTopView.title= @"行驶信息";
     _pageTopView.delegate = self;
     [self.view addSubview:_pageTopView];
     

@@ -1,3 +1,4 @@
+
 //
 //  SYForgotPwdController.m
 //  SmartCar
@@ -19,6 +20,7 @@
 @property(nonatomic, strong) UIButton *getAuthCodeBtn;
 @property(nonatomic, strong) UIButton *confirmBtn;
 
+@property(nonatomic, strong) UIView *bottomView;
 @property(nonatomic, strong) UIView *pwd1View;
 @property(nonatomic, strong) UILabel *pwd1Label;
 @property(nonatomic, strong) UITextField *pwd1TF;
@@ -57,60 +59,73 @@
 }
 
 // 发送邮件获取认证码
+/**
+ *  发送一个请求，通过邮件获取认证码
+ *
+ *  @param loginName 登陆名
+ */
 - (void)sendMailForApprove {
-    NSString *userId = [SYAppManager sharedManager].user.userId;
-    NSString *mail = [SYAppManager sharedManager].user.email;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInteger:[userId integerValue]] forKey:@"userID"];
-    [parameters setObject:mail forKey:@"mailAddress"];
+    [parameters setObject:_loginName forKey:@"userID"];
+    [SYUtil showWithStatus:@"正在获取认证码..."];
     [SYApiServer POST:METHOD_SEND_MAIL_FOR_APPROVE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic) {
+        if ([[responseDic objectForKey:@"SendMailForApproveResult" ] integerValue] == 1) {
+            _confirmBtn.enabled = YES;
+            NSString *email = [responseDic objectForKey:@"mailAddress"];
+            [SYUtil showSuccessWithStatus:[NSString stringWithFormat:@"认证码已发到邮箱:%@", email] duration:3];
+        } else if ([[responseDic objectForKey:@"SendMailForApproveResult" ] integerValue] == -2){
+            NSString *email = [responseDic objectForKey:@"mailAddress"];
+            [SYUtil showSuccessWithStatus:[NSString stringWithFormat:@"邮箱%@地址不正确", email] duration:3];
             
+        } else if ([[responseDic objectForKey:@"SendMailForApproveResult" ] integerValue] == -1){
+            NSString *email = [responseDic objectForKey:@"mailAddress"];
+            [SYUtil showSuccessWithStatus:[NSString stringWithFormat:@"发送邮件异常错误:%@", email] duration:3];
         } else {
-            
+            [SYUtil showErrorWithStatus:@"获取认证码失败" duration:3];
         }
     } failure:^(NSError *error) {
-        
+        [SYUtil showErrorWithStatus:@"获取认证码失败" duration:3];
     }];
 }
 
 // 邮件认证码验证
-- (void)mailForApprovee:(NSString *)userId approveCode:(NSString *)approveCode {
+- (void)mailForApprove {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInteger:[userId integerValue]] forKey:@"userID"];
-    [parameters setObject:approveCode forKey:@"approvecode"];
-
+    [parameters setObject:_loginName forKey:@"userID"];
+    [parameters setObject:_authCodeTF.text forKey:@"approvecode"];
     [SYApiServer POST:METHOD_MAIL_FOR_APPROVE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic) {
-            
+        if (responseDic && [[responseDic objectForKey:@"MailForApproveResult"] integerValue] == 1) {
+            _bottomView.hidden = NO;
+            DLog(@"----认证码验证通过");
         } else {
-            
+            DLog(@"----认证码验证失败");
         }
     } failure:^(NSError *error) {
-        
+       DLog(@"----认证码验证失败");
     }];
 }
 
 // 重置密码
-- (void)approveNewPwd:(NSString *)userId approveCode:(NSString *)approveCode newPwd:(NSString *)newPwd {
+- (void)approveNewPwd {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInteger:[userId integerValue]] forKey:@"userID"];
-    [parameters setObject:approveCode forKey:@"approvecode"];
-    [parameters setObject:newPwd forKey:@"newPwd"];
+    [parameters setObject:_loginName forKey:@"userID"];
+    [parameters setObject:_authCodeTF.text forKey:@"approvecode"];
+    [parameters setObject:_pwd1TF.text forKey:@"newPwd"];
+    [SYUtil showWithStatus:@"正在重置..."];
     [SYApiServer POST:METHOD_APPROVE_NEWPWD parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic) {
-            
+        if (responseDic && [responseDic objectForKey:@"ApproveNewPwdResult"]) {
+            [SYUtil showSuccessWithStatus:@"密码重置成功" duration:2];
         } else {
-            
+            [SYUtil showErrorWithStatus:@"密码重置失败" duration:2];
         }
     } failure:^(NSError *error) {
-        
+        [SYUtil showErrorWithStatus:@"密码重置失败" duration:2];
     }];
 }
 
@@ -128,13 +143,25 @@
         [self sendMailForApprove];
         
     } else if (sender.tag == 1002) {
-        
+        if (![_authCodeTF.text isEqualToString:@""]) {
+            [self mailForApprove];
+        } else {
+            [SYUtil showHintWithStatus:@"请输入认证码" duration:2];
+        }
     } else {
-    
+        if ([_pwd1TF.text isEqualToString:@""] || [_pwd2TF.text isEqualToString:@""]) {
+            [SYUtil showHintWithStatus:@"密码不能为空" duration:2];
+            return;
+        }
+        
+        if (![_pwd1TF.text isEqualToString:_pwd2TF.text]) {
+            [SYUtil showHintWithStatus:@"两次密码输入不一致" duration:2];
+            return;
+        }
+        
+        [self approveNewPwd];
     }
-
 }
-
 
 #pragma mark - 界面UI
 - (void)setupPageSubviews {
@@ -200,11 +227,13 @@
     _confirmBtn.layer.cornerRadius = 15;
     _confirmBtn.layer.masksToBounds = YES;
     [_confirmBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"22C064"]] forState:UIControlStateNormal];
+    [_confirmBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"BDC4C8"]] forState:UIControlStateDisabled];
     _confirmBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_confirmBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
     [_confirmBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _confirmBtn.tag = 1002;
+    _confirmBtn.enabled = NO;
     [self.view addSubview:_confirmBtn];
     
     [_getAuthCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -221,26 +250,36 @@
         make.height.equalTo(@30);
     }];
     
+    _bottomView = [[UIView alloc] init];
+    _bottomView.hidden = YES;
+    [self.view addSubview:_bottomView];
+    
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_getAuthCodeBtn.mas_bottom).offset(30);
+        make.left.equalTo(self.view).offset(30);
+        make.right.equalTo(self.view).offset(-30);
+    }];
+
+    
     _pwd1View = [[UIView alloc] init];
     _pwd1View.layer.borderColor = [UIColor whiteColor].CGColor;
     _pwd1View.layer.borderWidth = 0.5;
     _pwd1View.layer.cornerRadius = 18;
-    [self.view addSubview:_pwd1View];
+    [_bottomView addSubview:_pwd1View];
     
     _pwd1Label = [[UILabel alloc] init];
     _pwd1Label.font = [UIFont systemFontOfSize:15];
     _pwd1Label.textColor = [UIColor whiteColor];
     _pwd1Label.text = @"新密码:";
-    [self.view addSubview:_pwd1Label];
+    [_pwd1View addSubview:_pwd1Label];
     
     _pwd1TF = [[UITextField alloc] init];
+    _pwd1TF.secureTextEntry = YES;
     _pwd1TF.textColor = [UIColor whiteColor];
-    [self.view addSubview:_pwd1TF];
+    [_pwd1View addSubview:_pwd1TF];
     
     [_pwd1View mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_getAuthCodeBtn.mas_bottom).offset(30);
-        make.left.equalTo(self.view).offset(30);
-        make.right.equalTo(self.view).offset(-30);
+        make.top.left.right.equalTo(_bottomView);
         make.height.equalTo(@36);
     }];
     
@@ -259,22 +298,23 @@
     _pwd2View.layer.borderColor = [UIColor whiteColor].CGColor;
     _pwd2View.layer.borderWidth = 0.5;
     _pwd2View.layer.cornerRadius = 18;
-    [self.view addSubview:_pwd2View];
+    [_bottomView addSubview:_pwd2View];
     
     _pwd2Label = [[UILabel alloc] init];
     _pwd2Label.font = [UIFont systemFontOfSize:15];
     _pwd2Label.textColor = [UIColor whiteColor];
     _pwd2Label.text = @"新密码:";
-    [self.view addSubview:_pwd2Label];
+    [_pwd2View addSubview:_pwd2Label];
     
     _pwd2TF = [[UITextField alloc] init];
+    _pwd2TF.secureTextEntry = YES;
     _pwd2TF.textColor = [UIColor whiteColor];
     [self.view addSubview:_pwd2TF];
     
     [_pwd2View mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_pwd1View.mas_bottom).offset(20);
-        make.left.equalTo(self.view).offset(30);
-        make.right.equalTo(self.view).offset(-30);
+        make.left.equalTo(_bottomView);
+        make.right.equalTo(_bottomView);
         make.height.equalTo(@36);
     }];
     
@@ -295,18 +335,17 @@
    [_resetBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"22C064"]] forState:UIControlStateNormal];    _resetBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_resetBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_resetBtn setTitle:@"重置" forState:UIControlStateNormal];
-    [_confirmBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
-    _confirmBtn.tag = 1003;
-    [self.view addSubview:_resetBtn];
+    [_resetBtn addTarget:self action:@selector(btnClickAction:) forControlEvents:UIControlEventTouchUpInside];
+    _resetBtn.tag = 1003;
+    [_bottomView addSubview:_resetBtn];
     
     [_resetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_pwd2View.mas_bottom).offset(20);
+        make.bottom.equalTo(_bottomView);
         make.centerX.equalTo(self.view);
         make.width.equalTo(@120);
         make.height.equalTo(@30);
     }];
-
-
 
 }
 

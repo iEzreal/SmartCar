@@ -27,12 +27,10 @@
 @interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, BMKMapViewDelegate>
 
 @property(nonatomic, strong) SYCarSwitchView *carSwitchView;
-
 @property(nonatomic, strong) SYHomeGaugeView *gaugeView;
 @property(nonatomic, strong) SYHomeTravelView *travelView;
 @property(nonatomic, strong) BMKMapView *mapView;
 @property(nonatomic, strong) SYHomeAlarmView *alarmView;
-//@property(nonatomic, strong) SYHomePhysicalView *physicalView;
 
 @property(nonatomic, strong) BMKPointAnnotation *locationAnnotation;
 
@@ -290,10 +288,6 @@
     [self.navigationController pushViewController:alarmController animated:YES];
 }
 
-- (void)morePhysicalAction {
-    
-}
-
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate {
     SYCurrentLocationController *locationController = [[SYCurrentLocationController alloc] init];
     locationController.lat = _vePosition.lat;
@@ -306,7 +300,7 @@
     if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
         BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
         newAnnotationView.pinColor = BMKPinAnnotationColorPurple;
-        newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
+        newAnnotationView.animatesDrop = NO;
         newAnnotationView.annotation = annotation;
         newAnnotationView.image = [UIImage imageNamed:@"location_red"];
         return newAnnotationView;

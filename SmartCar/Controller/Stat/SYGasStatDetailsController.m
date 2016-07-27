@@ -39,15 +39,6 @@
     _titleLabel.text = _titleStr;
     _timeLabel.text = _gasTime;
     _oliAmountLabel.text = _gasAmcount;
-
-    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_lat, _lon);
-    NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
-    CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
-   
-    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
-    annotation.coordinate = baiduCoor;
-    _mapView.centerCoordinate = baiduCoor;
-    [_mapView addAnnotation:annotation];
     
     [self reverseGeocodeWithLat:_lat lon:_lon];
 }
@@ -55,6 +46,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [_mapView viewWillAppear];
+    _mapView.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -90,6 +82,32 @@
         }
     }];
 }
+
+#pragma mark - 代理方法
+- (void)mapViewDidFinishLoading:(BMKMapView *)mapView {
+    CLLocationCoordinate2D coor = CLLocationCoordinate2DMake(_lat, _lon);
+    NSDictionary *baiduDic = BMKConvertBaiduCoorFrom(coor,BMK_COORDTYPE_GPS);
+    CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
+    
+    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
+    annotation.coordinate = baiduCoor;
+    _mapView.centerCoordinate = baiduCoor;
+    [_mapView addAnnotation:annotation];
+}
+
+- (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation {
+    if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
+        BMKPinAnnotationView *locationAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"LocationAnnotation"];
+        locationAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        locationAnnotationView.animatesDrop = NO;// 设置该标注点动画显示
+        locationAnnotationView.annotation = annotation;
+        locationAnnotationView.image = [UIImage imageNamed:@"location_red"];
+        return locationAnnotationView;
+    }
+    return nil;
+    
+}
+
 
 #pragma mark - 页面布局
 - (void)setupPageSubviews {
@@ -145,7 +163,6 @@
     
     // 地图
     _mapView = [[BMKMapView alloc]init];
-    _mapView.delegate = self;
     _mapView.zoomLevel = 19;
     [self.view addSubview:_mapView];
 

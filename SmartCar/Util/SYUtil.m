@@ -62,15 +62,16 @@
     NSDate *now = [NSDate date];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSUInteger unitFlags = NSYearCalendarUnit |
-                           NSMonthCalendarUnit |
-                           NSDayCalendarUnit |
-                           NSHourCalendarUnit |
-                           NSMinuteCalendarUnit |
-                        NSSecondCalendarUnit;
+    NSMonthCalendarUnit |
+    NSDayCalendarUnit |
+    NSHourCalendarUnit |
+    NSMinuteCalendarUnit |
+    NSSecondCalendarUnit;
     NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
     NSInteger year = [dateComponent year];
     return year;
 }
+
 
 + (NSInteger)currentMonth {
     NSDate *now = [NSDate date];
@@ -86,6 +87,29 @@
     return month;
 }
 
++ (NSInteger)currentDay {
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSUInteger unitFlags = NSYearCalendarUnit |
+                           NSMonthCalendarUnit |
+                           NSDayCalendarUnit |
+                           NSHourCalendarUnit |
+                           NSMinuteCalendarUnit |
+                           NSSecondCalendarUnit;
+    NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+    NSInteger day = [dateComponent day];
+    return day;
+}
+
++ (NSInteger)daysOfMonth:(NSInteger)month {
+    if (month == 2) {
+        return 29;
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+        return 30;
+    } else {
+        return 31;
+    }
+}
 
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime {
     NSDateFormatter *date=[[NSDateFormatter alloc] init];

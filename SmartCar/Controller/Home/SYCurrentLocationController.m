@@ -291,7 +291,7 @@
 - (void)startTrack {
     _startTrackBtn.enabled = NO;
     _stopTrackBtn.enabled = YES;
-    _timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(requestCarLastPosition) userInfo:nil repeats:YES];
+    _timer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(requestCarLastPosition) userInfo:nil repeats:YES];
     [_timer fire];
 }
 
@@ -324,7 +324,7 @@
             CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(baiduDic);
             self.trackAnnotation.coordinate = baiduCoor;
             _mapView.centerCoordinate = baiduCoor;
-            [_mapView addAnnotation:self.trackAnnotation];
+//            [_mapView addAnnotation:self.trackAnnotation];
         }
         
     } failure:^(NSError *error) {
@@ -641,6 +641,7 @@
         _locationLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, SCREEN_W, 45)];
         _locationLabel.font = [UIFont systemFontOfSize:16];
         _locationLabel.textColor = [UIColor whiteColor];
+        _locationLabel.text = @"当前位置：";
     }
     return _locationLabel;
 }

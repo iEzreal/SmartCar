@@ -12,7 +12,7 @@
 
 @protocol SYPickerDateViewDelegate <NSObject>
 
-- (void)datePickerView:(SYPickerDateView *)datePickerView didSelectStartYear:(NSString *)startYear startMonth:(NSString *)startMonth endYear:(NSString *)endYear endMonth:(NSString *)endMonth;
+- (void)datePickerView:(SYPickerDateView *)datePickerView didSelectStartMonth:(NSInteger)startMonth startDay:(NSInteger)startDay endMonth:(NSInteger)endMonth endDay:(NSInteger)endDay;
 
 @end
 

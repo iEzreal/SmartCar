@@ -24,16 +24,11 @@
 @property(nonatomic, strong) UIButton *cancleBtn;
 @property(nonatomic, strong) UIButton *confirmBtn;
 
-@property(nonatomic, strong) NSMutableArray *yearArray;
-@property(nonatomic, strong) NSMutableArray *monthArray;
+@property(nonatomic, assign) NSInteger startMonth;
+@property(nonatomic, assign) NSInteger startDay;
 
-@property(nonatomic, strong) NSString *startYear;
-@property(nonatomic, strong) NSString *startMonth;
-@property(nonatomic, assign) NSString *endYear;
-@property(nonatomic, strong) NSString *endMonth;
-
-@property(nonatomic, assign) NSInteger currentYear;
-@property(nonatomic, assign) NSInteger currentMonth;
+@property(nonatomic, assign) NSInteger endMonth;
+@property(nonatomic, assign) NSInteger endDay;
 
 @end
 
@@ -43,24 +38,12 @@
     if (!(self = [super initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)])) {
         return nil;
     }
-    _yearArray = [[NSMutableArray alloc] init];
-    _monthArray = [[NSMutableArray alloc] init];
     
-    _currentYear = [SYUtil currentYear];
-    _currentMonth = [SYUtil currentMonth];
+    _startMonth = [SYUtil currentMonth];
+    _endMonth = _startMonth;
     
-    for (int i = YEAR_AMCOUNT - 1; i >= 0; i--) {
-        [_yearArray addObject:[NSString stringWithFormat:@"%ld", _currentYear - i]];
-    }
-    
-    for (int i = 0; i < 12; i++) {
-        [_monthArray addObject:[NSString stringWithFormat:@"%d", i + 1]];
-    }
-    
-    _startYear = _yearArray[YEAR_AMCOUNT - 1];
-    _startMonth = _monthArray[_currentMonth - 1];
-    _endYear = _yearArray[YEAR_AMCOUNT - 1];
-    _endMonth = _monthArray[_currentMonth - 1];
+    _startDay = [SYUtil currentDay];
+    _endDay = _startDay;
     
     [self setupPageSubviews];
     
@@ -99,12 +82,12 @@
 #pragma mark - 取消 确定事件
 - (void)pickClick:(UIButton *)sender {
     if (sender.tag == 101) {
-        if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartYear:startMonth:endYear:endMonth:)]) {
+        if ([self.delegate respondsToSelector:@selector(datePickerView:didSelectStartMonth:startDay:endMonth:endDay:)]) {
             [self.delegate datePickerView:self
-                       didSelectStartYear:_startYear
-                               startMonth:_startMonth
-                                  endYear:_endYear
-                                 endMonth:_endMonth];
+                      didSelectStartMonth:_startMonth
+                                 startDay:_startDay
+                                 endMonth:_endMonth
+                                   endDay:_endDay];
         }
     }
     [self dismiss];
@@ -116,19 +99,24 @@
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    if (component == 0) {
-        return _yearArray.count;
+    if (pickerView.tag == 1000) {
+        if (component == 0) {
+            return 12;
+        } else {
+            return [SYUtil daysOfMonth:_startMonth];
+        }
+    } else {
+        if (component == 0) {
+            return 12;
+        } else {
+            return [SYUtil daysOfMonth:_endMonth];
+        }
     }
-    
-    return _monthArray.count;
 }
 
 #pragma mark --- 与处理有关的代理方法
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    if (component == 0) {
-        return 100;
-    }
-    return 60;
+    return 70;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
@@ -137,26 +125,28 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (component == 0) {
-        return [NSString stringWithFormat:@"%@年", _yearArray[row]];
+        return [NSString stringWithFormat:@"%ld月", row + 1];
+    } else {
+        return [NSString stringWithFormat:@"%ld日", row + 1];
     }
-    
-    return [NSString stringWithFormat:@"%@月", _monthArray[row]];
-
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (pickerView.tag == 1000) {
         if (component == 0) {
-            _startYear = _yearArray[row];
+            _startMonth = row + 1;
+            [_leftPickerView reloadComponent:1];
         } else {
-            _startMonth = _monthArray[row];
+            _startDay = row + 1;
         }
         
     } else {
         if (component == 0) {
-            _endYear = _yearArray[row];
+            _endMonth = row + 1;
+            [_rightPickerView reloadComponent:1];
+
         } else {
-            _endMonth = _monthArray[row];
+            _endDay = row + 1;
         }
     }
 }
@@ -222,10 +212,10 @@
     [_contentView addSubview:_confirmBtn];
     
     //
-    [_leftPickerView selectRow:YEAR_AMCOUNT - 1 inComponent:0 animated:NO];
-    [_leftPickerView selectRow:_currentMonth - 1 inComponent:1 animated:NO];
-    [_rightPickerView selectRow:YEAR_AMCOUNT - 1 inComponent:0 animated:NO];
-    [_rightPickerView selectRow:_currentMonth - 1 inComponent:1 animated:NO];
+    [_leftPickerView selectRow:_startMonth -1 inComponent:0 animated:NO];
+    [_leftPickerView selectRow:_startDay - 1 inComponent:1 animated:NO];
+    [_rightPickerView selectRow:_endMonth - 1 inComponent:0 animated:NO];
+    [_rightPickerView selectRow:_endDay - 1 inComponent:1 animated:NO];
 
 }
 

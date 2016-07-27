@@ -16,6 +16,10 @@
 + (NSString *)currentDate;
 + (NSInteger)currentYear;
 + (NSInteger)currentMonth;
++ (NSInteger)currentDay;
+
++ (NSInteger)daysOfMonth:(NSInteger)month;
+
 + (NSString *)dateWithSateStr:(NSString *)dateStr Format:(NSString *)format;
 + (NSString *)intervalFromTime:(NSString *)startTime toTime:(NSString *) endTime;
 
