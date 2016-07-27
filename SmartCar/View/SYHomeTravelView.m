@@ -109,23 +109,21 @@
         count = 2;
     }
 
-    NSString *travelStr = @"";
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < count; i++) {
+         NSString *travelStr = @"";
         @autoreleasepool {
             SYTravel *travel = travelArray[i];
             NSString *recvTime = [SYUtil dateWithSateStr:travel.recvTime Format:@"MM月dd日 HH:mm"];
             NSString *mileage = [NSString stringWithFormat:@"%.1f", [travel.OBDTolMileage_E floatValue] / 10];
             NSString *t = [SYUtil intervalFromTime:travel.recvTime toTime:travel.recvTime_E];
-            if ([travelStr isEqualToString:@""]) {
-                travelStr = [NSString stringWithFormat:@"%@-%@公里,耗时:%@", recvTime, mileage, t];
-            } else {
-                travelStr = [NSString stringWithFormat:@"%@\n%@-%@公里,耗时:%@", travelStr, recvTime, mileage, t];
-            }
+            travelStr = [NSString stringWithFormat:@"%@-%@公里,耗时:%@", recvTime, mileage, t];
+        }
+        if (i == 0) {
+             _travel1Label.text = travelStr;
+        } else {
+             _travel2Label.text = travelStr;
         }
     }
-    
-    _travel1Label.text = travelStr;
-    _travel2Label.text = travelStr;
 }
 
 

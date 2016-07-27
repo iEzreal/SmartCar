@@ -315,11 +315,11 @@
     _gaugeView.delegate = self;
     [self.view addSubview:_gaugeView];
     
-    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 55 * SCALE_H)];
+    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 40 * SCALE_H)];
     _travelView.delegate = self;
     [self.view addSubview:_travelView];
     
-    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W, 55 * SCALE_H)];
+    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W, 40 * SCALE_H)];
     [_alarmView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
     [_alarmView addBottomBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
     _alarmView.delegate = self;

@@ -12,7 +12,7 @@
 #import "SYStatController.h"
 #import "SYMineController.h"
 
-@interface SYRootController ()
+@interface SYRootController () <UITabBarControllerDelegate>
 
 @end
 
@@ -20,12 +20,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.delegate = self;
     [self setupChildController];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
 }
 
 - (void)setupChildController {

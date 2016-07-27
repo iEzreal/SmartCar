@@ -14,8 +14,9 @@
 
 @property(nonatomic, strong) UIImageView *iconIV;
 @property(nonatomic, strong) UILabel *titleLabel;
+@property(nonatomic, strong) UILabel *alarm1Label;
+@property(nonatomic, strong) UILabel *alarm2Label;
 @property(nonatomic, strong) UIImageView *moreIV;
-@property(nonatomic, strong) UILabel *alarmLabel;
 
 @end
 
@@ -38,50 +39,55 @@
     [self addSubview:_iconIV];
     
     _titleLabel = [[UILabel alloc] init];
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
+    _titleLabel.numberOfLines = 0;
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.font = [UIFont systemFontOfSize:16];
-    _titleLabel.text = @"近期警报";
+    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.text = @"近期\n警报";
     [self addSubview:_titleLabel];
     
     _moreIV = [[UIImageView alloc] init];
     _moreIV.image = [UIImage imageNamed:@"check_more_blue"];
     [self addSubview:_moreIV];
     
+    _alarm1Label = [[UILabel alloc] init];
+    _alarm1Label.textColor = [UIColor whiteColor];
+    _alarm1Label.font = [UIFont systemFontOfSize:15];
+    [self addSubview:_alarm1Label];
     
-    UIView *contentView = [[UIView alloc] init];
-    [self addSubview:contentView];
-    
-    _alarmLabel = [[UILabel alloc] init];
-    _alarmLabel.numberOfLines = 0;
-    _alarmLabel.textColor = [UIColor whiteColor];
-    _alarmLabel.font = [UIFont systemFontOfSize:16];
-    [self addSubview:_alarmLabel];
+    _alarm2Label = [[UILabel alloc] init];
+    _alarm2Label.textColor = [UIColor whiteColor];
+    _alarm2Label.font = [UIFont systemFontOfSize:15];
+    [self addSubview:_alarm2Label];
+
 
     [_iconIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(self).offset(5);
-        make.width.height.equalTo(@22);
+        make.left.equalTo(self).offset(5);
+        make.width.height.equalTo(@30);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(5);
         make.left.equalTo(_iconIV.mas_right).offset(5);
         make.centerY.equalTo(_iconIV);
+        make.width.equalTo(@30);
+    }];
+    
+    [_alarm1Label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self).offset(5);
+        make.left.equalTo(_titleLabel.mas_right).offset(10);
+        make.right.equalTo(_moreIV.mas_left).offset(-10);
+    }];
+    
+    [_alarm2Label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_alarm1Label.mas_bottom).offset(4);
+        make.left.equalTo(_alarm1Label);
+        make.right.equalTo(_alarm1Label);
     }];
     
     [_moreIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self).offset(-5);
         make.centerY.equalTo(_iconIV);
-    }];
-    
-    [contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_iconIV.mas_bottom);
-        make.bottom.equalTo(self.mas_bottom);
-    }];
-    
-    [_alarmLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_titleLabel);
-        make.right.equalTo(self).offset(-32);
-        make.centerY.equalTo(contentView);
+        make.width.equalTo(@50);
     }];
     
     return self;
@@ -100,8 +106,8 @@
         count = 2;
     }
     
-    NSString *alarmStr = @"";
     for (int i = 0; i < count; i++) {
+        NSString *alarmStr = @"";
         @autoreleasepool {
             NSString *time = [SYUtil dateWithSateStr:[alarmArray[i] objectForKey:@"gpstime"] Format:@"MM月dd日 HH:mm"];
             NSString *statuStr = [alarmArray[i] objectForKey:@"AlarmStatu"];;
@@ -156,15 +162,15 @@
                 alarmValue = [NSString stringWithFormat:@"-%@",alarmValue];
             }
             
-            if ([alarmStr isEqualToString:@""]) {
-                alarmStr = [NSString stringWithFormat:@"%@-%@%@",time, alarmDesc, alarmValue];
-            } else {
-                alarmStr = [NSString stringWithFormat:@"%@\n%@-%@%@",alarmStr, time, alarmDesc, alarmValue];
-            }
+            alarmStr = [NSString stringWithFormat:@"%@-%@%@",time, alarmDesc, alarmValue];
+        }
+        
+        if (i == 0) {
+            _alarm1Label.text = alarmStr;
+        } else {
+            _alarm2Label.text = alarmStr;
         }
     }
-    
-    _alarmLabel.text = alarmStr;
 }
 
 @end
