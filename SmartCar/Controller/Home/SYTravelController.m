@@ -49,7 +49,7 @@
 
 #pragma mark - 查询车辆行程信息
 - (void)requestTravelWithMonth:(NSInteger)month {
-    NSString *termID = [SYAppManager sharedManager].vehicle.termID;
+    NSString *termID = [SYAppManager sharedManager].showVehicle.termID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:month];
     NSString *endTime = [NSDate currentDate];
     
@@ -204,26 +204,30 @@
     }];
     
     [_dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_menuView);
         make.left.equalTo(_menuView);
         make.width.equalTo(@(SCREEN_W / 3));
-        make.centerY.equalTo(_menuView);
+        make.height.equalTo(_menuView);
     }];
     
     [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_menuView);
         make.left.equalTo(_dateLabel.mas_right);
         make.width.equalTo(_dateLabel);
-        make.centerY.equalTo(_menuView);
+        make.height.equalTo(_menuView);
     }];
     
     [_travelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_menuView);
         make.left.equalTo(_timeLabel.mas_right);
         make.width.equalTo(_dateLabel);
-        make.centerY.equalTo(_menuView);
+        make.height.equalTo(_menuView);
     }];
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_menuView.mas_bottom);
-        make.left.right.bottom.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64 - 49);
     }];
     
     [_timeLabel addLeftBorderWithColor:[UIColor whiteColor] width:0.5];

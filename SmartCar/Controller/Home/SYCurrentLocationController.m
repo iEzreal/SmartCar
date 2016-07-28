@@ -71,9 +71,9 @@
     }];
    
     [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64-49);
         make.height.equalTo(@45);
-        
     }];
     
     [_bottomView addSubview:self.locationLabel];
@@ -131,7 +131,7 @@
 /*                                 获取地理围栏                                    */
 /* *******************************************************************************/
 - (void)getCircleGeoFence {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:carId forKey:@"CarId"];
     
@@ -177,8 +177,8 @@
 /*                                 添加电子围栏命令                               */
 /* *******************************************************************************/
 - (void)setElectronicFence:(NSInteger)fencid radius:(NSInteger)radius lat:(NSInteger)lat lon:(NSInteger)lon {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
     [parameters setObject:termId forKey:@"szTermId"];
@@ -207,8 +207,8 @@
 /*                                   删除电子围栏命令                               */
 /* *******************************************************************************/
 - (void)delElectronicFence:(NSInteger)fencid radius:(NSInteger)radius lat:(NSInteger)lat lon:(NSInteger)lon{
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
     [parameters setObject:termId forKey:@"szTermId"];
@@ -235,8 +235,8 @@
 /*                               设置电子围栏数据库信息                              */
 /* *******************************************************************************/
 - (void)setCircleGeoFence:(NSInteger)fenceNo type:(NSInteger)type rad:(NSInteger)rad lat:(NSInteger)lat lon:(NSInteger)lon {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"CarId"];
     [parameters setObject:termId forKey:@"TermID"];
@@ -263,8 +263,8 @@
 /*                               下追踪模式OBD命令                                 */
 /* *******************************************************************************/
 - (void)setTrackJT {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"uCarId"];
     [parameters setObject:termId forKey:@"szTermId"];
@@ -305,7 +305,7 @@
 /*                               获取车辆最后位置信息                               */
 /* *******************************************************************************/
 - (void)requestCarLastPosition {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
     
     [SYApiServer POST:METHOD_GET_LAST_POSITION parameters:parameters success:^(id responseObject) {

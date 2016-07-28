@@ -55,7 +55,7 @@
 
 #pragma mark - 最小时间和最大时间里程和油耗
 - (void)requestMinMaxPositionWithStartTime:(NSString *)startTime endTime:(NSString *)endTime {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     [parameters setObject:startTime forKey:@"dtTime"];
@@ -93,7 +93,7 @@
 
 #pragma mark - 加油记录
 - (void)requestGasWithStartTime:(NSString *)startTime endTime:(NSString *)endTime {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:carId forKey:@"CarId"];
     [parameters setObject:startTime forKey:@"StartTime"];
@@ -123,7 +123,7 @@
 
 #pragma mark - 警告次数
 - (void)requestAlarmCountWithStartTime:(NSString *)startTime endTime:(NSString *)endTime {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     [parameters setObject:startTime forKey:@"StartTime"];
@@ -159,12 +159,12 @@
     for (int i = 0; i < _gasArray.count; i++) {
         CGFloat hislevel = [[_gasArray[i] objectForKey:@"OBDHistoryGasLevel"] floatValue];
         CGFloat afterlevel = [[_gasArray[i] objectForKey:@"OBDGasLevel"] floatValue];
-        sumOil += (startafterlevel - hislevel) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+        sumOil += (startafterlevel - hislevel) * [[SYAppManager sharedManager].showVehicle.tankCapacity floatValue] / 100;
         startafterlevel = afterlevel;
     }
     
     CGFloat nowlevel = [[_lastDic objectForKey:@"OBDGasLevel"] floatValue];
-    sumOil += (startafterlevel - nowlevel) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+    sumOil += (startafterlevel - nowlevel) * [[SYAppManager sharedManager].showVehicle.tankCapacity floatValue] / 100;
     avroil = sumOil * 100 / sumMileage;
 
     _totalOilWearLabel.text = [NSString stringWithFormat:@"%.3fL", sumOil];

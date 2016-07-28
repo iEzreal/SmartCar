@@ -48,7 +48,7 @@
 
 #pragma mark - 加载警告
 - (void)requestAlarmWithMonth:(NSInteger)month {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:month];
     NSString *endTime = [NSDate currentDate];
     
@@ -238,7 +238,8 @@
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_menuView.mas_bottom);
-        make.left.width.bottom.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64-49);
     }];
     
     [_countLabel addLeftBorderWithColor:[UIColor whiteColor] width:0.5];

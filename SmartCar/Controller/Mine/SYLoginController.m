@@ -119,9 +119,11 @@
 - (void)parseVehicleWithJsonString:(NSString *)jsonString {
     NSDictionary *vehicleDic = [jsonString objectFromJSONString];
     NSArray *tableArray = [vehicleDic objectForKey:@"TableInfo"];
-    NSDictionary *dic = tableArray[0];
-    SYVehicle *vehicle = [[SYVehicle alloc] initWithDic:dic];
-    [SYAppManager sharedManager].vehicle = vehicle;
+    [[SYAppManager sharedManager].vehicleArray removeAllObjects];
+    for (int i = 0; i < tableArray.count; i++) {
+        SYVehicle *vehicle = [[SYVehicle alloc] initWithDic:tableArray[i]];
+        [[SYAppManager sharedManager].vehicleArray addObject:vehicle];
+    }
 }
 
 // 读取用户信息

@@ -54,7 +54,7 @@
 
 #pragma mark - 数据请求
 - (void)requestGasWithMonth:(NSInteger)month {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:month];
     NSString *endTime = [NSDate currentDate];
     
@@ -130,7 +130,7 @@
     
     NSString *OBDGasLevel = [_gaslArray[indexPath.row] objectForKey:@"OBDGasLevel"];
     NSString *OBDHistoryGasLevel = [_gaslArray[indexPath.row] objectForKey:@"OBDHistoryGasLevel"];
-    CGFloat amount = ([OBDGasLevel floatValue] - [OBDHistoryGasLevel floatValue]) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+    CGFloat amount = ([OBDGasLevel floatValue] - [OBDHistoryGasLevel floatValue]) * [[SYAppManager sharedManager].showVehicle.tankCapacity floatValue] / 100;
    
     gasStatCell.date = [_gaslArray[indexPath.row] objectForKey:@"gpstime"];
     gasStatCell.amount = [NSString stringWithFormat:@"%.2f", amount];
@@ -144,7 +144,7 @@
     NSString *gasTime = [_gaslArray[indexPath.row] objectForKey:@"gpstime"];
     NSString *OBDGasLevel = [_gaslArray[indexPath.row] objectForKey:@"OBDGasLevel"];
     NSString *OBDHistoryGasLevel = [_gaslArray[indexPath.row] objectForKey:@"OBDHistoryGasLevel"];
-    CGFloat amount = ([OBDGasLevel floatValue] - [OBDHistoryGasLevel floatValue]) * [[SYAppManager sharedManager].vehicle.tankCapacity floatValue] / 100;
+    CGFloat amount = ([OBDGasLevel floatValue] - [OBDHistoryGasLevel floatValue]) * [[SYAppManager sharedManager].showVehicle.tankCapacity floatValue] / 100;
     double lat = [[_gaslArray[indexPath.row] objectForKey:@"lat"] doubleValue];
     double lon = [[_gaslArray[indexPath.row] objectForKey:@"lon"] doubleValue];
     
@@ -222,7 +222,8 @@
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_menuView.mas_bottom);
-        make.left.width.bottom.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64-49);
     }];
 }
 

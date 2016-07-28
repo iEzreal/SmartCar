@@ -54,7 +54,8 @@
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_topView.mas_bottom);
-        make.left.right.bottom.equalTo(self.view);
+        make.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64-49);
     }];
     
     [self reverseGeocode];

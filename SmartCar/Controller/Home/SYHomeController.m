@@ -37,7 +37,7 @@
 @property(nonatomic, strong) NSMutableArray *travelArray;
 
 @property(nonatomic, strong) SYVehiclePosition *vePosition;
-@property(nonatomic, strong) NSString *initialMileage;
+@property(nonatomic, assign) CGFloat mileage;
 
 @end
 
@@ -71,6 +71,12 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)reloadPageData {
+    [self requestGaugeInfo];
+    [self requestCarTrip];
+    [self requestAlarmInfo];
+}
+
 #pragma mark - 数据请求
 - (void)requestGaugeInfo {
     dispatch_group_t requestGroup = dispatch_group_create();
@@ -78,7 +84,7 @@
     /*************************************************************************/
     /*                            车辆最后位置信                               */
     /*************************************************************************/
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:carId forKey:@"CarId"];
     
     dispatch_group_enter(requestGroup);
@@ -103,21 +109,21 @@
     /*                               初始里程                                 */
     /*************************************************************************/
     NSMutableDictionary *para = [[NSMutableDictionary alloc] init];
-    [para setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"carId"];
+    [para setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     
     dispatch_group_enter(requestGroup);
     [SYApiServer POST:METHOD_GET_MILEAGE parameters:para success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic) {
-            _initialMileage = [responseDic objectForKey:@"GetMileageResult"];
+            _mileage = [[responseDic objectForKey:@"GetMileageResult"] floatValue];
         } else {
-            _initialMileage = @"";
+            _mileage = 0;
         }
         dispatch_group_leave(requestGroup);
         
     } failure:^(NSError *error) {
-        _initialMileage = @"";
+        _mileage = 0;
         dispatch_group_leave(requestGroup);
     }];
     
@@ -131,7 +137,7 @@
             _gaugeView.speedText = _vePosition.OBDSpeed;
             _gaugeView.stateText = _vePosition.engineOnOff;
             _gaugeView.voltageText = _vePosition.OBDBatt;
-           _gaugeView.mileageText = [NSString stringWithFormat:@"%.1f", [_vePosition.mileage floatValue] + [_initialMileage floatValue]];
+            _gaugeView.mileageText = [NSString stringWithFormat:@"%.1f", _mileage];
         }
         [_gaugeView finishRefresh];
     });
@@ -139,7 +145,7 @@
 
 // 车辆行程信息
 - (void)requestCarTrip {
-    NSString *termID = [SYAppManager sharedManager].vehicle.termID;
+    NSString *termID = [SYAppManager sharedManager].showVehicle.termID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
     NSString *endTime = [NSDate currentDate];
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
@@ -160,7 +166,7 @@
 
 // 报警信息
 - (void)requestAlarmInfo {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
     NSString *endTime = [NSDate currentDate];
     
@@ -254,7 +260,7 @@
         if (_carSwitchView.isShow) {
             [_carSwitchView hide];
         } else {
-            [_carSwitchView setSRCArray:@[[SYAppManager sharedManager].vehicle.carNum]];
+            [_carSwitchView setSRCArray:@[[SYAppManager sharedManager].showVehicle.carNum]];
             [_carSwitchView showWithView:self.view];
         }
     } else {

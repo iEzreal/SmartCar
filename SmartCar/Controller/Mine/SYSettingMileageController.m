@@ -32,7 +32,7 @@
     
     [self setupPageSubviews];
     [self layoutPageSubviews];
-    _carNumLabel.text = [SYAppManager sharedManager].vehicle.carNum;
+    _carNumLabel.text = [SYAppManager sharedManager].showVehicle.carNum;
     
     [self requestMileage];
 }
@@ -44,15 +44,15 @@
 #pragma mark - 数据请求
 // 获取初始里程
 - (void)requestMileage {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"carId"];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     [SYApiServer POST:METHOD_GET_MILEAGE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         DLog(@"---- 获取初始里程结果：%@", [responseDic objectForKey:@"GetMileageResult"]);
         if (responseDic) {
-            _mileageTF.text = [NSString stringWithFormat:@"%@",[responseDic objectForKey:@"GetMileageResult"]];
+            _mileageTF.text = [NSString stringWithFormat:@"%.0f",[[responseDic objectForKey:@"GetMileageResult"] floatValue] *0.1];
         }
     } failure:^(NSError *error) {
         
@@ -61,7 +61,7 @@
 
 // 初始化初始里程
 - (void)requestInitMileage {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     [parameters setObject:[NSNumber numberWithInt:[_mileageTF.text intValue]] forKey:@"Mileage"];

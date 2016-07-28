@@ -10,12 +10,13 @@
 #import "SYHomeController.h"
 #import "SYStatController.h"
 #import "SYMineController.h"
-
+#import "SYPickerAlertView.h"
 #import "SYMainNavView.h"
 #import "SYMainTabBarView.h"
 
-@interface SYMainController () <SYMainNavViewDelegate, SYMainTabBarViewDelegate>
+@interface SYMainController () <SYMainNavViewDelegate, SYMainTabBarViewDelegate, SYPickerAlertViewDelegate>
 
+@property(nonatomic, strong) SYPickerAlertView *pickerAlertView;
 @property(nonatomic, strong) SYMainNavView *navView;
 @property(nonatomic, strong) UIView *contentView;
 @property(nonatomic, strong) SYMainTabBarView *tabBarView;
@@ -37,6 +38,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // 设置默认显示第一个车
+    [SYAppManager sharedManager].showVehicle = [SYAppManager sharedManager].vehicleArray[0];
+    
     UIView *statusBarBG= [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 20)];
     statusBarBG.backgroundColor = [UIColor blackColor];
     [self.view addSubview:statusBarBG];
@@ -70,22 +75,37 @@
     [self addChildViewController:_homeNavController];
     [_contentView addSubview:_homeNavController.view];
     
-    // 更新定位通知接受
+    [self updateNavTitle];
     NSNotificationCenter * center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(updateLocationInfo:) name:notification_update_Location object:nil];
-    
-    //
-    _navView.titleStr = [SYAppManager sharedManager].vehicle.carNum;
-   
-    
 }
 
+#pragma mark - 私有方法
 - (void)updateLocationInfo:(NSNotification *)sender {
     NSString *locationStr = [sender.userInfo objectForKey:@"location"];
      _navView.locationStr = locationStr;
-    
 }
 
+- (void)updateNavTitle {
+    _navView.titleStr = [SYAppManager sharedManager].showVehicle.carNum;
+}
+
+- (void)showControllerWithShowIndex:(NSInteger)showIndex {
+    for (int i = 0; i < _childControllers.count; i ++) {
+        if (i == showIndex) {
+            [self addChildViewController:_childControllers[i]];
+            [_contentView addSubview:[_childControllers[i] view]];
+            [_childControllers[i] popToRootViewControllerAnimated:YES];
+        } else {
+            [[_childControllers[i] view] removeFromSuperview];
+            [_childControllers[i] removeFromParentViewController];
+        }
+    }
+}
+#pragma mark - 代理事件
+/* *******************************************************************************/
+/*                                   导航栏代理                                    */
+/* *******************************************************************************/
 - (void)mainNavView:(SYMainNavView *)mainNavView didSelectAtIndex:(NSUInteger)index {
     // 返回事件
     if (index == 0) {
@@ -117,29 +137,39 @@
         }
     }
     
-    // 车辆切换
-    else if (index == 0) {
-    
-    }
-}
-
-- (void)mainTabBarView:(SYMainTabBarView *)tabBarView didSelectAtIndex:(NSInteger )index {
-    _showIndex = index;
-    [self showControllerWithShowIndex:index];
-}
-
-- (void)showControllerWithShowIndex:(NSInteger)showIndex {
-    for (int i = 0; i < _childControllers.count; i ++) {
-        if (i == showIndex) {
-            [self addChildViewController:_childControllers[i]];
-            [_contentView addSubview:[_childControllers[i] view]];
-            [_childControllers[i] popToRootViewControllerAnimated:YES];
+    // 车辆切换： 首页直接切换操作，非首页跳转到首页
+    else if (index == 1) {
+        if (_showIndex == 0) {
+            if (!_pickerAlertView) {
+                NSMutableArray *array = [[NSMutableArray alloc] init];
+                for (int i = 0; i < [SYAppManager sharedManager].vehicleArray.count; i++) {
+                    [array addObject:[[SYAppManager sharedManager].vehicleArray[i] carNum]];
+                }
+                _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:array];
+                _pickerAlertView.delegate = self;
+            }
+            [_pickerAlertView show];
         } else {
-            [[_childControllers[i] view] removeFromSuperview];
-            [_childControllers[i] removeFromParentViewController];
+            [_tabBarView showWithIndex:0];
         }
     }
 }
 
+/* *******************************************************************************/
+/*                                   车辆切换代理                                  */
+/* *******************************************************************************/
+- (void)pickerAlertView:(SYPickerAlertView *)pickerAlertView didSelectAtIndex:(NSInteger)index {
+    [SYAppManager sharedManager].showVehicle = [SYAppManager sharedManager].vehicleArray[index];
+    [self updateNavTitle];
+    [_homeController reloadPageData];
+}
+
+/* *******************************************************************************/
+/*                                   标签栏代理                                    */
+/* *******************************************************************************/
+- (void)mainTabBarView:(SYMainTabBarView *)tabBarView didSelectAtIndex:(NSInteger )index {
+    _showIndex = index;
+    [self showControllerWithShowIndex:index];
+}
 
 @end

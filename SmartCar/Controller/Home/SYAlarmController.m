@@ -47,7 +47,7 @@
 
 #pragma mark - 请求警告信息
 - (void)requestAlarmInfo {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSString *startTime = [NSDate dateAfterDate:[NSDate date] month:-1];
     NSString *endTime = [NSDate currentDate];
     
@@ -184,7 +184,8 @@
     
     [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_menuView.mas_bottom);
-        make.left.width.bottom.equalTo(self.view);
+        make.left.width.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-64-49);
     }];
     
     [_timeLabel addLeftBorderWithColor:[UIColor whiteColor] width:0.5];

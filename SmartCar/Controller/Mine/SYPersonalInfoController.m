@@ -70,7 +70,7 @@
 }
 
 - (void)refreshUserInfo {
-    _carNumTF.text = [SYAppManager sharedManager].vehicle.carNum;
+    _carNumTF.text = [SYAppManager sharedManager].showVehicle.carNum;
     _userIdTF.text = [SYAppManager sharedManager].user.loginName;
     _userNameTF.text = [SYAppManager sharedManager].user.userName;
     _phoneTF.text = [SYAppManager sharedManager].user.phone1;
@@ -82,7 +82,7 @@
 - (void)changePersonalInfoAction:(UIButton *)sender {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[SYAppManager sharedManager].user.userId forKey:@"UserId"];
-    [parameters setObject:[NSNumber numberWithInteger:[[SYAppManager sharedManager].vehicle.carID integerValue]] forKey:@"carid"];
+    [parameters setObject:[NSNumber numberWithInteger:[[SYAppManager sharedManager].showVehicle.carID integerValue]] forKey:@"carid"];
     [parameters setObject:_carNumTF.text forKey:@"carnum"];
     [parameters setObject:_userIdTF.text forKey:@"newUserID"];
     [parameters setObject:_userNameTF.text forKey:@"userName"];
@@ -96,7 +96,7 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"UserInfoUpdateResult"] integerValue] == 1) {
-            [SYAppManager sharedManager].vehicle.carNum = _carNumTF.text;
+            [SYAppManager sharedManager].showVehicle.carNum = _carNumTF.text;
             [SYAppManager sharedManager].user.loginName = _userIdTF.text;
             [SYAppManager sharedManager].user.userName = _userNameTF.text;
             [SYAppManager sharedManager].user.phone1 = _phoneTF.text;

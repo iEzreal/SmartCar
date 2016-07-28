@@ -236,7 +236,7 @@
         make.top.equalTo(_oliAmountView.mas_bottom).offset(5);
         make.left.equalTo(self.view).offset(5);
         make.right.equalTo(self.view).offset(-5);
-        make.bottom.equalTo(self.view).offset(-5);
+        make.bottom.equalTo(self.view).offset(-64-49-5);
     }];
 }
 

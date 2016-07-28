@@ -10,7 +10,7 @@
 
 @interface SYMainTabBarView ()
 
-
+@property(nonatomic, strong) NSMutableArray *itemArray;
 @property(nonatomic, strong) UIView *indicatorView;
 @property(nonatomic, assign) NSInteger selectIndex;
 @property(nonatomic, strong) SYButton *selectBtn;
@@ -26,6 +26,7 @@
     
     NSArray *imageArray = @[@"home_normal", @"static_normal", @"mine_normal"];
     NSArray *titleArray = @[@"首页", @"统计", @"我的"];
+    _itemArray = [[NSMutableArray alloc] init];
     
     _indicatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width / 3, self.height)];
     _indicatorView.backgroundColor = TAB_SELECTED_COLOR;
@@ -41,16 +42,18 @@
          button.buttonTitleWithImageAlignment = UIButtonTitleWithImageAlignmentUp;
         button.tag = i;
         [self addSubview:button];
-        
+        [_itemArray addObject:button];
         if (i == 0) {
-            button.selected = YES;
             _selectBtn = button;
             _selectIndex = 0;
-            
         }
     }
     
     return self;
+}
+
+- (void)showWithIndex:(NSInteger)index {
+    [self itemCLickAction:_itemArray[index]];
 }
 
 - (void)itemCLickAction:(SYButton *)sender {

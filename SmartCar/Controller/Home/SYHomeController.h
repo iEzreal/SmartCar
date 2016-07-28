@@ -10,5 +10,6 @@
 
 @interface SYHomeController : SYBaseController
 
+- (void)reloadPageData;
 
 @end

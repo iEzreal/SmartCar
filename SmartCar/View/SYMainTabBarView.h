@@ -18,5 +18,6 @@
 @interface SYMainTabBarView : UIView
 
 @property(nonatomic, weak)id <SYMainTabBarViewDelegate> delegate;
+- (void)showWithIndex:(NSInteger)index;
 
 @end

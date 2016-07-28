@@ -58,8 +58,8 @@
  *  发送DTC查询命令
  */
 - (void)getDtcCode {
-    NSString *carId = [SYAppManager sharedManager].vehicle.carID;
-    NSString *termId = [SYAppManager sharedManager].vehicle.termID;
+    NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
+    NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"uCarId"];

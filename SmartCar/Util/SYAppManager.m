@@ -23,10 +23,10 @@ static SYAppManager *instance = nil;
     if (!(self = [super init])) {
         return self;
     }
-    _locationStr = @"";
-    
+    _vehicleArray = [[NSMutableArray alloc] init];
     return self;
 }
+
 
 
 @end

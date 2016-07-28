@@ -32,7 +32,7 @@
     self.title = @"行程回放";
     
     _travelPointArray = [[NSMutableArray alloc] init];
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64 - 49)];
     _mapView.zoomLevel = 13;
     _mapView.delegate = self;
     [self.view addSubview:_mapView];

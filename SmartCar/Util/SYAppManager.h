@@ -14,7 +14,8 @@
 
 @property(nonatomic, strong) NSString *locationStr;
 @property(nonatomic, strong) SYUser *user;
-@property(nonatomic, strong) SYVehicle *vehicle;
+@property(nonatomic, strong) SYVehicle *showVehicle;
+@property(nonatomic, strong) NSMutableArray *vehicleArray;
 
 + (SYAppManager *)sharedManager;
 
