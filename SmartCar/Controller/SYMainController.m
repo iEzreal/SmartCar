@@ -137,21 +137,16 @@
         }
     }
     
-    // 车辆切换： 首页直接切换操作，非首页跳转到首页
     else if (index == 1) {
-        if (_showIndex == 0) {
-            if (!_pickerAlertView) {
-                NSMutableArray *array = [[NSMutableArray alloc] init];
-                for (int i = 0; i < [SYAppManager sharedManager].vehicleArray.count; i++) {
-                    [array addObject:[[SYAppManager sharedManager].vehicleArray[i] carNum]];
-                }
-                _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:array];
-                _pickerAlertView.delegate = self;
+        if (!_pickerAlertView) {
+            NSMutableArray *array = [[NSMutableArray alloc] init];
+            for (int i = 0; i < [SYAppManager sharedManager].vehicleArray.count; i++) {
+                [array addObject:[[SYAppManager sharedManager].vehicleArray[i] carNum]];
             }
-            [_pickerAlertView show];
-        } else {
-            [_tabBarView showWithIndex:0];
+            _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:array];
+            _pickerAlertView.delegate = self;
         }
+        [_pickerAlertView show];
     }
 }
 
@@ -160,6 +155,12 @@
 /* *******************************************************************************/
 - (void)pickerAlertView:(SYPickerAlertView *)pickerAlertView didSelectAtIndex:(NSInteger)index {
     [SYAppManager sharedManager].showVehicle = [SYAppManager sharedManager].vehicleArray[index];
+    if (_showIndex == 0) {
+        [_homeNavController popToRootViewControllerAnimated:YES];
+    } else {
+        [_tabBarView showWithIndex:0];
+    }
+
     [self updateNavTitle];
     [_homeController reloadPageData];
 }
