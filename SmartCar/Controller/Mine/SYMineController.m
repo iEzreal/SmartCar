@@ -45,14 +45,6 @@
     
 }
 
-- (void)returnToPrevController {
-    [super returnToPrevController];
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    SYLoginController *loginController = [[SYLoginController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
-    delegate.window.rootViewController = navController;
-}
-
 #pragma mark 代理方法
 - (void)menuView:(SYMineMenuView *)menuView didSelectedAtIndex:(NSInteger)index {
     if (index == 0) {

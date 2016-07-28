@@ -46,17 +46,17 @@
                                     <constraint firstItem="Ipc-B5-kVh" firstAttribute="centerY" secondItem="2aN-4b-LpQ" secondAttribute="centerY" id="jol-Su-spC"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UZL-mL-MTm" userLabel="BottomView">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UZL-mL-MTm" userLabel="BottomView">
                                 <rect key="frame" x="0.0" y="50" width="320" height="518"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="stat_point_bg" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-WT-ywc">
                                         <rect key="frame" x="0.0" y="71" width="168" height="376"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="168" id="46K-dZ-Aea"/>
                                             <constraint firstAttribute="height" constant="376" id="Ls5-GX-pRQ"/>
                                         </constraints>
                                     </imageView>
-                                    <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
+                                    <button opaque="NO" tag="201" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y4Q-J1-h7v">
                                         <rect key="frame" x="118" y="71" width="125" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="3Wx-V8-AB0"/>
@@ -69,7 +69,7 @@
                                             <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="jdn-ZE-ddZ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
+                                    <button opaque="NO" tag="203" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lQX-H8-ZaS">
                                         <rect key="frame" x="168" y="282" width="160" height="68"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="68" id="5hE-WL-BTI"/>
@@ -83,20 +83,20 @@
                                             <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="i5F-i1-oFJ"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="204" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
+                                    <button opaque="NO" tag="204" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alL-aR-QKs">
                                         <rect key="frame" x="118" y="384" width="190" height="63"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="190" id="DJV-dB-m5S"/>
-                                            <constraint firstAttribute="height" constant="63" id="fM0-OE-EDI"/>
+                                            <constraint firstAttribute="height" constant="70" id="fM0-OE-EDI"/>
                                         </constraints>
                                         <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="车辆行驶信息" image="vinfo_normal"/>
-                                        <state key="highlighted" image="vinfo_highlight"/>
+                                        <state key="normal" title="车辆行驶信息" image="stat_travel_normal"/>
+                                        <state key="highlighted" image="stat_travel_highlight"/>
                                         <connections>
                                             <action selector="statButtonAction:" destination="f2A-fq-kMc" eventType="touchUpInside" id="D1H-rF-qxj"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
+                                    <button opaque="NO" tag="202" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="peP-QX-Gr2">
                                         <rect key="frame" x="168" y="171" width="120" height="86"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="vCp-pG-vF7"/>
@@ -127,7 +127,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="UZL-mL-MTm" firstAttribute="bottom" secondItem="Jv1-i3-FDH" secondAttribute="top" id="EMw-ZZ-iVW"/>
                             <constraint firstAttribute="trailing" secondItem="iXY-yP-QoT" secondAttribute="trailing" id="GgE-Za-FsM"/>
                             <constraint firstItem="UZL-mL-MTm" firstAttribute="top" secondItem="iXY-yP-QoT" secondAttribute="bottom" id="PbD-KC-SHI"/>
                             <constraint firstItem="UZL-mL-MTm" firstAttribute="leading" secondItem="pQr-mq-AiK" secondAttribute="leading" id="SoF-yV-qWS"/>
@@ -157,7 +156,7 @@
         <image name="sgasadd_highlight" width="68" height="69"/>
         <image name="sgasadd_normal" width="68" height="69"/>
         <image name="stat_point_bg" width="168" height="375"/>
-        <image name="vinfo_highlight" width="68" height="69"/>
-        <image name="vinfo_normal" width="68" height="69"/>
+        <image name="stat_travel_highlight" width="69" height="69"/>
+        <image name="stat_travel_normal" width="69" height="69"/>
     </resources>
 </document>

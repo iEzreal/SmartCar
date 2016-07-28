@@ -71,14 +71,6 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)returnToPrevController {
-    [super returnToPrevController];
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    SYLoginController *loginController = [[SYLoginController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
-    delegate.window.rootViewController = navController;
-}
-
 #pragma mark - 数据请求
 - (void)requestGaugeInfo {
     dispatch_group_t requestGroup = dispatch_group_create();
@@ -239,7 +231,10 @@
                 street = @"";
             }
         
-            self.locationStr = city;
+            // 发通知
+            NSNotification * notice = [NSNotification notificationWithName:notification_update_Location object:nil userInfo:@{@"location":city}];
+            [[NSNotificationCenter defaultCenter]postNotification:notice];
+            
             [SYAppManager sharedManager].locationStr = city;
             _locationAnnotation.title = [NSString stringWithFormat:@"%@%@%@", city, subLocality, street];
             [_mapView selectAnnotation:_locationAnnotation animated:YES];

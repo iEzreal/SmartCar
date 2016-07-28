@@ -10,8 +10,4 @@
 
 @interface SYBaseController : UIViewController
 
-@property(nonatomic, strong) NSString *locationStr;
-
-- (void)returnToPrevController;
-
 @end

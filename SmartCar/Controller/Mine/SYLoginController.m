@@ -11,6 +11,8 @@
 #import "SYRootController.h"
 #import "AppDelegate.h"
 
+#import "SYMainController.h"
+
 #import "SYUser.h"
 #import "SYVehicle.h"
 
@@ -90,8 +92,8 @@
             [self parseUserWithJsonString:[responseDic objectForKey:@"UserInfo"]];
             [self parseVehicleWithJsonString:[responseDic objectForKey:@"VehicleInfo"]];
             
-            AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            delegate.window.rootViewController = [[SYRootController alloc] init];
+            SYMainController *mianController = [[SYMainController alloc] init];
+            [self.navigationController pushViewController:mianController animated:YES];
             
             [SYUtil dismissProgressHUD];
             

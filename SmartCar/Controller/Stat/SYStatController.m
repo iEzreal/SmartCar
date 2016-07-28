@@ -30,14 +30,6 @@
     
 }
 
-- (void)returnToPrevController {
-    [super returnToPrevController];
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    SYLoginController *loginController = [[SYLoginController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:loginController];
-    delegate.window.rootViewController = navController;
-}
-
 - (IBAction)statButtonAction:(id)sender {
     NSInteger tag = ((UIButton *)sender).tag;
     if (tag == 201) {

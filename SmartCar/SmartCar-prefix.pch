@@ -46,6 +46,7 @@
 #define SCALE_H SCREEN_H / 480
 
 // 颜色
+#define NAV_BG_COLOR [UIColor colorWithHexString:@"3E4451"]
 #define PAGE_BG_COLOR [UIColor colorWithHexString:@"5A6478"]
 #define TAB_SELECTED_COLOR [UIColor colorWithHexString:@"4EB7CD"]
 
@@ -54,6 +55,8 @@
 #define PAGE_TOP_COLOR @"4EB7CD"
 
 #define WeakSelf __weak typeof(self) weakSelf = self
+
+#define notification_update_Location @"UpdateLocation"
 
 // Debug 模式log输出
 #ifdef DEBUG
