@@ -187,7 +187,7 @@
         return;
     }
     
-    if (![_nwePwd2TF.text isEqualToString:_nwePwd2TF.text]) {
+    if (![_nwePwd1TF.text isEqualToString:_nwePwd2TF.text]) {
         [SYUtil showHintWithStatus:@"两次输入密码不一致" duration:1];
         return;
     }

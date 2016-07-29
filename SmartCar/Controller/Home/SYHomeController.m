@@ -137,7 +137,7 @@
             _gaugeView.speedText = _vePosition.OBDSpeed;
             _gaugeView.stateText = _vePosition.engineOnOff;
             _gaugeView.voltageText = _vePosition.OBDBatt;
-            _gaugeView.mileageText = [NSString stringWithFormat:@"%.1f", _mileage];
+            _gaugeView.mileageText = [NSString stringWithFormat:@"%d", (int)_mileage];
         }
         [_gaugeView finishRefresh];
     });
