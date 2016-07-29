@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "gauge_speed_pointer.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "point.png",
       "scale" : "2x"
     },
     {

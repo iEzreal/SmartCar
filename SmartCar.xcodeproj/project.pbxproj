@@ -45,6 +45,7 @@
 		77A67E0C1D2A04B700B071ED /* UIColor+HEX.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A67E0B1D2A04B700B071ED /* UIColor+HEX.m */; };
 		77A67E121D2A324900B071ED /* SYHomeGaugeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A67E111D2A324900B071ED /* SYHomeGaugeView.m */; };
 		77A67E1B1D2A60A300B071ED /* SYButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A67E1A1D2A60A300B071ED /* SYButton.m */; };
+		77AEEAB01D4B24AC00969B0D /* SYSpeedGaugeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77AEEAAF1D4B24AC00969B0D /* SYSpeedGaugeView.m */; };
 		77BF91F91D368C9D00132C61 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BF91F81D368C9D00132C61 /* NSDate+Extension.m */; };
 		77BF91FC1D369B6300132C61 /* SYGasStatDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77BF91FB1D369B6300132C61 /* SYGasStatDetailsController.m */; };
 		77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 77CC404C1D42572B00F29148 /* NSDate+Formatter.m */; };
@@ -171,6 +172,8 @@
 		77A67E111D2A324900B071ED /* SYHomeGaugeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYHomeGaugeView.m; sourceTree = "<group>"; };
 		77A67E191D2A60A300B071ED /* SYButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYButton.h; sourceTree = "<group>"; };
 		77A67E1A1D2A60A300B071ED /* SYButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYButton.m; sourceTree = "<group>"; };
+		77AEEAAE1D4B24AC00969B0D /* SYSpeedGaugeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYSpeedGaugeView.h; sourceTree = "<group>"; };
+		77AEEAAF1D4B24AC00969B0D /* SYSpeedGaugeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYSpeedGaugeView.m; sourceTree = "<group>"; };
 		77BF91F71D368C9D00132C61 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
 		77BF91F81D368C9D00132C61 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		77BF91FA1D369B6300132C61 /* SYGasStatDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGasStatDetailsController.h; sourceTree = "<group>"; };
@@ -455,6 +458,8 @@
 				77A67E1A1D2A60A300B071ED /* SYButton.m */,
 				A27909561D2406AB00880755 /* SYCarSwitchView.h */,
 				A27909571D2406AB00880755 /* SYCarSwitchView.m */,
+				770377FA1D472E98001E435D /* SYGasGaugeView.h */,
+				770377FB1D472E98001E435D /* SYGasGaugeView.m */,
 				779293571D2AABEB006A7E5E /* SYHomeAlarmView.h */,
 				779293581D2AABEB006A7E5E /* SYHomeAlarmView.m */,
 				77A67E101D2A324900B071ED /* SYHomeGaugeView.h */,
@@ -463,6 +468,10 @@
 				77FF1E131D3CD33F00C75378 /* SYHomeTravelView.m */,
 				7793197A1D353A6E0011DDAB /* SYLocationNavView.h */,
 				7793197B1D353A6E0011DDAB /* SYLocationNavView.m */,
+				77ED36361D49A37600836359 /* SYMainNavView.h */,
+				77ED36371D49A37600836359 /* SYMainNavView.m */,
+				77ED36331D49377C00836359 /* SYMainTabBarView.h */,
+				77ED36341D49377C00836359 /* SYMainTabBarView.m */,
 				77CC404E1D43BFCC00F29148 /* SYMineMenuView.h */,
 				77CC404F1D43BFCC00F29148 /* SYMineMenuView.m */,
 				770270F71D421A55004AD0AD /* SYPageTopView.h */,
@@ -473,12 +482,8 @@
 				77F365F91D38B0F10051F600 /* SYPickerDateView.m */,
 				7799AF391D2CCEA4006E332C /* SYProgressView.h */,
 				7799AF3A1D2CCEA4006E332C /* SYProgressView.m */,
-				770377FA1D472E98001E435D /* SYGasGaugeView.h */,
-				770377FB1D472E98001E435D /* SYGasGaugeView.m */,
-				77ED36331D49377C00836359 /* SYMainTabBarView.h */,
-				77ED36341D49377C00836359 /* SYMainTabBarView.m */,
-				77ED36361D49A37600836359 /* SYMainNavView.h */,
-				77ED36371D49A37600836359 /* SYMainNavView.m */,
+				77AEEAAE1D4B24AC00969B0D /* SYSpeedGaugeView.h */,
+				77AEEAAF1D4B24AC00969B0D /* SYSpeedGaugeView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -716,6 +721,7 @@
 				77FF1E141D3CD33F00C75378 /* SYHomeTravelView.m in Sources */,
 				A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */,
 				77DBDD741D3614D2009EEDD4 /* SYOilExceptionController.m in Sources */,
+				77AEEAB01D4B24AC00969B0D /* SYSpeedGaugeView.m in Sources */,
 				770377FC1D472E98001E435D /* SYGasGaugeView.m in Sources */,
 				A2884CE81D22B3AD00C3E8B3 /* UIView+Frame.m in Sources */,
 				A27909581D2406AB00880755 /* SYCarSwitchView.m in Sources */,
@@ -908,7 +914,7 @@
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
@@ -928,7 +934,7 @@
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";

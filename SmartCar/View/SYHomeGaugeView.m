@@ -7,6 +7,7 @@
 //
 
 #import "SYHomeGaugeView.h"
+#import "SYSpeedGaugeView.h"
 
 @interface SYHomeGaugeView ()
 
@@ -19,7 +20,7 @@
 @property(nonatomic, strong) UILabel *oilLabel;
 
 @property(nonatomic, strong) UIView *centerView;
-@property(nonatomic, strong) UIImageView *speedIV;
+@property(nonatomic, strong) SYSpeedGaugeView *speedView;
 @property(nonatomic, strong) UILabel *speedLabel;
 
 @property(nonatomic, strong) UIView *rightView;
@@ -92,10 +93,8 @@
     _centerView = [[UIView alloc] init];
     [self addSubview:_centerView];
     
-    _speedIV = [[UIImageView alloc] init];
-    _speedIV.contentMode = UIViewContentModeScaleAspectFill;
-    _speedIV.image = [UIImage imageNamed:@"gauge_speed"];
-    [self addSubview:_speedIV];
+    _speedView = [[SYSpeedGaugeView alloc] init];
+    [self addSubview:_speedView];
     
     _speedLabel = [[UILabel alloc] init];
     _speedLabel.textAlignment = NSTextAlignmentCenter;
@@ -138,13 +137,13 @@
     [_leftView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_refreshView.mas_bottom);
         make.left.equalTo(self);
-        make.right.equalTo(_speedIV.mas_left);
+        make.right.equalTo(_speedView.mas_left);
         make.bottom.equalTo(_mileageLabel.mas_top);
     }];
     
     [_oilPV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_leftView);
-        make.centerY.equalTo(_speedIV).offset(10);
+        make.centerY.equalTo(_speedView).offset(10);
         make.width.height.equalTo(@(40 * SCALE_H));
     }];
     
@@ -153,28 +152,26 @@
         make.centerX.equalTo(_leftView);
     }];
     
-    
-    
     [_centerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self);
     }];
     
-    [_speedIV mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_speedView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_centerView);
         make.centerX.equalTo(_centerView);
-        make.height.mas_equalTo(@(70 * SCALE_H));
+        make.width.mas_equalTo(@(70 * SCALE_H));
         make.height.mas_equalTo(@(60 * SCALE_H));
     }];
     
     [_speedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_speedIV.mas_bottom).offset(5);
+        make.top.equalTo(_speedView.mas_bottom).offset(5);
         make.centerX.equalTo(_centerView);
         make.bottom.equalTo(_centerView);
     }];
     
     [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_speedIV);
-        make.left.equalTo(_speedIV.mas_right);
+        make.top.equalTo(_speedView);
+        make.left.equalTo(_speedView.mas_right);
         make.right.equalTo(self);
         make.bottom.equalTo(_speedLabel);
     }];
@@ -250,6 +247,7 @@
 - (void)setSpeedText:(NSString *)speedText {
     _speedText = speedText;
     _speedLabel.text = [NSString stringWithFormat:@"%.1f", [speedText floatValue] / 10];
+    [_speedView setGaugeValue:[speedText floatValue] / 10 animation:YES];
 }
 
 - (void)setStateText:(NSString *)stateText {

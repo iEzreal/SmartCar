@@ -32,8 +32,10 @@
     [self navConfig];
     
     _mapManager = [[BMKMapManager alloc]init];
-    // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
+    // 如果要关注网络及授权验证事件，请设定generalDelegate参数
 //    [_mapManager start:@"EcZSP0ktxWeCcvNv5KZvLxh47pVe4EG0"  generalDelegate:nil];
+    
+    // 3VhV9Zi4RyHgGM8EkpiX1mPt7h3njxFQ(com.shengyu.smartcar)
      [_mapManager start:@"86AFoC7j4MvUfByeupViSVIUpPalmrLN"  generalDelegate:nil];
     
     
