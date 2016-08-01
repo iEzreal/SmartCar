@@ -19,7 +19,7 @@
 
 @property(nonatomic, weak) id<SYPickerAlertViewDelegate> delegate;
 
-- (instancetype)initDataArray:(NSArray *)dataArray;
+- (instancetype)initWithTitle:(NSString *)title dataArray:(NSArray *)dataArray;
 - (void)show;
 
 @end

@@ -77,7 +77,7 @@
 #pragma mark - 代理事件
 - (void)topViewRightAction {
     if (!_pickerAlertView) {
-        _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:@[@"一个月内", @"三个月内", @"半年内", @"一年内"]];
+        _pickerAlertView = [[SYPickerAlertView alloc] initWithTitle:@"日期选择" dataArray:@[@"一个月内", @"三个月内", @"半年内", @"一年内"]];
         _pickerAlertView.delegate = self;
     }
     [_pickerAlertView show];

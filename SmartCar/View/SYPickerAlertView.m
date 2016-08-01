@@ -22,16 +22,18 @@
 
 @property(nonatomic, assign) NSInteger curSelectedRow;
 
+@property(nonatomic, strong) NSString *title;
 @property(nonatomic, strong) NSArray *dataArray;
 
 @end
 
 @implementation SYPickerAlertView
 
-- (instancetype)initDataArray:(NSArray *)dataArray {
+- (instancetype)initWithTitle:(NSString *)title dataArray:(NSArray *)dataArray {
     if (!(self = [super initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H)])) {
         return nil;
     }
+    _title = title;
     _dataArray = dataArray;
     
     [self setupPageSubviews];
@@ -116,7 +118,7 @@
     _titleLabel.backgroundColor = [UIColor colorWithHexString:PAGE_TOP_COLOR];
     _titleLabel.font = [UIFont systemFontOfSize:18];
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.text = @"日期选择";
+    _titleLabel.text = _title;
     [_contentView addSubview:_titleLabel];
     
     _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, CONTENT_W, 216)];

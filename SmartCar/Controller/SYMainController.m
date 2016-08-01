@@ -143,7 +143,7 @@
             for (int i = 0; i < [SYAppManager sharedManager].vehicleArray.count; i++) {
                 [array addObject:[[SYAppManager sharedManager].vehicleArray[i] carNum]];
             }
-            _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:array];
+            _pickerAlertView = [[SYPickerAlertView alloc] initWithTitle:@"车辆选择" dataArray:array];
             _pickerAlertView.delegate = self;
         }
         [_pickerAlertView show];

@@ -133,7 +133,7 @@
 - (void)getCircleGeoFence {
     NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:carId forKey:@"CarId"];
+    [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
     
     [SYApiServer POST:METHOD_GET_CIRCLE_GEO_FENCE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -220,11 +220,10 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"DelElectronicFenceResult"] integerValue] == 0) {
-            [self setCircleGeoFence:fencid type:2 rad:radius lat:lat lon:lon];
+            [self setCircleGeoFence:fencid type:3 rad:radius lat:lat lon:lon];
         } else {
             [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
         }
-        [self setCircleGeoFence:fencid type:2 rad:radius lat:lat lon:lon];
     } failure:^(NSError *error) {
         [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
     }];
@@ -238,7 +237,7 @@
     NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
     NSString *termId = [SYAppManager sharedManager].showVehicle.termID;
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"CarId"];
+    [parameters setObject:[NSNumber numberWithInteger:[carId integerValue]] forKey:@"CarID"];
     [parameters setObject:termId forKey:@"TermID"];
     [parameters setObject:[NSNumber numberWithInteger:fenceNo] forKey:@"FencNo"];
     [parameters setObject:[NSNumber numberWithInteger:type] forKey:@"Type"];
@@ -250,7 +249,7 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"SetCircleGeoFenceResult"] integerValue] == 1) {
-            [SYUtil showErrorWithStatus:@"电子围栏设置成功" duration:2];
+            [SYUtil showSuccessWithStatus:@"电子围栏设置成功" duration:2];
         } else {
             [SYUtil showErrorWithStatus:@"电子围栏设置失败" duration:2];
         }
@@ -424,7 +423,7 @@
     // 选择电子围栏类型
     else if (sender.tag == 203) {
         if (!_pickerAlertView) {
-            _pickerAlertView = [[SYPickerAlertView alloc] initDataArray:_fenceTypeArray];
+            _pickerAlertView = [[SYPickerAlertView alloc] initWithTitle:@"电子围栏" dataArray:_fenceTypeArray];
             _pickerAlertView.delegate = self;
         }
         [_pickerAlertView show];
