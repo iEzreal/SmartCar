@@ -57,10 +57,6 @@
 }
 
 - (void)itemCLickAction:(SYButton *)sender {
-    NSInteger index = sender.tag;
-    if(index == _selectIndex) {
-        return;
-    }
     _selectIndex = sender.tag;
     [UIView animateWithDuration:0.25 animations:^{
         _indicatorView.frame = CGRectMake(self.width / 3 * sender.tag, 0, self.width / 3, self.height);

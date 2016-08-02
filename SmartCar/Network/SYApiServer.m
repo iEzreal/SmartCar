@@ -29,6 +29,24 @@
     }];
 }
 
++ (void)PWD_POST:(NSString *)method parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure  {
+    NSString *authName = @"resetpassword";
+    NSString *authPwd = @"resetpassword";
+    
+    NSString *URLString = [NSString stringWithFormat:@"%@/%@", BASE_URL, method];
+    SYAuthURLSessionManager *manager = [[SYAuthURLSessionManager alloc] initWithAuthName:authName authPwd:authPwd];
+    [manager POST:URLString parameters:parameters resultBlock:^(id responseData, NSError *error) {
+        if (error) {
+            DLog(@"----请求服务器错误：%@", error);
+            failure(error);
+        } else {
+            DLog(@"----服务器返回结果：%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+            success(responseData);
+        }
+    }];
+}
+
+
 + (void)POST:(NSString *)method parameters:(id)parameters success:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure {
     NSString *authName = [SYAppManager sharedManager].user.loginName;
     NSString *authPwd = [SYAppManager sharedManager].user.password;

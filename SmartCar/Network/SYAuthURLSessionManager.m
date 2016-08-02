@@ -48,7 +48,7 @@
     DLog(@"----请求URL地址：%@", URLString);
     _resultBlock = resultBlock;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-    request.timeoutInterval = 5.0;
+    request.timeoutInterval = 30.0;
     [request setValue:@"application/json;charset=utf-8" forHTTPHeaderField:@"content-type"];
     request.HTTPMethod = @"POST";
     

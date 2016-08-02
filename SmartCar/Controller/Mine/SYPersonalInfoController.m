@@ -81,7 +81,7 @@
 
 - (void)changePersonalInfoAction:(UIButton *)sender {
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    [parameters setObject:[SYAppManager sharedManager].user.userId forKey:@"UserId"];
+    [parameters setObject:[SYAppManager sharedManager].user.loginName forKey:@"UserId"];
     [parameters setObject:[NSNumber numberWithInteger:[[SYAppManager sharedManager].showVehicle.carID integerValue]] forKey:@"carid"];
     [parameters setObject:_carNumTF.text forKey:@"carnum"];
     [parameters setObject:_userIdTF.text forKey:@"newUserID"];
@@ -95,7 +95,7 @@
     [SYApiServer POST:METHOD_USER_INFO_UPDATE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        if (responseDic && [[responseDic objectForKey:@"UserInfoUpdateResult"] integerValue] == 1) {
+        if (responseDic && [[responseDic objectForKey:@"UserInfoUpdate2Result"] integerValue] == 1) {
             [SYAppManager sharedManager].showVehicle.carNum = _carNumTF.text;
             [SYAppManager sharedManager].user.loginName = _userIdTF.text;
             [SYAppManager sharedManager].user.userName = _userNameTF.text;

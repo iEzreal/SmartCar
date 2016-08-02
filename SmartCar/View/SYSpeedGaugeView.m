@@ -11,6 +11,7 @@
 @interface SYSpeedGaugeView ()
 
 @property(nonatomic, strong) UIImageView *bg;
+@property(nonatomic, strong) UIView *dot;
 @property(nonatomic, strong) UIView *pointer;
 
 @property(nonatomic, assign) CGFloat minNum;
@@ -58,10 +59,17 @@
 //    _pointer.transform = CGAffineTransformMakeScale(1, 1);
 //    [self addSubview:_pointer];
     
-    _pointer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 35 * SCALE_H)];
+    _dot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
+    _dot.center = CGPointMake(35 * SCALE_H, 35 * SCALE_H);
+    _dot.backgroundColor = TAB_SELECTED_COLOR;
+    _dot.layer.cornerRadius = 2.5;
+    _dot.layer.masksToBounds = YES;
+    [self addSubview:_dot];
+    
+    _pointer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1.5, 35 * SCALE_H)];
     _pointer.backgroundColor = TAB_SELECTED_COLOR;
     _pointer.center = CGPointMake(35 * SCALE_H, 35 * SCALE_H);
-    _pointer.layer.anchorPoint = CGPointMake(0.5, 1);
+    _pointer.layer.anchorPoint = CGPointMake(0.5, 0.95);
     _pointer.transform = CGAffineTransformMakeScale(1, 1);
     [self addSubview:_pointer];
 

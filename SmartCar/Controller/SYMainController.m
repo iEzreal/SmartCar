@@ -95,7 +95,7 @@
         if (i == showIndex) {
             [self addChildViewController:_childControllers[i]];
             [_contentView addSubview:[_childControllers[i] view]];
-            [_childControllers[i] popToRootViewControllerAnimated:YES];
+            [_childControllers[i] popToRootViewControllerAnimated:NO];
         } else {
             [[_childControllers[i] view] removeFromSuperview];
             [_childControllers[i] removeFromParentViewController];
@@ -169,6 +169,10 @@
 /*                                   标签栏代理                                    */
 /* *******************************************************************************/
 - (void)mainTabBarView:(SYMainTabBarView *)tabBarView didSelectAtIndex:(NSInteger )index {
+    if (_showIndex == index) {
+        [_childControllers[index] popToRootViewControllerAnimated:NO];
+        return ;
+    }
     _showIndex = index;
     [self showControllerWithShowIndex:index];
 }

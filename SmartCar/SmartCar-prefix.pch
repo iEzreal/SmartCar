@@ -69,7 +69,7 @@
 #define BASE_URL @"http://www.smartvehicleconnect.com:8090/ReSTiCarUtilService/ReSTiCarUtilService.svc"
 #define TEST @"Test"
 #define METHOD_LOGIN @"UserLogin"
-#define METHOD_USER_INFO_UPDATE @"UserInfoUpdate"
+#define METHOD_USER_INFO_UPDATE @"UserInfoUpdate2"
 #define METHOD_CHANGE_PASSWORD @"ChangePassword"
 #define METHOD_SEND_MAIL_FOR_APPROVE @"SendMailForApprove"
 #define METHOD_MAIL_FOR_APPROVE @"MailForApprove"
