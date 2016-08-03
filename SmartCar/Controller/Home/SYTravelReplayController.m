@@ -20,8 +20,8 @@
 
 @property(nonatomic, strong) NSMutableArray *travelPointArray;
 
-@property(nonatomic, assign) NSInteger currentIndex;
-@property(nonatomic, assign) NSInteger pointCount;
+@property(nonatomic, assign) NSInteger pointIndex;
+@property(nonatomic, strong) NSTimer *timer;
 
 @end
 
@@ -33,8 +33,7 @@
     
     _travelPointArray = [[NSMutableArray alloc] init];
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, SCREEN_H - 64 - 49)];
-    _mapView.zoomLevel = 13;
-    _mapView.delegate = self;
+    _mapView.zoomLevel = 15;
     [self.view addSubview:_mapView];
     [self requestCarTripPosition];
 }
@@ -59,7 +58,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    
 }
 
 #pragma mark - 获取行程详细坐标点信息
@@ -73,11 +71,7 @@
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         [self parseSportNodeWithJsonString:[responseDic objectForKey:@"poInfo"]];
-        
-        [self startReplay];
-        
     } failure:^(NSError *error) {
-        
     }];
 }
 
@@ -88,69 +82,58 @@
         SYTravelSportNode *travel = [[SYTravelSportNode alloc] initWithDic:tableArray[i]];
         [_travelPointArray addObject:travel];
     }
+     _timer =[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(travelReplay) userInfo:nil repeats:YES];
 }
 
-
-#pragma mark - 轨迹回放操作
-- (void)startReplay {
-    _pointCount = _travelPointArray.count;
-    CLLocationCoordinate2D baiduCoors[_pointCount];
-    for (NSInteger i = 0; i < _pointCount; i++) {
-        SYTravelSportNode *node = _travelPointArray[i];
-        
+- (void)travelReplay {
+    if (_pointIndex < _travelPointArray.count) {
+        SYTravelSportNode *node = _travelPointArray[_pointIndex];
         CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([node.lat doubleValue], [node.lon doubleValue]);
         NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
         CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dic);
-        baiduCoors[i] = baiduCoor;
-    }
-    
-    // 绘制线路
-    _pathLine = [BMKPolyline polylineWithCoordinates:baiduCoors count:_pointCount];
-    [_mapView addOverlay:_pathLine];
-    
-    // 起点标注
-    _startAnnotation = [[BMKPointAnnotation alloc]init];
-    _startAnnotation.coordinate = baiduCoors[0];
-    _mapView.centerCoordinate = baiduCoors[0];
-    [_mapView addAnnotation:_startAnnotation];
-    
-    
-    // 终点标注
-    _endAnnotation = [[BMKPointAnnotation alloc]init];
-    _endAnnotation.coordinate = baiduCoors[_pointCount - 1];
-    [_mapView addAnnotation:_endAnnotation];
-    
-    // 车
-    _currentIndex = 0;
-    
-    _carAnnotation = [[BMKPointAnnotation alloc]init];
-    _carAnnotation.coordinate = baiduCoors[0];
-    [_mapView addAnnotation:_carAnnotation];
-    [self running];
-}
-
-- (void)running {
-    SYTravelSportNode *node = [_travelPointArray objectAtIndex:_currentIndex];
-    [UIView animateWithDuration:0.35 animations:^{
-        _currentIndex++;
-        CLLocationCoordinate2D coor = CLLocationCoordinate2DMake([node.lat doubleValue], [node.lon doubleValue]);
-        NSDictionary *dic = BMKConvertBaiduCoorFrom(coor, BMK_COORDTYPE_GPS);
-        CLLocationCoordinate2D baiduCoor = BMKCoorDictionaryDecode(dic);
-        _carAnnotation.coordinate = baiduCoor;
         
-    } completion:^(BOOL finished) {
-        if (_currentIndex < _pointCount) {
-            [self running];
+        if (_pointIndex == 0) {
+            _startAnnotation = [[BMKPointAnnotation alloc]init];
+            _startAnnotation.coordinate = baiduCoor;
+            _mapView.centerCoordinate = baiduCoor;
+            [_mapView addAnnotation:_startAnnotation];
+            
+        } else if (_pointIndex == _travelPointArray.count - 1) {
+            _endAnnotation = [[BMKPointAnnotation alloc]init];
+            _endAnnotation.coordinate = baiduCoor;
+            [_mapView addAnnotation:_endAnnotation];
+            
+        } else {
+            BMKPointAnnotation *point = [[BMKPointAnnotation alloc]init];
+            point.coordinate = baiduCoor;
+            _mapView.centerCoordinate = baiduCoor;
+            [_mapView addAnnotation:point];
+            
+            SYTravelSportNode *nextNode = _travelPointArray[_pointIndex + 1];
+            CLLocationCoordinate2D nextCoor = CLLocationCoordinate2DMake([nextNode.lat doubleValue], [nextNode.lon doubleValue]);
+            NSDictionary *nextDic = BMKConvertBaiduCoorFrom(nextCoor, BMK_COORDTYPE_GPS);
+            CLLocationCoordinate2D nextBaiduCoor = BMKCoorDictionaryDecode(nextDic);
+            
+            // 绘制线路
+            CLLocationCoordinate2D baiduCoors[2];
+            baiduCoors[0] = baiduCoor;
+            baiduCoors[1] = nextBaiduCoor;
+            _pathLine = [BMKPolyline polylineWithCoordinates:baiduCoors count:2];
+            [_mapView addOverlay:_pathLine];
         }
-    }];
+        _pointIndex++;
+        
+    } else {
+        [_timer invalidate];
+    }
 }
 
 #pragma mark - BMKMapViewDelegate
 - (void)mapViewDidFinishLoading:(BMKMapView *)mapView {
+    _mapView.centerCoordinate = CLLocationCoordinate2DMake(0, 0);
     
 }
 
-//根据overlay生成对应的View
 - (BMKOverlayView *)mapView:(BMKMapView *)mapView viewForOverlay:(id <BMKOverlay>)overlay {
     if ([overlay isKindOfClass:[BMKPolyline class]]) {
         BMKPolylineView *polylineView = [[BMKPolylineView alloc] initWithOverlay:overlay];
@@ -173,26 +156,9 @@
         startAnnotationView.animatesDrop = NO;
         startAnnotationView.annotation=annotation;
         startAnnotationView.image = [UIImage imageNamed:@"gps_position"];
-        
-        
         return startAnnotationView;
-    }
-    
-//    if (annotation == _carAnnotation) {
-//        static NSString *identifier = @"CarAnnotation";
-//        BMKPinAnnotationView *carAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
-//        if (!carAnnotationView) {
-//            carAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
-//        }
-//        
-//        carAnnotationView.pinColor = BMKPinAnnotationColorPurple;
-//        carAnnotationView.animatesDrop = NO;
-//        carAnnotationView.annotation=annotation;
-//        carAnnotationView.image = [UIImage imageNamed:@"gps_position"];
-//        return carAnnotationView;
-//    }
-    
-    if (annotation == _endAnnotation) {
+        
+    } else if (annotation == _endAnnotation) {
         static NSString *identifier = @"EndAnnotation";
         BMKPinAnnotationView *endAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
         if (!endAnnotationView) {
@@ -204,6 +170,21 @@
         endAnnotationView.annotation=annotation;
         endAnnotationView.image = [UIImage imageNamed:@"end"];
         return endAnnotationView;
+        
+    } else {
+        static NSString *identifier = @"MiddleAnnotationView";
+        BMKPinAnnotationView *middleAnnotationView = (BMKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+        if (!middleAnnotationView) {
+            middleAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        }
+        
+        middleAnnotationView.pinColor = BMKPinAnnotationColorPurple;
+        middleAnnotationView.animatesDrop = NO;
+        middleAnnotationView.annotation = annotation;
+        middleAnnotationView.image = [UIImage imageNamed:@"pin_red"];
+        
+        middleAnnotationView.centerOffset = CGPointMake(0, -(middleAnnotationView.frame.size.height * 0.5));
+        return middleAnnotationView;
     }
 
     return nil;
