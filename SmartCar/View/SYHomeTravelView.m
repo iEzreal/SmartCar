@@ -44,7 +44,7 @@
     _titleLabel = [[UILabel alloc] init];
     _titleLabel.numberOfLines = 0;
     _titleLabel.textColor = [UIColor whiteColor];
-    _titleLabel.font = [UIFont systemFontOfSize:15];
+    _titleLabel.font = [UIFont systemFontOfSize:16];
     _titleLabel.text = @"近期\n行程";
     [self addSubview:_titleLabel];
     
@@ -54,24 +54,24 @@
     
     _travel1Label = [[UILabel alloc] init];
     _travel1Label.textColor = [UIColor whiteColor];
-    _travel1Label.font = [UIFont systemFontOfSize:15];
+    _travel1Label.font = [UIFont systemFontOfSize:16];
     [self addSubview:_travel1Label];
     
     _travel2Label = [[UILabel alloc] init];
     _travel2Label.textColor = [UIColor whiteColor];
-    _travel2Label.font = [UIFont systemFontOfSize:15];
+    _travel2Label.font = [UIFont systemFontOfSize:16];
     [self addSubview:_travel2Label];
     
     [_iconIV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(5);
-        make.width.height.equalTo(@30);
+        make.width.height.equalTo(@33);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self).offset(5);
         make.left.equalTo(_iconIV.mas_right).offset(5);
         make.centerY.equalTo(_iconIV);
-        make.width.equalTo(@30);
+        make.width.equalTo(@32);
     }];
     
     [_travel1Label mas_makeConstraints:^(MASConstraintMaker *make) {

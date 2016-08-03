@@ -47,7 +47,7 @@
     _anglePerValue = (_maxAngle - _minAngle)/(_maxNum - _minNum);
     
     
-    _bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 70 * SCALE_H, 60 * SCALE_H)];
+    _bg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 92 * SCALE_H, 78 * SCALE_H)];
     _bg.contentMode = UIViewContentModeScaleAspectFill;
     _bg.image = [UIImage imageNamed:@"gauge_speed"];
     [self addSubview:_bg];
@@ -60,15 +60,15 @@
 //    [self addSubview:_pointer];
     
     _dot = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 5)];
-    _dot.center = CGPointMake(35 * SCALE_H, 35 * SCALE_H);
+    _dot.center = CGPointMake(46 * SCALE_H, 46 * SCALE_H);
     _dot.backgroundColor = TAB_SELECTED_COLOR;
     _dot.layer.cornerRadius = 2.5;
     _dot.layer.masksToBounds = YES;
     [self addSubview:_dot];
     
-    _pointer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1.5, 35 * SCALE_H)];
+    _pointer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 46 * SCALE_H)];
     _pointer.backgroundColor = TAB_SELECTED_COLOR;
-    _pointer.center = CGPointMake(35 * SCALE_H, 35 * SCALE_H);
+    _pointer.center = CGPointMake(46 * SCALE_H, 46 * SCALE_H);
     _pointer.layer.anchorPoint = CGPointMake(0.5, 0.95);
     _pointer.transform = CGAffineTransformMakeScale(1, 1);
     [self addSubview:_pointer];

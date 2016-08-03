@@ -131,7 +131,7 @@
     dispatch_group_notify(requestGroup, dispatch_get_main_queue(), ^{
         if (_vePosition) {
             [self addMapAnnotation];
-            _gaugeView.refreshTimeText = _vePosition.recvTime;
+//            _gaugeView.refreshTimeText = _vePosition.recvTime;
             _gaugeView.refreshTimeText = [SYUtil currentDate];
             _gaugeView.oilText = _vePosition.OBDGasLevel;
             _gaugeView.speedText = _vePosition.OBDSpeed;
@@ -167,8 +167,8 @@
 // 报警信息
 - (void)requestAlarmInfo {
     NSString *carId = [SYAppManager sharedManager].showVehicle.carID;
-    NSString *startTime = [NSDate dateAfterDate:[NSDate date] day:-10];
-    NSString *endTime = [NSDate currentDate];
+    NSString *startTime = [NSString stringWithFormat:@"%@ 00:00:00", [NSDate dateAfterDate:[NSDate date] day:-20]];
+    NSString *endTime = [NSString stringWithFormat:@"%@ 23:59:59", [NSDate currentDate]];
     
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:[NSNumber numberWithInt:[carId intValue]] forKey:@"CarId"];
@@ -312,15 +312,15 @@
 
 #pragma mark - 页面UI
 - (void)setupPageSubviews {
-    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 60 + 90 * SCALE_H)];
+    _gaugeView = [[SYHomeGaugeView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 65 + 130 * SCALE_H)];
     _gaugeView.delegate = self;
     [self.view addSubview:_gaugeView];
     
-    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 50)];
+    _travelView = [[SYHomeTravelView alloc] initWithFrame:CGRectMake(0, _gaugeView.bottom, SCREEN_W, 55)];
     _travelView.delegate = self;
     [self.view addSubview:_travelView];
     
-    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W, 50)];
+    _alarmView = [[SYHomeAlarmView alloc] initWithFrame:CGRectMake(0, _travelView.bottom, SCREEN_W, 55)];
     [_alarmView addTopBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
     [_alarmView addBottomBorderWithColor:[UIColor colorWithHexString:@"3E4451"] width:0.7];
     _alarmView.delegate = self;

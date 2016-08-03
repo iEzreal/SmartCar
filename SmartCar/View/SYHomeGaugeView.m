@@ -48,7 +48,7 @@
     [self addGestureRecognizer:_tapGesture];
     
     // 上面区域
-    _refreshView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_W, 30)];
+    _refreshView = [[UIView alloc] init];
     [self addSubview:_refreshView];
     
     _refreshIV = [[UIImageView alloc] init];
@@ -58,7 +58,7 @@
     _refreshTimeLabel = [[UILabel alloc] init];
     _refreshTimeLabel.font = [UIFont systemFontOfSize:16];
     _refreshTimeLabel.textColor = [UIColor whiteColor];
-    _refreshTimeLabel.text = @"0000-00-00 00:00";
+    _refreshTimeLabel.text = @"[更新于0000-00-00 00:00]";
     [_refreshView addSubview:_refreshTimeLabel];
     
     [_refreshView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,7 +84,7 @@
     [self addSubview:_oilPV];
     
     _oilLabel = [[UILabel alloc] init];
-    _oilLabel.font = [UIFont systemFontOfSize:16];
+    _oilLabel.font = [UIFont systemFontOfSize:17];
     _oilLabel.textColor = [UIColor whiteColor];
     _oilLabel.text = @"0%";
     [self addSubview:_oilLabel];
@@ -98,7 +98,7 @@
     
     _speedLabel = [[UILabel alloc] init];
     _speedLabel.textAlignment = NSTextAlignmentCenter;
-    _speedLabel.font = [UIFont systemFontOfSize:20];
+    _speedLabel.font = [UIFont systemFontOfSize:22];
     _speedLabel.textColor = [UIColor whiteColor];
     _speedLabel.text = @"0.0";
     [self addSubview:_speedLabel];
@@ -119,7 +119,7 @@
     
     _voltageLabel = [[UILabel alloc] init];
     _voltageLabel.textAlignment = NSTextAlignmentCenter;
-    _voltageLabel.font = [UIFont systemFontOfSize:16];
+    _voltageLabel.font = [UIFont systemFontOfSize:17];
     _voltageLabel.textColor = [UIColor whiteColor];
     _voltageLabel.text = @"0.0V";
     [self addSubview:_voltageLabel];
@@ -144,7 +144,7 @@
     [_oilPV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(_leftView);
         make.centerY.equalTo(_speedView).offset(10);
-        make.width.height.equalTo(@(40 * SCALE_H));
+        make.width.height.equalTo(@(50 * SCALE_H));
     }];
     
     [_oilLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -159,8 +159,8 @@
     [_speedView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_centerView);
         make.centerX.equalTo(_centerView);
-        make.width.mas_equalTo(@(70 * SCALE_H));
-        make.height.mas_equalTo(@(60 * SCALE_H));
+        make.width.mas_equalTo(@(92 * SCALE_H));
+        make.height.mas_equalTo(@(78 * SCALE_H));
     }];
     
     [_speedLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -194,7 +194,7 @@
     
     [_mileageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self);
-        make.height.equalTo(@30);
+        make.height.equalTo(@35);
         make.bottom.equalTo(self);
     }];
 
@@ -235,7 +235,7 @@
 
 - (void)setRefreshTimeText:(NSString *)refreshTimeText {
     _refreshTimeText = refreshTimeText;
-    _refreshTimeLabel.text = refreshTimeText;
+    _refreshTimeLabel.text = [NSString stringWithFormat:@"[更新于%@]", _refreshTimeText];
 }
 
 - (void)setOilText:(NSString *)oilText {

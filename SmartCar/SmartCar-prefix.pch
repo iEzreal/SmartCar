@@ -43,7 +43,7 @@
 #define SCREEN_H [[UIScreen mainScreen] bounds].size.height
 
 #define SCALE_W SCREEN_W / 320
-#define SCALE_H SCREEN_H / 480
+#define SCALE_H SCREEN_H / 568
 
 // 颜色
 #define NAV_BG_COLOR [UIColor colorWithHexString:@"3E4451"]

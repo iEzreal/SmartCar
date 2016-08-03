@@ -63,8 +63,9 @@
     _homeController = [[SYHomeController alloc] init];
     _homeNavController = [[UINavigationController alloc] initWithRootViewController:_homeController];
     
-     UIStoryboard *statStoryBoard = [UIStoryboard storyboardWithName:@"SYStatController" bundle:nil];
-    _statController = [statStoryBoard instantiateViewControllerWithIdentifier:@"SYStatController"];
+//     UIStoryboard *statStoryBoard = [UIStoryboard storyboardWithName:@"SYStatController" bundle:nil];
+//    _statController = [statStoryBoard instantiateViewControllerWithIdentifier:@"SYStatController"];
+    _statController = [[SYStatController alloc] init];
     _statNavController = [[UINavigationController alloc] initWithRootViewController:_statController];
     
     _mineController = [[SYMineController alloc] init];

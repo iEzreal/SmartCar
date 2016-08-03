@@ -66,7 +66,7 @@
     [self addSubview:_centerView];
     
     _centerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _centerBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    _centerBtn.titleLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20];
     [_centerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_centerBtn addTarget:self action:@selector(navBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     _centerBtn.tag = 1;
@@ -80,7 +80,7 @@
     [self addSubview:_rightView];
     
     _rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _rightBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    _rightBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [_rightBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_backBtn addTarget:self action:@selector(navBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     _rightBtn.tag = 2;
