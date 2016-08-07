@@ -2,7 +2,7 @@
 //  SYAboutController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/14.
+//  Created by liuyiming on 16/7/14.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @property(nonatomic, strong) UILabel *label2;
 @property(nonatomic, strong) UILabel *label3;
 @property(nonatomic, strong) UILabel *label4;
+@property(nonatomic, strong) UILabel *label5;
 @property(nonatomic, strong) UIButton *urlBtn;
 
 @end
@@ -45,20 +46,26 @@
     _label2 = [[UILabel alloc] init];
     _label2.font = [UIFont systemFontOfSize:18];
     _label2.textColor = [UIColor whiteColor];
-    _label2.text = @"车联网客户端";
+    _label2.text = @"电话: 021-56373610";
     [self.view addSubview:_label2];
     
     _label3 = [[UILabel alloc] init];
     _label3.font = [UIFont systemFontOfSize:18];
     _label3.textColor = [UIColor whiteColor];
-    _label3.text = @"我们专做车联网，所以专业。";
+    _label3.text = @"传真：021-56513236";
     [self.view addSubview:_label3];
     
     _label4 = [[UILabel alloc] init];
     _label4.font = [UIFont systemFontOfSize:18];
     _label4.textColor = [UIColor whiteColor];
-    _label4.text = @"公司网址:";
+    _label4.text = @"手机：186-2157-9338";
     [self.view addSubview:_label4];
+    
+    _label5 = [[UILabel alloc] init];
+    _label5.font = [UIFont systemFontOfSize:18];
+    _label5.textColor = [UIColor whiteColor];
+    _label5.text = @"公司网址:";
+    [self.view addSubview:_label5];
     
     _urlBtn = [[UIButton alloc] init];
     _urlBtn.titleLabel.font = [UIFont systemFontOfSize:18];
@@ -99,9 +106,15 @@
         make.left.equalTo(self.view).offset(20);
     }];
     
+    [_label5 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_label4.mas_bottom).offset(20);
+        make.left.equalTo(self.view).offset(20);
+    }];
+
+    
     [_urlBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_label4.mas_right).offset(10);
-        make.centerY.equalTo(_label4);
+        make.left.equalTo(_label5.mas_right).offset(10);
+        make.centerY.equalTo(_label5);
     }];
     
 }

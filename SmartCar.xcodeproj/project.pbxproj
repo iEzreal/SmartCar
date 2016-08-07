@@ -18,7 +18,7 @@
 		7720FDCF1D2DFCDE00713986 /* SYTravelDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDCE1D2DFCDE00713986 /* SYTravelDetailsCell.m */; };
 		7720FDD21D2E00D300713986 /* SYBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD11D2E00D300713986 /* SYBaseCell.m */; };
 		7720FDD51D2E087E00713986 /* SYUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD41D2E087E00713986 /* SYUtil.m */; };
-		7720FDD81D2E30A300713986 /* SYTravelReplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD71D2E30A300713986 /* SYTravelReplayController.m */; };
+		7720FDD81D2E30A300713986 /* SYTravelReplayController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDD71D2E30A300713986 /* SYTravelReplayController.mm */; };
 		7720FDDB1D2E401600713986 /* SYTravelSportNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 7720FDDA1D2E401600713986 /* SYTravelSportNode.m */; };
 		777417401D3B2856006083B3 /* SYGeofence.m in Sources */ = {isa = PBXBuildFile; fileRef = 7774173F1D3B2856006083B3 /* SYGeofence.m */; };
 		778768A41D3F665F006EAA50 /* SYAlarmStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = 778768A31D3F665F006EAA50 /* SYAlarmStatController.m */; };
@@ -120,7 +120,7 @@
 		7720FDD31D2E087E00713986 /* SYUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYUtil.h; sourceTree = "<group>"; };
 		7720FDD41D2E087E00713986 /* SYUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYUtil.m; sourceTree = "<group>"; };
 		7720FDD61D2E30A300713986 /* SYTravelReplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYTravelReplayController.h; sourceTree = "<group>"; };
-		7720FDD71D2E30A300713986 /* SYTravelReplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelReplayController.m; sourceTree = "<group>"; };
+		7720FDD71D2E30A300713986 /* SYTravelReplayController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SYTravelReplayController.mm; sourceTree = "<group>"; };
 		7720FDD91D2E401600713986 /* SYTravelSportNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYTravelSportNode.h; sourceTree = "<group>"; };
 		7720FDDA1D2E401600713986 /* SYTravelSportNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelSportNode.m; sourceTree = "<group>"; };
 		7774173E1D3B2856006083B3 /* SYGeofence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGeofence.h; sourceTree = "<group>"; };
@@ -500,7 +500,7 @@
 				7720FDCA1D2DFB9D00713986 /* SYTravelDetailsController.h */,
 				7720FDCB1D2DFB9D00713986 /* SYTravelDetailsController.m */,
 				7720FDD61D2E30A300713986 /* SYTravelReplayController.h */,
-				7720FDD71D2E30A300713986 /* SYTravelReplayController.m */,
+				7720FDD71D2E30A300713986 /* SYTravelReplayController.mm */,
 				77113B441D34E4C700E30577 /* SYCurrentLocationController.h */,
 				77113B451D34E4C700E30577 /* SYCurrentLocationController.m */,
 			);
@@ -740,7 +740,7 @@
 				779D52461D33E5F9008628AC /* SYPersonalInfoController.m in Sources */,
 				779443911D2BB3320064C8DB /* SYAppManager.m in Sources */,
 				7799AF3B1D2CCEA4006E332C /* SYProgressView.m in Sources */,
-				7720FDD81D2E30A300713986 /* SYTravelReplayController.m in Sources */,
+				7720FDD81D2E30A300713986 /* SYTravelReplayController.mm in Sources */,
 				77CC404D1D42572B00F29148 /* NSDate+Formatter.m in Sources */,
 				7794437C1D2B757C0064C8DB /* SYAlarmController.m in Sources */,
 				77ED36381D49A37600836359 /* SYMainNavView.m in Sources */,
@@ -914,7 +914,7 @@
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
@@ -934,7 +934,7 @@
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";

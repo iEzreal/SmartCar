@@ -2,7 +2,7 @@
 //  SYLocationNavView.h
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/12.
+//  Created by liuyiming on 16/7/12.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 

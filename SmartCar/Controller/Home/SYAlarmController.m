@@ -2,7 +2,7 @@
 //  SYAlarmController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/5.
+//  Created by liuyiming on 16/7/5.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -70,7 +70,7 @@
                 [_alarmArray addObject:alarm];
             }
             [_tableView reloadData];
-            [SYUtil showSuccessWithStatus:@"数据加载成功" duration:1];
+            [SYUtil dismissProgressHUD];
         } else {
             [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
         }

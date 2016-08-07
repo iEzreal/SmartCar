@@ -2,7 +2,7 @@
 //  SYAuthURLSessionManager.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/3.
+//  Created by liuyiming on 16/7/3.
 //  Copyright © 2016年 Ezreal. All rights reserved.
 //
 

@@ -2,7 +2,7 @@
 //  SYAlarmStatController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/20.
+//  Created by liuyiming on 16/7/20.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -65,7 +65,7 @@
         if (responseDic) {
             _alarmDic = [[NSDictionary alloc] initWithDictionary:responseDic];
             [_tableView reloadData];
-            [SYUtil showSuccessWithStatus:@"数据加载成功" duration:1];
+            [SYUtil dismissProgressHUD];
         } else {
             [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
         }

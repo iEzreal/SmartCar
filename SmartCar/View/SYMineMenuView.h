@@ -2,7 +2,7 @@
 //  SYMineMenuView.h
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/23.
+//  Created by liuyiming on 16/7/23.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 

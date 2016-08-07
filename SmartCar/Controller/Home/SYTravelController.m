@@ -2,7 +2,7 @@
 //  SYTravelController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/5.
+//  Created by liuyiming on 16/7/5.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -64,7 +64,7 @@
         NSDictionary *responseDic = [responseStr objectFromJSONString];
         if (responseDic && [[responseDic objectForKey:@"GetCarTripResult"] integerValue] > 0) {
             [self parseTravelWithJsonString:[responseDic objectForKey:@"tripInfo"]];
-            [SYUtil showSuccessWithStatus:@"加载数据成功" duration:1];
+            [SYUtil dismissProgressHUD];
         } else {
             [SYUtil showErrorWithStatus:@"加载数据失败" duration:2];
         }

@@ -2,7 +2,7 @@
 //  SYProgressView.h
 //  ProgressViewDemo
 //
-//  Created by Ezreal on 16/6/30.
+//  Created by liuyiming on 16/6/30.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 

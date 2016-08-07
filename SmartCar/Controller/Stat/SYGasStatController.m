@@ -2,7 +2,7 @@
 //  SYGasStatController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/13.
+//  Created by liuyiming on 16/7/13.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -76,7 +76,7 @@
             [_gaslArray removeAllObjects];
             [_gaslArray addObjectsFromArray:array];
             [_tableView reloadData];
-            [SYUtil showSuccessWithStatus:@"加载数据成功" duration:1];
+            [SYUtil dismissProgressHUD];
         } else {
             [SYUtil showSuccessWithStatus:@"加载数据失败" duration:2];
         }

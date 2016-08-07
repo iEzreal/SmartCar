@@ -2,7 +2,7 @@
 //  SYOilExceptionController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/13.
+//  Created by liuyiming on 16/7/13.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -67,11 +67,9 @@
             [_gasExclArray removeAllObjects];
             [_gasExclArray addObjectsFromArray:array];
             [_tableView reloadData];
-            [SYUtil showSuccessWithStatus:@"数据加载成功" duration:1];
-        } else if (responseDic && [[responseDic objectForKey:@"GetGasAlarmResult"] integerValue] == 0) {
-            [SYUtil showSuccessWithStatus:@"无数据" duration:2];
+            [SYUtil dismissProgressHUD];
         } else {
-            [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];
+            [SYUtil dismissProgressHUD];
         }
     } failure:^(NSError *error) {
         [SYUtil showErrorWithStatus:@"数据加载失败" duration:2];

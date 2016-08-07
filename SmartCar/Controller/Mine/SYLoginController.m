@@ -2,7 +2,7 @@
 //  SYLoginController.m
 //  SmartCar
 //
-//  Created by Ezreal on 16/7/5.
+//  Created by liuyiming on 16/7/5.
 //  Copyright © 2016年 liuyiming. All rights reserved.
 //
 
@@ -241,7 +241,7 @@
     [_rememberPwdBtn setImage:[UIImage imageNamed:@"remb_pwd_check"] forState:UIControlStateSelected];
     _rememberPwdBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [_rememberPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_rememberPwdBtn setTitle:@"记住摩玛" forState:UIControlStateNormal];
+    [_rememberPwdBtn setTitle:@"记住密码" forState:UIControlStateNormal];
     [_rememberPwdBtn addTarget:self action:@selector(onClickAction:) forControlEvents:UIControlEventTouchUpInside];
     _rememberPwdBtn.tag = 200;
     [self.view addSubview:_rememberPwdBtn];
@@ -313,7 +313,7 @@
     
     // 用户密码
     [_userPwdBgIV mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_userNameBgIV.mas_bottom).offset(10);
+        make.top.equalTo(_userNameBgIV.mas_bottom).offset(20);
         make.left.right.height.equalTo(_userNameBgIV);
     }];
     
