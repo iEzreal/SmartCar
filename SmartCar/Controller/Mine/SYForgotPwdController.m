@@ -183,25 +183,6 @@
     _authCodeTF.textColor = [UIColor whiteColor];
     [self.view addSubview:_authCodeTF];
     
-    [_authCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(50);
-        make.left.equalTo(self.view).offset(30);
-        make.right.equalTo(self.view).offset(-30);
-        make.height.equalTo(@36);
-    }];
-    
-    [_authCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_authCodeView).offset(10);
-        make.centerY.equalTo(_authCodeView);
-        make.width.equalTo(@60);
-    }];
-    
-    [_authCodeTF mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_authCodeLabel.mas_right);
-        make.right.equalTo(_authCodeView.mas_right).offset(-10);
-        make.centerY.equalTo(_authCodeView);
-    }];
-    
     _hintLabel = [[UILabel alloc] init];
     _hintLabel.numberOfLines = 0;
     _hintLabel.font = [UIFont systemFontOfSize:15];
@@ -209,10 +190,6 @@
     _hintLabel.text = @"安全认证码将发送到您的电子邮箱，如果没有设置邮箱，将无法通过该方法重置密码!";
     [self.view addSubview:_hintLabel];
     
-    [_hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_authCodeView.mas_bottom).offset(10);
-        make.left.right.equalTo(_authCodeView);
-    }];
     
     _getAuthCodeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _getAuthCodeBtn.layer.cornerRadius = 15;
@@ -238,16 +215,43 @@
     _confirmBtn.enabled = NO;
     [self.view addSubview:_confirmBtn];
     
+    [_authCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(_hintLabel.mas_top).offset(-20);
+        make.left.equalTo(self.view).offset(30);
+        make.right.equalTo(self.view).offset(-30);
+        make.height.equalTo(@36);
+    }];
+    
+    [_authCodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_authCodeView).offset(10);
+        make.centerY.equalTo(_authCodeView);
+        make.width.equalTo(@60);
+    }];
+    
+    [_authCodeTF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_authCodeLabel.mas_right);
+        make.right.equalTo(_authCodeView.mas_right).offset(-10);
+        make.centerY.equalTo(_authCodeView);
+    }];
+    
+    
+    [_hintLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_getAuthCodeBtn);
+        make.right.equalTo(_confirmBtn);
+        make.bottom.equalTo(_getAuthCodeBtn.mas_top).offset(-20);
+    }];
+
+    
     [_getAuthCodeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_hintLabel.mas_bottom).offset(20);
-        make.left.equalTo(_hintLabel);
+        make.bottom.equalTo(self.view.mas_centerY).offset(-34);
+        make.left.equalTo(self.view).offset(30);
         make.width.equalTo(@120);
         make.height.equalTo(@30);
     }];
     
     [_confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_hintLabel.mas_bottom).offset(20);
-        make.right.equalTo(_hintLabel);
+        make.bottom.equalTo(_getAuthCodeBtn);
+        make.right.equalTo(self.view).offset(-30);
         make.width.equalTo(@120);
         make.height.equalTo(@30);
     }];
@@ -257,7 +261,7 @@
     [self.view addSubview:_bottomView];
     
     [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_getAuthCodeBtn.mas_bottom).offset(30);
+        make.top.equalTo(self.view.mas_centerY).offset(-10);
         make.left.equalTo(self.view).offset(30);
         make.right.equalTo(self.view).offset(-30);
     }];

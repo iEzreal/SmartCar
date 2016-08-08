@@ -138,6 +138,7 @@
             _gaugeView.stateText = _vePosition.engineOnOff;
             _gaugeView.voltageText = _vePosition.OBDBatt;
             _gaugeView.mileageText = [NSString stringWithFormat:@"%d", (int)_mileage];
+            [SYAppManager sharedManager].showVehicleState = _vePosition.engineOnOff;
         }
         [_gaugeView finishRefresh];
     });

@@ -17,6 +17,8 @@
 @property(nonatomic, strong) SYVehicle *showVehicle;
 @property(nonatomic, strong) NSMutableArray *vehicleArray;
 
+@property(nonatomic, strong) NSString *showVehicleState; // 当前车辆状态
+
 + (SYAppManager *)sharedManager;
 
 @end

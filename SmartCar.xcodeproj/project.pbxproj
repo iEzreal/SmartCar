@@ -355,6 +355,8 @@
 		A208966C1D1ECE2D00A626FC /* SmartCar */ = {
 			isa = PBXGroup;
 			children = (
+				A20896701D1ECE2D00A626FC /* AppDelegate.h */,
+				A20896711D1ECE2D00A626FC /* AppDelegate.m */,
 				77CE636E1D2C0CC90071EA7C /* Network */,
 				77CE63671D2BF7010071EA7C /* 3Party */,
 				779443851D2B97680064C8DB /* Util */,
@@ -362,11 +364,7 @@
 				A20896AE1D1ED27F00A626FC /* Controller */,
 				A20896B11D1ED27F00A626FC /* Model */,
 				A20896B21D1ED27F00A626FC /* View */,
-				A20896701D1ECE2D00A626FC /* AppDelegate.h */,
-				A20896711D1ECE2D00A626FC /* AppDelegate.m */,
 				A20896791D1ECE2D00A626FC /* Assets.xcassets */,
-				A208967B1D1ECE2D00A626FC /* LaunchScreen.storyboard */,
-				A208967E1D1ECE2D00A626FC /* Info.plist */,
 				A208966D1D1ECE2D00A626FC /* Supporting Files */,
 			);
 			path = SmartCar;
@@ -375,6 +373,8 @@
 		A208966D1D1ECE2D00A626FC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A208967B1D1ECE2D00A626FC /* LaunchScreen.storyboard */,
+				A208967E1D1ECE2D00A626FC /* Info.plist */,
 				A208966E1D1ECE2D00A626FC /* main.m */,
 				A2884CE91D22B72100C3E8B3 /* SmartCar-prefix.pch */,
 			);

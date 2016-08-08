@@ -46,7 +46,7 @@
     _label2 = [[UILabel alloc] init];
     _label2.font = [UIFont systemFontOfSize:18];
     _label2.textColor = [UIColor whiteColor];
-    _label2.text = @"电话: 021-56373610";
+    _label2.text = @"电话：021-56373610";
     [self.view addSubview:_label2];
     
     _label3 = [[UILabel alloc] init];

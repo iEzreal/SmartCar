@@ -461,7 +461,11 @@
     
     // 实时跟踪
     else if (sender.tag == 302) {
-        [self setTrackJT];
+        if ([[SYAppManager sharedManager].showVehicleState isEqualToString:@"0"]) {
+            [SYUtil showHintWithStatus:@"车辆停止状态不允许进行跟踪" duration:3];
+        } else {
+            [self setTrackJT];
+        }
     }
 }
 
