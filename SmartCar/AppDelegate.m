@@ -16,17 +16,13 @@
 
 @implementation AppDelegate
 
-
 - (void)navConfig {
 //    [UINavigationBar appearance].barTintColor = [UIColor colorWithHexString:@"3B4551"];
-    
-    
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:NAV_BAR_COLOR]] forBarMetrics:UIBarMetricsDefault];
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
     [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:18]};
 }
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [self navConfig];

@@ -75,7 +75,7 @@
 		A20896881D1ECE2D00A626FC /* SmartCarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896871D1ECE2D00A626FC /* SmartCarTests.m */; };
 		A20896B31D1ED27F00A626FC /* SYBaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896B01D1ED27F00A626FC /* SYBaseController.m */; };
 		A20896B61D1ED2A700A626FC /* SYRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896B51D1ED2A700A626FC /* SYRootController.m */; };
-		A20896BA1D1ED3AB00A626FC /* SYHomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896B91D1ED3AB00A626FC /* SYHomeController.m */; };
+		A20896BA1D1ED3AB00A626FC /* SYHomeController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A20896B91D1ED3AB00A626FC /* SYHomeController.mm */; };
 		A20896BD1D1ED45000A626FC /* SYNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896BC1D1ED45000A626FC /* SYNavigationController.m */; };
 		A20896C51D1ED8C000A626FC /* SYMineController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C41D1ED8C000A626FC /* SYMineController.m */; };
 		A20896C81D1ED8EA00A626FC /* SYStatController.m in Sources */ = {isa = PBXBuildFile; fileRef = A20896C71D1ED8EA00A626FC /* SYStatController.m */; };
@@ -232,7 +232,7 @@
 		A20896B41D1ED2A700A626FC /* SYRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYRootController.h; sourceTree = "<group>"; };
 		A20896B51D1ED2A700A626FC /* SYRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYRootController.m; sourceTree = "<group>"; };
 		A20896B81D1ED3AB00A626FC /* SYHomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYHomeController.h; sourceTree = "<group>"; };
-		A20896B91D1ED3AB00A626FC /* SYHomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYHomeController.m; sourceTree = "<group>"; };
+		A20896B91D1ED3AB00A626FC /* SYHomeController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SYHomeController.mm; sourceTree = "<group>"; };
 		A20896BB1D1ED45000A626FC /* SYNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYNavigationController.h; sourceTree = "<group>"; };
 		A20896BC1D1ED45000A626FC /* SYNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYNavigationController.m; sourceTree = "<group>"; };
 		A20896C31D1ED8C000A626FC /* SYMineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYMineController.h; sourceTree = "<group>"; };
@@ -494,7 +494,7 @@
 				7794437A1D2B757C0064C8DB /* SYAlarmController.h */,
 				7794437B1D2B757C0064C8DB /* SYAlarmController.m */,
 				A20896B81D1ED3AB00A626FC /* SYHomeController.h */,
-				A20896B91D1ED3AB00A626FC /* SYHomeController.m */,
+				A20896B91D1ED3AB00A626FC /* SYHomeController.mm */,
 				779443741D2B44440064C8DB /* SYTravelController.h */,
 				779443751D2B44440064C8DB /* SYTravelController.m */,
 				7720FDCA1D2DFB9D00713986 /* SYTravelDetailsController.h */,
@@ -768,7 +768,7 @@
 				779D52471D33E5F9008628AC /* SYSettingMileageController.m in Sources */,
 				779443761D2B44440064C8DB /* SYTravelController.m in Sources */,
 				77DBDD771D361960009EEDD4 /* SYGasStatCell.m in Sources */,
-				A20896BA1D1ED3AB00A626FC /* SYHomeController.m in Sources */,
+				A20896BA1D1ED3AB00A626FC /* SYHomeController.mm in Sources */,
 				A20896721D1ECE2D00A626FC /* AppDelegate.m in Sources */,
 				77DF1B301D37645A00133615 /* SYTravelIInfoController.m in Sources */,
 				777417401D3B2856006083B3 /* SYGeofence.m in Sources */,

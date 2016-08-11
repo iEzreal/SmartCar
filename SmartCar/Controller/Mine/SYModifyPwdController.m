@@ -173,9 +173,15 @@
 
 - (void)changePwdAction:(UIButton *)sender {
     if ([_oldPwdTF.text isEqualToString:@""]) {
-        [SYUtil showHintWithStatus:@"请输入旧密码" duration:1];
+        [SYUtil showHintWithStatus:@"请输入原密码" duration:1];
         return;
     }
+    
+    if (![_oldPwdTF.text isEqualToString:[SYAppManager sharedManager].user.password]) {
+        [SYUtil showHintWithStatus:@"原密码不正确" duration:1];
+        return;
+    }
+
     
     if ([_nwePwd1TF.text isEqualToString:@""]) {
         [SYUtil showHintWithStatus:@"请输入新密码" duration:1];

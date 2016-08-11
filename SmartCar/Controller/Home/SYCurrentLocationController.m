@@ -138,36 +138,37 @@
     [SYApiServer POST:METHOD_GET_CIRCLE_GEO_FENCE parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        NSString *tableStr = [responseDic objectForKey:@"allfenceInfo"];
-        NSDictionary *tableDic = [tableStr objectFromJSONString];
-        NSArray *array = [tableDic objectForKey:@"TableInfo"];
-        NSDictionary *fenceDic = array[0];
-    
-        [_fenceArray[0] setType:[fenceDic objectForKey:@"Type1"]];
-        [_fenceArray[0] setRad:[fenceDic objectForKey:@"Rad1"]];
-        [_fenceArray[0] setLat:[fenceDic objectForKey:@"Lat1"]];
-        [_fenceArray[0] setLon:[fenceDic objectForKey:@"Lon1"]];
-        
-        [_fenceArray[1] setType:[fenceDic objectForKey:@"Type2"]];
-        [_fenceArray[1] setRad:[fenceDic objectForKey:@"Rad2"]];
-        [_fenceArray[1] setLat:[fenceDic objectForKey:@"Lat2"]];
-        [_fenceArray[1] setLon:[fenceDic objectForKey:@"Lon2"]];
-        
-        [_fenceArray[2] setType:[fenceDic objectForKey:@"Type3"]];
-        [_fenceArray[2] setRad:[fenceDic objectForKey:@"Rad3"]];
-        [_fenceArray[2] setLat:[fenceDic objectForKey:@"Lat3"]];
-        [_fenceArray[2] setLon:[fenceDic objectForKey:@"Lon3"]];
-        
-        [_fenceArray[3] setType:[fenceDic objectForKey:@"Type4"]];
-        [_fenceArray[3] setRad:[fenceDic objectForKey:@"Rad4"]];
-        [_fenceArray[3] setLat:[fenceDic objectForKey:@"Lat4"]];
-        [_fenceArray[3] setLon:[fenceDic objectForKey:@"Lon4"]];
-        
-        [_fenceArray[4] setType:[fenceDic objectForKey:@"Type5"]];
-        [_fenceArray[4] setRad:[fenceDic objectForKey:@"Rad5"]];
-        [_fenceArray[4] setLat:[fenceDic objectForKey:@"Lat5"]];
-        [_fenceArray[4] setLon:[fenceDic objectForKey:@"Lon5"]];
-        
+        if (responseDic) {
+            NSString *tableStr = [responseDic objectForKey:@"allfenceInfo"];
+            NSDictionary *tableDic = [tableStr objectFromJSONString];
+            NSArray *array = [tableDic objectForKey:@"TableInfo"];
+            NSDictionary *fenceDic = array[0];
+            
+            [_fenceArray[0] setType:[fenceDic objectForKey:@"Type1"]];
+            [_fenceArray[0] setRad:[fenceDic objectForKey:@"Rad1"]];
+            [_fenceArray[0] setLat:[fenceDic objectForKey:@"Lat1"]];
+            [_fenceArray[0] setLon:[fenceDic objectForKey:@"Lon1"]];
+            
+            [_fenceArray[1] setType:[fenceDic objectForKey:@"Type2"]];
+            [_fenceArray[1] setRad:[fenceDic objectForKey:@"Rad2"]];
+            [_fenceArray[1] setLat:[fenceDic objectForKey:@"Lat2"]];
+            [_fenceArray[1] setLon:[fenceDic objectForKey:@"Lon2"]];
+            
+            [_fenceArray[2] setType:[fenceDic objectForKey:@"Type3"]];
+            [_fenceArray[2] setRad:[fenceDic objectForKey:@"Rad3"]];
+            [_fenceArray[2] setLat:[fenceDic objectForKey:@"Lat3"]];
+            [_fenceArray[2] setLon:[fenceDic objectForKey:@"Lon3"]];
+            
+            [_fenceArray[3] setType:[fenceDic objectForKey:@"Type4"]];
+            [_fenceArray[3] setRad:[fenceDic objectForKey:@"Rad4"]];
+            [_fenceArray[3] setLat:[fenceDic objectForKey:@"Lat4"]];
+            [_fenceArray[3] setLon:[fenceDic objectForKey:@"Lon4"]];
+            
+            [_fenceArray[4] setType:[fenceDic objectForKey:@"Type5"]];
+            [_fenceArray[4] setRad:[fenceDic objectForKey:@"Rad5"]];
+            [_fenceArray[4] setLat:[fenceDic objectForKey:@"Lat5"]];
+            [_fenceArray[4] setLon:[fenceDic objectForKey:@"Lon5"]];
+        }
     } failure:^(NSError *error) {
         
     }];

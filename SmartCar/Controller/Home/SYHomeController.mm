@@ -24,9 +24,8 @@
 
 
 
-@interface SYHomeController () <SYCarSwitchViewDelegate, SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, BMKMapViewDelegate>
+@interface SYHomeController () <SYHomeGaugeViewDelegate, SYHomeTravelViewDelegate,SYHomeAlarmViewDelegate, BMKMapViewDelegate>
 
-@property(nonatomic, strong) SYCarSwitchView *carSwitchView;
 @property(nonatomic, strong) SYHomeGaugeView *gaugeView;
 @property(nonatomic, strong) SYHomeTravelView *travelView;
 @property(nonatomic, strong) BMKMapView *mapView;
@@ -249,31 +248,7 @@
     }];
 }
 
-
-#pragma mark - 点击事件处理
-- (void)homeButtonAction:(UIButton *)sender {
-    if (sender.tag == 100) {
-        if (!_carSwitchView) {
-            _carSwitchView = [[SYCarSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
-            _carSwitchView.delegate = self;
-        }
-        
-        if (_carSwitchView.isShow) {
-            [_carSwitchView hide];
-        } else {
-            [_carSwitchView setSRCArray:@[[SYAppManager sharedManager].showVehicle.carNum]];
-            [_carSwitchView showWithView:self.view];
-        }
-    } else {
-    
-    }
-}
-
 #pragma mark - 代理事件
-- (void)carSwitchView:(SYCarSwitchView *)carSwitchView didSelectRowAtIndex:(NSInteger)index {
-    
-}
-
 - (void)refreshPositionAction {
     [self requestGaugeInfo];
 //    [self requestCarTrip];

@@ -39,7 +39,7 @@
 
 @property(nonatomic, strong) NSDictionary *firstDic;
 @property(nonatomic, strong) NSDictionary *lastDic;
-@property(nonatomic, strong) NSArray *gasArray;
+@property(nonatomic, strong) NSMutableArray *gasArray;
 
 
 @end
@@ -49,6 +49,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
    
+    _gasArray = [[NSMutableArray alloc] init];
     [self setupPageSubviews];
     [self layoutPageSubviews];
 }
@@ -61,12 +62,13 @@
     [parameters setObject:startTime forKey:@"dtTime"];
     [parameters setObject:endTime forKey:@"etTime"];
     
-    [SVProgressHUD showWithStatus:@"正在加载..."];
+    __weak typeof(self) weakSelf = self;
+    [SYUtil showWithStatus:@"正在加载..."];
     [SYApiServer POST:METHOD_GET_MINMAX_POSITION parameters:parameters success:^(id responseObject) {
         NSString *responseStr = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSDictionary *responseDic = [responseStr objectFromJSONString];
-        WeakSelf;
         if ([[responseDic objectForKey:@"GetMinAndMaxTimePositionResult"] integerValue] == 1) {
+            
             NSString *firstInfo = [responseDic objectForKey:@"firstInfo"];
             NSDictionary *firstInfoDic = [firstInfo objectFromJSONString];
             NSArray *firstArray = [firstInfoDic objectForKey:@"TableInfo"];
@@ -78,16 +80,12 @@
             weakSelf.lastDic = lastArray[0];
             
             // 加油记录
-            [weakSelf requestGasWithStartTime:[_firstDic objectForKey:@"gpstime"] endTime:[_lastDic objectForKey:@"gpstime"]];
-            [weakSelf requestAlarmCountWithStartTime:[_firstDic objectForKey:@"gpstime"] endTime:[_lastDic objectForKey:@"gpstime"]];
+            [weakSelf requestGasWithStartTime:startTime endTime:endTime];
         } else {
-            [SVProgressHUD setMinimumDismissTimeInterval:2];
-            [SVProgressHUD showErrorWithStatus:@"加载失败"];
+            [SYUtil dismissProgressHUD];
         }
-        
     } failure:^(NSError *error) {
-        [SVProgressHUD setMinimumDismissTimeInterval:2];
-        [SVProgressHUD showErrorWithStatus:@"加载失败"];
+       [SYUtil dismissProgressHUD];
     }];
 }
 
@@ -105,20 +103,17 @@
         if ([[responseDic objectForKey:@"GetGasAddResult"] integerValue] > 0) {
             NSString *tableInfoStr = [responseDic objectForKey:@"GasAddInfo"];
             NSDictionary *tableDic = [tableInfoStr objectFromJSONString];
-            _gasArray = [tableDic objectForKey:@"TableInfo"];
+            NSArray *array = [tableDic objectForKey:@"TableInfo"];
             
-            [self updateTravelInfo];
-            
-            [SVProgressHUD dismiss];
-        } else {
-            [SVProgressHUD setMinimumDismissTimeInterval:2];
-            [SVProgressHUD showErrorWithStatus:@"加载失败"];
+            [_gasArray removeAllObjects];
+            [_gasArray addObjectsFromArray:array];
         }
+        
+        [self updateTravelInfo];
+        [SYUtil dismissProgressHUD];
     } failure:^(NSError *error) {
-        [SVProgressHUD setMinimumDismissTimeInterval:2];
-        [SVProgressHUD showErrorWithStatus:@"加载失败"];
+       [SYUtil dismissProgressHUD];
     }];
-    
 }
 
 #pragma mark - 警告次数
@@ -144,8 +139,7 @@
 - (void)updateAlarmCountWithDic:(NSDictionary *)dic {
     _speedAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"overspeed"] intValue]];
     _fenceAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"geofence"] intValue]];
-    _faultAlarmCountLabel.text = [NSString stringWithFormat:@"%d",[[dic objectForKey:@"crash"] intValue]];
-
+    _faultAlarmCountLabel.text = [NSString stringWithFormat:@"%d", [[dic objectForKey:@"crash"] intValue]];
 }
 
 - (void)updateTravelInfo {
@@ -195,6 +189,7 @@
     NSString *startDate = [NSString stringWithFormat:@"%ld-%ld-%ld 00:00:00", year, startMonth, startDay];
     NSString *endDate = [NSString stringWithFormat:@"%ld-%ld-%ld 23:59:59", year, endMonth, endDay];
     [self requestMinMaxPositionWithStartTime:startDate endTime:endDate];
+    [self requestAlarmCountWithStartTime:startDate endTime:endDate];
     
 }
 
