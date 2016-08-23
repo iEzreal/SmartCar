@@ -2,7 +2,7 @@
 //  SYMineMenuView.m
 //  SmartCar
 //
-//  Created by liuyiming on 16/7/23.
+//  Created by xxx on 16/7/23.
 //  Copyright © 2016年 上海圣禹电子科技有限公司. All rights reserved.
 //
 
