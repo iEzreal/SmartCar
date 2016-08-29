@@ -125,9 +125,9 @@
     NSString *timeString = @"";
     NSString *house = @"";
     NSString *min = @"";
-    NSString *sec = @"";
+//    NSString *sec = @"";
     
-    sec = [NSString stringWithFormat:@"%d", (int)cha % 60];
+//    sec = [NSString stringWithFormat:@"%d", (int)cha % 60];
     min = [NSString stringWithFormat:@"%d", (int)cha / 60 % 60];
     house = [NSString stringWithFormat:@"%d", (int)cha / 3600];
     timeString=[NSString stringWithFormat:@"%@小时%@分", house, min];

@@ -17,11 +17,10 @@
 @implementation AppDelegate
 
 - (void)navConfig {
-//    [UINavigationBar appearance].barTintColor = [UIColor colorWithHexString:@"3B4551"];
-    
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:NAV_BAR_COLOR]] forBarMetrics:UIBarMetricsDefault];
     [UINavigationBar appearance].tintColor = [UIColor whiteColor];
-    [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName : [UIFont systemFontOfSize:18]};
+    [UINavigationBar appearance].titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor],
+                                                         NSFontAttributeName : [UIFont systemFontOfSize:18]};
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -30,7 +29,8 @@
     _mapManager = [[BMKMapManager alloc]init];
     
     // 3VhV9Zi4RyHgGM8EkpiX1mPt7h3njxFQ(com.shengyu.smartcar)
-     [_mapManager start:@"86AFoC7j4MvUfByeupViSVIUpPalmrLN"  generalDelegate:nil];
+    [_mapManager start:@"3VhV9Zi4RyHgGM8EkpiX1mPt7h3njxFQ"  generalDelegate:nil];
+//    [_mapManager start:@"86AFoC7j4MvUfByeupViSVIUpPalmrLN"  generalDelegate:nil];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];

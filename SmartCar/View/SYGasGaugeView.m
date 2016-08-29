@@ -112,7 +112,6 @@
 }
 
 #pragma mark - getter/setter
-
 - (void)setRate:(NSInteger)rate {
     if (rate <= 0 || rate > 100) {
         rate = 100;

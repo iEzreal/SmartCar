@@ -29,7 +29,6 @@
 		779443761D2B44440064C8DB /* SYTravelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443751D2B44440064C8DB /* SYTravelController.m */; };
 		779443791D2B5E880064C8DB /* SYTravelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443781D2B5E880064C8DB /* SYTravelCell.m */; };
 		7794437C1D2B757C0064C8DB /* SYAlarmController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794437B1D2B757C0064C8DB /* SYAlarmController.m */; };
-		779443811D2B76740064C8DB /* SYStatController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 779443801D2B76740064C8DB /* SYStatController.storyboard */; };
 		779443841D2B80010064C8DB /* SYLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 779443831D2B80010064C8DB /* SYLoginController.m */; };
 		7794438B1D2BAAE50064C8DB /* SYUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794438A1D2BAAE50064C8DB /* SYUser.m */; };
 		7794438E1D2BB1570064C8DB /* SYVehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 7794438D1D2BB1570064C8DB /* SYVehicle.m */; };
@@ -141,7 +140,6 @@
 		779443781D2B5E880064C8DB /* SYTravelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYTravelCell.m; sourceTree = "<group>"; };
 		7794437A1D2B757C0064C8DB /* SYAlarmController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYAlarmController.h; sourceTree = "<group>"; };
 		7794437B1D2B757C0064C8DB /* SYAlarmController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYAlarmController.m; sourceTree = "<group>"; };
-		779443801D2B76740064C8DB /* SYStatController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SYStatController.storyboard; sourceTree = "<group>"; };
 		779443821D2B80010064C8DB /* SYLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYLoginController.h; sourceTree = "<group>"; };
 		779443831D2B80010064C8DB /* SYLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYLoginController.m; sourceTree = "<group>"; };
 		779443891D2BAAE50064C8DB /* SYUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYUser.h; sourceTree = "<group>"; };
@@ -545,7 +543,6 @@
 				77DBDD731D3614D2009EEDD4 /* SYOilExceptionController.m */,
 				A20896C61D1ED8EA00A626FC /* SYStatController.h */,
 				A20896C71D1ED8EA00A626FC /* SYStatController.m */,
-				779443801D2B76740064C8DB /* SYStatController.storyboard */,
 				77DF1B2E1D37645A00133615 /* SYTravelIInfoController.h */,
 				77DF1B2F1D37645A00133615 /* SYTravelIInfoController.m */,
 			);
@@ -613,7 +610,7 @@
 				TargetAttributes = {
 					A20896691D1ECE2D00A626FC = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 95HDTSE7W5;
+						DevelopmentTeam = Y4LPM7BG9S;
 					};
 					A20896821D1ECE2D00A626FC = {
 						CreatedOnToolsVersion = 7.2;
@@ -647,7 +644,6 @@
 			files = (
 				A208967D1D1ECE2D00A626FC /* LaunchScreen.storyboard in Resources */,
 				A208967A1D1ECE2D00A626FC /* Assets.xcassets in Resources */,
-				779443811D2B76740064C8DB /* SYStatController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -833,8 +829,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: wentao wu (86L624BTVY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wentao wu (86L624BTVY)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -856,7 +852,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
+				PROVISIONING_PROFILE = "1a2eebac-aa97-425e-9a17-0f545051383f";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -878,8 +874,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: wentao wu (86L624BTVY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wentao wu (86L624BTVY)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -895,7 +891,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
+				PROVISIONING_PROFILE = "1a2eebac-aa97-425e-9a17-0f545051383f";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -906,18 +902,19 @@
 			baseConfigurationReference = 65BA3DC3D94AC7A1630B4F7A /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: wentao wu (86L624BTVY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wentao wu (86L624BTVY)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SmartCar/SmartCar-prefix.pch";
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shengyu.smartcar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
+				PROVISIONING_PROFILE = "1a2eebac-aa97-425e-9a17-0f545051383f";
 			};
 			name = Debug;
 		};
@@ -926,18 +923,19 @@
 			baseConfigurationReference = 1F45FD21067B0CBE24BB868A /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: wentao wu (86L624BTVY)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: wentao wu (86L624BTVY)";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Sheng Yu Electronics Technology co ; Ltd (Y4LPM7BG9S)";
 				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/SmartCar/SmartCar-prefix.pch";
 				INFOPLIST_FILE = SmartCar/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.payease.pushdemo;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shengyu.smartcar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ea8945b0-663c-4fd8-88ef-df15135439fd";
+				PROVISIONING_PROFILE = "1a2eebac-aa97-425e-9a17-0f545051383f";
 			};
 			name = Release;
 		};
